@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./help.component.less']
 })
 export class HelpComponent implements OnInit {
-
+  title = 'dasphrenchen';
+  
   constructor() { }
 
   ngOnInit(): void {

@@ -3,10 +3,11 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { StackComponent } from './components/stack/stack.component';
-import { AboutComponent } from './components/about/about.component';
-import { HelpComponent } from './components/help/help.component';
+import { HomeComponent } from './pages/home/home.component';
+import { StackComponent } from './pages/stack/stack.component';
+import { AboutComponent } from './pages/about/about.component';
+import { HelpComponent } from './pages/help/help.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { HelpComponent } from './components/help/help.component';
     HomeComponent,
     StackComponent,
     AboutComponent,
-    HelpComponent
+    HelpComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
