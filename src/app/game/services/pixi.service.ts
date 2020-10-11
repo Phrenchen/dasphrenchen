@@ -25,7 +25,7 @@ export class PixiService {
           width: 256,         // default: 800
           height: 256,        // default: 600
           antialias: true,    // default: false
-          transparent: false, // default: false
+          transparent: true, // default: false
           resolution: 1       // default: 1
         }
       );
