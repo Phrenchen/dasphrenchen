@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { GameService } from 'src/app/game/services/game.service';
 
 @Component({
   selector: 'dph-header',
@@ -8,12 +9,27 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  @Input() isGameActive: boolean = false;
+  @Output() gameActiveState: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  constructor(private router: Router, private gameService: GameService) { }
 
   ngOnInit(): void {
   }
 
   public goto(pageName: string): void {
     this.router.navigate([pageName]);
+  }
+
+  // game
+  public startGame(): void {
+    this.gameService.start();
+    this.gameActiveState.emit(true);
+  }
+  
+  public stopGame(): void {
+    this.gameService.pause();
+    this.gameActiveState.emit(false);
+    
   }
 }

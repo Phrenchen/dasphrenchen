@@ -1,2 +1,3 @@
-<dph-header></dph-header>
+<dph-game [isGameActive]="isGameActive"></dph-game>
+<dph-header (gameActiveState)="onGameStateChange($event)" [isGameActive]="isGameActive"></dph-header>
 <router-outlet></router-outlet>

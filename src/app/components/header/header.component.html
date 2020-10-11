@@ -1,6 +1,25 @@
-<div class="header-container">
-    <button (click)="goto('home')">Home</button>
-    <button (click)="goto('stack')">Stack</button>
-    <button (click)="goto('about')">About</button>
-    <button (click)="goto('help')">Help</button>
-</div>
+<mat-toolbar color="primary" class="header-container" [ngClass]="{'hide-ui': isGameActive}">
+    <button id="btn-home" class="header-btn" mat-icon-button (click)="goto('home')">
+        <mat-icon>home_outline</mat-icon>
+    </button>
+
+    <button id="btn-stack" class="header-btn" mat-icon-button (click)="goto('stack')">
+        <mat-icon>list</mat-icon>
+    </button>
+
+    <button id="btn-about" class="header-btn" mat-icon-button (click)="goto('about')">
+        <mat-icon>person_outline</mat-icon>
+    </button>
+
+    <button id="btn-help" class="header-btn" mat-icon-button (click)="goto('help')">
+        <mat-icon>help_outline</mat-icon>
+    </button>
+
+    <button id="btn-start-game" class="header-btn" mat-raised-button (click)="startGame()">
+        Start Game
+    </button>
+
+    <button id="btn-stop-game" class="header-btn" mat-raised-button (click)="stopGame()">
+        Stop Game
+    </button>
+</mat-toolbar>
