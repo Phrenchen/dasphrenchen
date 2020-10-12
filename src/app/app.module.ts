@@ -13,13 +13,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GameService } from './game/services/game.service';
 
 // Materials
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {GameModule} from './game/game.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { GameModule } from './game/game.module';
 import { from } from 'rxjs';
-import { ViewModeToggleComponent } from './components/basics/view-mode-toggle/view-mode-toggle.component';
 import { ViewModeSwitchComponent } from './components/basics/view-mode-switch/view-mode-switch.component';
+import { FeedComponent } from './components/feed/feed.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FeedService } from './services/feed.service';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MyFeedsComponent } from './container/my-feeds/my-feeds.component';
 
 @NgModule({
   declarations: [
@@ -29,22 +33,25 @@ import { ViewModeSwitchComponent } from './components/basics/view-mode-switch/vi
     AboutComponent,
     HelpComponent,
     HeaderComponent,
-    ViewModeToggleComponent,
-    ViewModeSwitchComponent
+    ViewModeSwitchComponent,
+    FeedComponent,
+    MyFeedsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    
+
     GameModule,
 
     // Materials
     MatButtonModule,
     MatIconModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTooltipModule,
+    MatCheckboxModule,
   ],
-  providers: [GameService],
+  providers: [GameService, FeedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,55 @@
+.feed-wrapper {
+    // background-color: #ccc;
+    border: 1px solid #ccc;
+    margin: 10px 15px;
+
+    position: relative;
+
+    min-height: 50px;
+
+    .edit-form {
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        input, textarea {
+            width: 100%;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+    }
+
+    // content
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+
+    // switch: stacked top right corner, opacity fades in
+    .view-mode-switch-wrapper {
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        max-height: 100%;
+
+        opacity: .7;
+        transition: opacity .1s ease-in-out;
+    }
+
+    .pinned-switch {
+        position: static;
+    }
+
+    .hide-switch {
+        opacity: 0;
+    }
+}

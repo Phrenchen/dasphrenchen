@@ -1,0 +1,44 @@
+<div class="feed-wrapper" [ngClass]="{'class': true}">
+    <div class="view-mode-switch-wrapper"  [ngClass]="{'hide-switch': !showViewModeSwitch, 'pinned-switch': viewMode === 'edit'}"
+        (mouseover)="mouseOver($event)" (mouseout)="mouseOut($event)">
+        <dph-view-mode-switch (feedAction)="onFeedAction($event)"></dph-view-mode-switch>
+    </div>
+
+    <div class="feed-content" [ngSwitch]="viewMode" (mouseover)="mouseOver($event)" (mouseout)="mouseOut($event)">
+        {{title}}
+
+        <ng-container *ngSwitchCase="'edit'">
+            <div class="edit-form">
+                <form>
+                    <label for="input-title">Titel</label>
+                    <input id="input-title" placeholder="Neuer Feed">
+                    
+                    <label for="input-description">Beschreibung</label>
+                    <textarea  id="input-description" rows="4" placeholder="Iiiiinhalte hier"></textarea>
+                    
+                    <button class="btn-save" type="submit" (click)="updateFeed" mat-raised-button color="primary">Speichern</button>
+                </form>
+            </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'compact'">
+            <!-- <p>
+                {{description}}
+            </p> -->
+        </ng-container>
+        
+        <ng-container *ngSwitchCase="'expanded'">
+            <p>
+                {{description}}
+            </p>
+
+            <div class="images">
+                <img *ngFor="let imageUrl of images" src="{{imageUrl}}" alt="{{imageUrl}}">
+            </div>
+        </ng-container>
+        
+
+        
+
+    </div>
+</div>

@@ -1,14 +1,27 @@
 <div class="view-mode-switch">
-    <div class="switch switch-to-edit">
-        <mat-icon>list</mat-icon>
+    <!-- TODO: should be a group of checkboxes! -->
+
+    <div class="switch">
+        <button id="btn-edit" class="btn" mat-icon-button matTooltip="Editieren"
+            aria-label="Button that shows a red tooltip" (click)="select('edit')">
+            <mat-icon>edit</mat-icon>
+        </button>
     </div>
-    <div class="switch switch-to-maximize">
-        <mat-icon>list</mat-icon>
+    <div class="switch">
+        <button id="btn-minimize" class="btn" mat-icon-button matTooltip="Minimieren" (click)="select('minimize')">
+            <mat-icon>minimize</mat-icon>
+        </button>
     </div>
-    <div class="switch switch-to-minimize">
-        <mat-icon>list</mat-icon>
+    <div class="switch ">
+        <button id="btn-maximize" class="btn" mat-icon-button matTooltip="Maximieren" (click)="select('maximize')">
+            <mat-icon>maximize</mat-icon>
+        </button>
     </div>
-    <div class="switch switch-to-close">
-        <mat-icon>list</mat-icon>
+    <div class="switch">
+        <button id="btn-close" class="btn" mat-icon-button matTooltip="Schließen" (click)="select('close')">
+            <mat-icon>close</mat-icon>
+        </button>
     </div>
+    <!-- TODO: should be a group of checkboxes! end -->
+
 </div>

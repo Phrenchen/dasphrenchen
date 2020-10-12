@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 /**
  * displays a row of buttons to switch the view mode of a visual component
@@ -10,9 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewModeSwitchComponent implements OnInit {
 
+  @Output() feedAction: EventEmitter<string> = new EventEmitter<string>();
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  // PUBLIC
+  public select(action: string): void {
+    console.log('action selected: ', action);
+    this.feedAction.emit(action);
   }
 
 }

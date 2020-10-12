@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { FeedService } from 'src/app/services/feed.service';
+
+import { Feed } from './../../interfaces/Feed';
+
 
 @Component({
   selector: 'dph-home',
@@ -7,9 +12,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  public feeds: Observable<Feed[]>;
+
+  constructor(private feedService: FeedService) {
+    this.feeds = this.feedService.getFeeds();
+   }
 
   ngOnInit(): void {
+    
   }
 
+  public addNewFeed(): void {
+    this.feedService.addFeed();
+  }
 }
