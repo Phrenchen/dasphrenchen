@@ -5,9 +5,10 @@
     </div>
 
     <div class="feed-content" [ngSwitch]="viewMode" (mouseover)="mouseOver($event)" (mouseout)="mouseOut($event)">
-        {{title}}
+        <h4>{{feed.data.title}}</h4>
 
         <ng-container *ngSwitchCase="'edit'">
+            edit view mode
             <div class="edit-form">
                 <form>
                     <label for="input-title">Titel</label>
@@ -16,12 +17,13 @@
                     <label for="input-description">Beschreibung</label>
                     <textarea  id="input-description" rows="4" placeholder="Iiiiinhalte hier"></textarea>
                     
-                    <button class="btn-save" type="submit" (click)="updateFeed" mat-raised-button color="primary">Speichern</button>
+                    <button class="btn-save" type="submit" (click)="updateFeed()" mat-raised-button color="primary">Speichern</button>
                 </form>
             </div>
         </ng-container>
 
         <ng-container *ngSwitchCase="'compact'">
+            compact view mode
             <!-- <p>
                 {{description}}
             </p> -->
@@ -29,11 +31,12 @@
         
         <ng-container *ngSwitchCase="'expanded'">
             <p>
-                {{description}}
+                expanded view mode
+                {{feed.data.description}}
             </p>
 
             <div class="images">
-                <img *ngFor="let imageUrl of images" src="{{imageUrl}}" alt="{{imageUrl}}">
+                <img *ngFor="let imageUrl of feed.data.images" src="{{imageUrl}}" alt="{{imageUrl}}">
             </div>
         </ng-container>
         

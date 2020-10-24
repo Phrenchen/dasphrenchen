@@ -8,55 +8,72 @@ import { MathHelper } from '../helper/MathHelper';
   providedIn: 'root'
 })
 export class UnitService {
-
   public units: Unit[] = [
     {
       id: 'zelda_1',
       url: './assets/images/curious_zelda_1_portrait.png',
       sprite: null,
       laneCenterX: 0,
-      lifeTimeMs: 2000,
-      speedY: 1.6
+      createTimeMs: 0,
+      lifeTimeMs: Number.MAX_VALUE,
+      speedX: 1.2,
+      speedY: 1.8,
+      isAlive: true,
     },
     {
       id: 'zelda_2',
       url: './assets/images/curious_zelda_2_portrait.png',
       sprite: null,
       laneCenterX: 0,
-      lifeTimeMs: 2000,
-      speedY: 1.1
+      createTimeMs: 0,
+      lifeTimeMs: Number.MAX_VALUE,
+      speedX: 1.1,
+      speedY: 1.6,
+      isAlive: true,
     },
     {
       id: 'zelda_3',
       url: './assets/images/curious_zelda_3_portrait.png',
       sprite: null,
       laneCenterX: 0,
-      lifeTimeMs: 2000,
-      speedY: 1.8
+      createTimeMs: 0,
+      lifeTimeMs: Number.MAX_VALUE,
+      speedX: 1.1,
+      speedY: 1.4,
+      isAlive: true,
     },
     {
       id: 'zelda_4',
       url: './assets/images/curious_zelda_4_portrait.png',
       sprite: null,
       laneCenterX: 0,
-      lifeTimeMs: 2000,
-      speedY: 1.5
+      createTimeMs: 0,
+      lifeTimeMs: Number.MAX_VALUE,
+      speedX: 1.1,
+      speedY: 1.5,
+      isAlive: true,
     },
     {
       id: 'zelda_5',
       url: './assets/images/curious_zelda_5_portrait.png',
       sprite: null,
       laneCenterX: 0,
-      lifeTimeMs: 2000,
-      speedY: 1.3
+      createTimeMs: 0,
+      lifeTimeMs: Number.MAX_VALUE,
+      speedX: 1.3,
+      speedY: 1.3,
+      isAlive: true,
     },
     {
       id: 'zelda_6',
       url: './assets/images/curious_zelda_6_portrait.png',
       sprite: null,
       laneCenterX: 0,
-      lifeTimeMs: 2000,
-      speedY: 2
+      createTimeMs: 0,
+      lifeTimeMs: Number.MAX_VALUE,
+      speedX: 2,
+      speedY: 2,
+      isAlive: true,
     },
   ]
 
@@ -78,9 +95,13 @@ export class UnitService {
   }
 
   public createUnit(laneId: number, positionX: number, positionY: number): Unit {
-    const unit: Unit = {...this.getUnitByLane(laneId)};
+    const unit: Unit = {...this.getUnitByLane(laneId)};     // clone unit preset
     const texture = Loader.shared.resources[unit.id].texture;
     const sprite = new Sprite(texture);
+
+    unit.createTimeMs = new Date().getTime();
+    unit.speedX *= MathHelper.coinFlip ? 1 : -1;
+    unit.speedY *= MathHelper.coinFlip ? 1 : -1;
 
     this.pixiService.createUnit(unit);
 
@@ -102,10 +123,12 @@ export class UnitService {
     return unit;
   }
 
+
   // PRIVATE
   private getUnitByLane(laneId: number): Unit {
     if(laneId < 0 || laneId >= this.units.length) {
-      console.error('no lane with id. no unit created.', laneId);
+      // console.error('no lane with id. no unit created.', laneId);
+      return this.units[0];
     }
     return this.units[laneId];
   }

@@ -10,6 +10,7 @@ import { UnitTweenService } from './unit-tween.service';
 
 
 interface PointerStatus {
+  maxUnitCount: number;
   gameIsRunning: boolean,
   isPointerDown: boolean,
   positionX: number,
@@ -17,7 +18,7 @@ interface PointerStatus {
   closestTarget: HTMLElement | null,
   targets: TargetDetails[],
   viewRange: number,
-  
+
   unitCounter: number;
   units: Unit[],
   unitSpawnCooldownMs: number;
@@ -46,8 +47,9 @@ export class GameService {
 
     unitSpawnInterval: -1,
     unitCounter: 1,
+    maxUnitCount: 200,
     units: [],
-    unitSpawnCooldownMs: 2000,
+    unitSpawnCooldownMs: 1000,
   };
 
 
@@ -117,57 +119,85 @@ export class GameService {
   }
 
 
-  private animationLoop() {
+  private animationLoop = () => {
     requestAnimationFrame(self.animationLoop);
 
-    // move units
-    self.pointerState.units.forEach(unit => {
-      if (unit.sprite) {
-        unit.sprite.y += unit.speedY;
-      }
-    });
+    // check unit state (dead -> remove)
+    const now: number = new Date().getTime();
+    const livingUnits: Unit[] = self.pointerState.units.filter(unit => unit.createTimeMs + unit.lifeTimeMs > now);
+    let deadUnits: Unit[] = self.pointerState.units.filter(unit => unit.createTimeMs + unit.lifeTimeMs < now);
 
+    if(deadUnits.length > 0) {
+      // kill units
+      deadUnits.forEach(unit => {
+        this.unitTweenService.deathTween(unit);
+      });
+    }
+
+    self.pointerState.units = livingUnits;
+    
+    if (self.pointerState.units.length > 0) {
+
+      // move units
+      self.pointerState.units.forEach(unit => {
+        if (unit.sprite) {
+          unit.sprite.x += unit.speedX;
+          unit.sprite.y += unit.speedY;
+        }
+      });
+    }
     self.pixiService.update();
   }
 
 
   // Unit spawn
   private spawnUnits() {
-    if (this.pointerState.unitSpawnInterval >= 0) {
+    if (this.pointerState.unitSpawnInterval >= 0 && this.pointerState.units.length < this.pointerState.maxUnitCount) {
       return;
     }
 
     this.pointerState.unitSpawnInterval = setInterval(() => {
       let unitCounter = this.pointerState.unitCounter;
       const laneId: number = MathHelper.getRandomInt(0, 5);
-      const positionY: number = MathHelper.getRandomInt(0, window.innerHeight * .5);  // random position top half of screen
 
-      while(unitCounter-- > 0) {
-        this.createUnit(laneId, positionY);
+
+      while (unitCounter-- > 0) {
+        this.createUnit(laneId);
       }
     }, this.pointerState.unitSpawnCooldownMs);
   }
 
-  createUnit(laneId: number, positionY: number) {
+  createUnit(laneId: number) {
     const laneSpawner: HTMLElement = this.pointerState.targets[laneId].target;
     const box = laneSpawner.getBoundingClientRect();
-    const laneCenterX = box.left + window.pageXOffset + (box.width * .5);
 
-    const unit: Unit = this.unitService.createUnit(laneId, laneCenterX, positionY);
-    
-    if(unit.sprite) {
-      unit.laneCenterX = laneCenterX;
-      
+    // const positionX = box.left + window.pageXOffset + (box.width * .5);             // in der lane
+    // const positionY: number = MathHelper.getRandomInt(0, window.innerHeight * .5);  // random position top half of screen
+
+    const paddingX: number = window.innerWidth * .5;
+    const paddingY: number = window.innerHeight * .5;
+    const leftBorder: number = 0 + paddingX;
+    const rightBorder = window.innerWidth - paddingX;
+    const topBorder: number = 0 + paddingY;
+    const bottomBorder = window.innerHeight - paddingY;
+    const positionX: number = MathHelper.getRandomInt(leftBorder, rightBorder);  // random position within viewport
+    const positionY: number = MathHelper.getRandomInt(topBorder, bottomBorder);  // random position within viewport
+
+    const unit: Unit = this.unitService.createUnit(laneId, positionX, positionY);
+
+    if (unit.sprite) {
+      unit.laneCenterX = positionX;
+
       unit.sprite.alpha = 0;
-      
+
       // this.unitTweenService.reset(unit);  // set initial state
 
       // tween from initial (invisible) state to "idle state" (dropping vertically)
-      this.unitTweenService.initialTween(unit);
+      self.unitTweenService.initialTween(unit);
     }
 
-
     this.pointerState.units.push(unit);
+
   }
 
   private stopUnitSpawn() {
@@ -177,6 +207,10 @@ export class GameService {
     }
   }
   // Unit spawn end
+
+  public get isRunning(): boolean {
+    return this.pointerState.gameIsRunning;
+  }
 
   public start(): void {
     this.pointerState.gameIsRunning = true;
@@ -200,9 +234,6 @@ export class GameService {
   private updateClosestTarget() {
     let closestDistance: number = Number.MAX_VALUE;
 
-
-
-
     this.pointerState.targets.forEach(element => {
       const box = element.target.getBoundingClientRect();
       const posX = box.left + window.pageXOffset + (box.width * .5);
@@ -220,6 +251,7 @@ export class GameService {
       }
     });
 
+    // Header buttons rot einfärben, wenn während des laufenden spiels geklickt wird. Spalte (x pos) wird berechnet
     this.pointerState.targets.forEach(element => {
       element.target === this.pointerState.closestTarget ?
         element.target.style.setProperty('color', '#ff0000') :

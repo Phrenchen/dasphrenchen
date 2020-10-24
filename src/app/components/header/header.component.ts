@@ -22,6 +22,14 @@ export class HeaderComponent implements OnInit {
   }
 
   // game
+  public get isGameRunning(): boolean {
+    return this.gameService.isRunning;
+  }
+  
+  public toggleGame(): void {
+    this.gameService.isRunning ? this.gameService.pause() : this.gameService.start();
+  }
+
   public startGame(): void {
     this.gameService.start();
     this.gameActiveState.emit(true);

@@ -1,5 +1,5 @@
 import { Injectable, NgZone, ElementRef, HostListener } from '@angular/core';
-import { Application, Loader, Sprite } from 'pixi.js';
+import { Application, Loader, Sprite, Texture } from 'pixi.js';
 import { Unit } from '../interfaces/Unit';
 
 @Injectable({
@@ -51,7 +51,7 @@ export class PixiService {
   // LOOP end
 
   public createUnit(unit: Unit): void {
-    const texture = Loader.shared.resources[unit.id].texture;
+    const texture: Texture = {...Loader.shared.resources[unit.id].texture} as Texture;
     const sprite = new Sprite(texture);
     unit.sprite = sprite;
 

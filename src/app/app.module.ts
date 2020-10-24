@@ -24,6 +24,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FeedService } from './services/feed.service';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MyFeedsComponent } from './container/my-feeds/my-feeds.component';
+import { PlaygroundComponent } from './pages/playground/playground.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -35,12 +37,14 @@ import { MyFeedsComponent } from './container/my-feeds/my-feeds.component';
     HeaderComponent,
     ViewModeSwitchComponent,
     FeedComponent,
-    MyFeedsComponent
+    MyFeedsComponent,
+    PlaygroundComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
 
     GameModule,
 
@@ -51,7 +55,7 @@ import { MyFeedsComponent } from './container/my-feeds/my-feeds.component';
     MatTooltipModule,
     MatCheckboxModule,
   ],
-  providers: [GameService, FeedService],
+  providers: [HttpClient, GameService, FeedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

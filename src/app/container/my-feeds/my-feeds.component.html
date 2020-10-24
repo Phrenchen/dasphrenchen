@@ -1,10 +1,6 @@
 <div class="feeds">
-    <div *ngFor="let feed of feeds" class="feed">
-        <dph-feed 
-            [title]="feed.title"
-            [description]="feed.description"
-            [images]="feed.images"
-        ></dph-feed>
+    <div *ngFor="let feed of feeds; let i=index" class="feed">
+        <dph-feed [feed]="feed" [viewMode]="getViewMode(i)"></dph-feed>
     </div>
 
 </div>

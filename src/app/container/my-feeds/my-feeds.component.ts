@@ -8,13 +8,15 @@ import { Feed } from 'src/app/interfaces/Feed';
 })
 export class MyFeedsComponent implements OnInit {
 
-  @Input() feeds: Feed[] | null = [];
+  @Input() feeds: any[] | null = [];
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-
+  public getViewMode(index: number): string {
+    return index === 0 ? 'expanded' : 'compact';
+  }
   
 }

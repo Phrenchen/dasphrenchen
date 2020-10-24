@@ -12,17 +12,11 @@ import { Feed } from './../../interfaces/Feed';
 })
 export class HomeComponent implements OnInit {
 
-  public feeds: Observable<Feed[]>;
 
   constructor(private feedService: FeedService) {
-    this.feeds = this.feedService.getFeeds();
    }
 
   ngOnInit(): void {
     
-  }
-
-  public addNewFeed(): void {
-    this.feedService.addFeed();
   }
 }

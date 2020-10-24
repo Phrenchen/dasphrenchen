@@ -1,25 +1,33 @@
-<mat-toolbar color="primary" class="header-container" [ngClass]="{'hide-ui': isGameActive}">
-    <button id="btn-home" class="header-btn" mat-icon-button (click)="goto('home')">
-        <mat-icon>home_outline</mat-icon>
-    </button>
+<mat-toolbar class="header-container" [ngClass]="{'hide-ui': isGameActive}">
+    <div class="button-container">
+        <button id="btn-home" class="header-btn" mat-icon-button (click)="goto('home')" matTooltip="Home">
+            <mat-icon>home_outline</mat-icon>
+        </button>
 
-    <button id="btn-stack" class="header-btn" mat-icon-button (click)="goto('stack')">
-        <mat-icon>list</mat-icon>
-    </button>
+        <button id="btn-stack" class="header-btn" mat-icon-button (click)="goto('stack')" matTooltip="Abyte">
+            <mat-icon>work</mat-icon>
+        </button>
 
-    <button id="btn-about" class="header-btn" mat-icon-button (click)="goto('about')">
-        <mat-icon>person_outline</mat-icon>
-    </button>
+        <button id="btn-about" class="header-btn" mat-icon-button (click)="goto('about')" matTooltip="About">
+            <mat-icon>person_outline</mat-icon>
+        </button>
 
-    <button id="btn-help" class="header-btn" mat-icon-button (click)="goto('help')">
-        <mat-icon>help_outline</mat-icon>
-    </button>
+        <button id="btn-help" class="header-btn" mat-icon-button (click)="goto('help')" matTooltip="Halp">
+            <mat-icon>help_outline</mat-icon>
+        </button>
 
-    <button id="btn-start-game" class="header-btn" mat-raised-button (click)="startGame()">
-        Start Game
-    </button>
+        <button id="btn-help" class="header-btn" mat-icon-button (click)="goto('playground')" matTooltip="Meine Spielwiese">
+            <mat-icon>accessible_forward</mat-icon>
+        </button>
+        
+        <button id="toggle-game" class="header-btn" mat-icon-button type="checkbox" (click)="toggleGame()" matTooltip="{{isGameRunning ? 'staawp it!' : 'gogo!'}}">
+            <ng-container *ngIf="isGameRunning; else startGame">
+                <mat-icon>stop</mat-icon>
+            </ng-container>
+            <ng-template #startGame>
+                <mat-icon>play_arrow</mat-icon>
+            </ng-template>
+        </button>
+    </div>
 
-    <button id="btn-stop-game" class="header-btn" mat-raised-button (click)="stopGame()">
-        Stop Game
-    </button>
 </mat-toolbar>

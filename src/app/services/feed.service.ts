@@ -1,6 +1,9 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
+import { catchError, map, shareReplay, tap } from 'rxjs/operators';
 import { Feed } from './../interfaces/Feed';
+import { User } from './../interfaces/User';
 
 @Injectable({
   providedIn: 'root'
@@ -10,32 +13,105 @@ export class FeedService {
 
   private feeds: Feed[] = this.createFeeds();
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
 
-  public addFeed() {
-    this.feeds.unshift(
-      {
-        title: 'no title ' + Math.round(Math.random() * 1000),
-        description: 'no description ' + Math.round(Math.random() * 1000),
-        images: []
-      }
+  public createFeed(): Feed {
+    return   {
+      id: 'phren´s-test',
+      author: 'phren',
+      title: 'no title ' + Math.round(Math.random() * 1000),
+      description: 'no description ' + Math.round(Math.random() * 1000),
+      images: []
+    };
+  }
+
+  public getUsers(): Observable<User[]> {
+    return this.http.get<any>(this.host + '/users')
+    .pipe(
+      map(result => {
+        console.log('got users: ', result);
+        return result.data;
+      }),
+      tap(result => {
+        console.log('tapping result:', result);
+      }),
+      shareReplay()
     );
   }
 
   public getFeeds(): Observable<Feed[]> {
-    return of(this.feeds);
+    return this.http.get<any>(this.host + '/feeds')
+    .pipe(
+      map(result => {
+        console.log('got raw feeds: ', result);
+        return result.data;
+      }),
+      tap(result => {
+        console.log('processed result:', result);
+      }),
+      shareReplay()
+    );
+
+    // return this.http.get<Feed[]>(this.host + '/feeds');
+    
+    // this.http.get<Feed[]>(this.host + '/feeds').subscribe(result => {console.log('received feeds', result);});
+    // return of(this.feeds);
   }
 
+  public addFeed(feed: Feed): Observable<any> {
+    console.log('adding feed', feed);
+    return this.http.post(this.host + '/feed/', feed);
+  }
+
+  public deleteFeed(feed: any): Observable<any> {
+    let httpParams = new HttpParams().set('id', feed.ref['@ref'].id);
+    let options = { params: httpParams };
+    return this.http.delete(this.host + '/feed/',options)
+      .pipe(
+        catchError(this.handleError),
+        tap(result => {
+          console.log('deleted feed:', result);
+        })
+      );
+  }
+  private handleError(e: any): any {
+    console.log('error deleting feed', e);
+  };
+
+  // public addFeed(feed: Feed): Subscription{
+  //   console.log('adding feed', feed);
+  //   return this.http.post(this.host + '/feeds', feed).subscribe(result => {
+  //     console.log('add feed success', result);
+  //   });
+  // }
+
+  public updateFeed(feed: Feed): Subscription {
+    console.log('adding feed', feed);
+    return this.http.post(this.host + '/feeds', feed).subscribe(result => {
+      console.log('add feed success', result);
+    });
+  }
+
+
   // PRIVATE
+  private get host(): string {
+    return '/api'
+    // return 'http://' + location.hostname + ':5000' + '/api'
+  }
+
   private createFeeds(): Feed[] {
     return [
       {
+        id: 'test-1',
+        author: 'phren',
         title: 'Hello World',
         description: 'first feed ever :)',
         images: ['assets/images/curious_zelda_5_portrait.png']
       },
       {
+        id: 'test-2',
+        author: 'phren',
         title: 'note to self',
         description: 'must remember to...',
         images: [

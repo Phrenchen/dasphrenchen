@@ -3,5 +3,5 @@ export enum FeedActions {
     MINIMIZE = 'minimize',
     MAXIMIZE = 'maximize',
     EDIT = 'edit',
-    CLOSE = 'close',
+    DELETE = 'delete',
 }

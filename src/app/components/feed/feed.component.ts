@@ -1,8 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { from, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { Feed } from 'src/app/interfaces/Feed';
+import { FeedService } from 'src/app/services/feed.service';
 import { FeedActions } from './enums/feed-actions.enum';
 
+/**
+ * displays a feed in different view modes:
+ * * edit
+ * * compact
+ * * expanded
+ */
 
 @Component({
   selector: 'dph-feed',
@@ -11,9 +19,9 @@ import { FeedActions } from './enums/feed-actions.enum';
 })
 export class FeedComponent implements OnInit {
 
-  @Input() title: string = '';
-  @Input() description: string = '';
-  @Input() images: string[] = [];
+  @Input() feed: any = this.feedService.createFeed();
+  @Input() viewMode: string = 'compact';
+  
 
   private static readonly COMPACT: string = 'compact';
   private static readonly EXPANDED: string = 'expanded';
@@ -21,14 +29,13 @@ export class FeedComponent implements OnInit {
 
   private showViewModeSwitch$$: Subject<boolean> = new Subject<boolean>();
   public _showViewModeSwitch: boolean = false;
-  public viewMode: string = FeedComponent.COMPACT;
   public feedAction: string = FeedActions.NONE;
 
   public get showViewModeSwitch(): boolean {
     return this._showViewModeSwitch || this.viewMode === FeedComponent.EDIT;
   }
 
-  constructor() {
+  constructor(private feedService: FeedService) {
     this.showViewModeSwitch$$
       .pipe(
         debounceTime(100),
@@ -40,7 +47,9 @@ export class FeedComponent implements OnInit {
 
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    console.log('feed:', this.feed);
+   }
 
   public updateFeed(): void {
     console.log('update feed');
@@ -59,8 +68,10 @@ export class FeedComponent implements OnInit {
       case FeedActions.EDIT:
         this.viewMode = FeedComponent.EDIT;
         break;
-      case FeedActions.CLOSE:
-        console.log('"close" feed');
+      case FeedActions.DELETE:
+        this.feedService.deleteFeed(this.feed).subscribe(result => {
+          console.log('deleted feed: ', this.feed.ts);
+        });
         break;
     }
   }

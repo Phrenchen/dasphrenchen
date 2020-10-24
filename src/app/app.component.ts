@@ -15,11 +15,16 @@ export class AppComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.gameService.init();
-    // this.gameService.start();
+
+    // start game on init
+    // setTimeout(() => {
+    //   this.gameService.start();
+      
+    // }, 200);
   }
 
   public onGameStateChange(gameIsActive: boolean): void {
-    console.log('game is active: ', gameIsActive);
+    // console.log('game is active: ', gameIsActive);
     this.isGameActive = gameIsActive;
   }
 }

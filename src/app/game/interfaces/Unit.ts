@@ -5,7 +5,10 @@ export interface Unit {
     url: string,
     sprite: Sprite | null,
     laneCenterX: number,
-
+    
+    isAlive: boolean;
+    createTimeMs: number,
     lifeTimeMs: number,
+    speedX: number,
     speedY: number
 }

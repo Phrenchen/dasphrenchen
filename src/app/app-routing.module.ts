@@ -4,6 +4,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { StackComponent } from './pages/stack/stack.component';
 import { AboutComponent } from './pages/about/about.component';
 import { HelpComponent } from './pages/help/help.component';
+import { PlaygroundComponent } from './pages/playground/playground.component';
 
 
 const routes: Routes = [
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'help',
     component: HelpComponent,
+  },
+  {
+    path: 'playground',
+    component: PlaygroundComponent,
   },
 
   {

@@ -19,7 +19,6 @@ export class ViewModeSwitchComponent implements OnInit {
 
   // PUBLIC
   public select(action: string): void {
-    console.log('action selected: ', action);
     this.feedAction.emit(action);
   }
 
