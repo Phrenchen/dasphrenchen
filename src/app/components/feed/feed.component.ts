@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { from, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
-import { Feed } from 'src/app/interfaces/Feed';
 import { FeedService } from 'src/app/services/feed.service';
-import { FeedActions } from './enums/feed-actions.enum';
+import { FeedActions } from './../basics/view-mode-switch/enums/feed-actions.enum';
 
 /**
  * displays a feed in different view modes:
@@ -28,7 +27,7 @@ export class FeedComponent implements OnInit {
   private static readonly EDIT: string = 'edit';
 
   private showViewModeSwitch$$: Subject<boolean> = new Subject<boolean>();
-  public _showViewModeSwitch: boolean = false;
+  private _showViewModeSwitch: boolean = false;
   public feedAction: string = FeedActions.NONE;
 
   public get showViewModeSwitch(): boolean {
@@ -48,7 +47,7 @@ export class FeedComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('feed:', this.feed);
+    // console.log('feed:', this.feed);
    }
 
   public updateFeed(): void {

@@ -1,7 +1,7 @@
-<div class="feed-wrapper" [ngClass]="{'class': true}">
+<div class="feed-wrapper">
     <div class="view-mode-switch-wrapper"  [ngClass]="{'hide-switch': !showViewModeSwitch, 'pinned-switch': viewMode === 'edit'}"
         (mouseover)="mouseOver($event)" (mouseout)="mouseOut($event)">
-        <dph-view-mode-switch (feedAction)="onFeedAction($event)"></dph-view-mode-switch>
+        <dph-view-mode-switch (action)="onFeedAction($event)"></dph-view-mode-switch>
     </div>
 
     <div class="feed-content" [ngSwitch]="viewMode" (mouseover)="mouseOver($event)" (mouseout)="mouseOut($event)">

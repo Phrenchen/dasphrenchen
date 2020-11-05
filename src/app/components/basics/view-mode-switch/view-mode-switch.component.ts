@@ -10,7 +10,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class ViewModeSwitchComponent implements OnInit {
 
-  @Output() feedAction: EventEmitter<string> = new EventEmitter<string>();
+  @Output() action: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
 
@@ -19,7 +19,7 @@ export class ViewModeSwitchComponent implements OnInit {
 
   // PUBLIC
   public select(action: string): void {
-    this.feedAction.emit(action);
+    this.action.emit(action);
   }
 
 }

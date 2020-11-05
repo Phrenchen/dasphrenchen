@@ -1,0 +1,17 @@
+<div class="content-wrapper">
+
+  <div class="select-difficulty">
+    <label id="example-radio-group-label">Wähle einen Schwierigkeitsgrad</label>
+    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedDifficulty">
+      <div class="difficulties">
+        <mat-radio-button class="example-radio-button" *ngFor="let difficulty of difficulties" [value]="difficulty">
+          {{difficulty}}
+        </mat-radio-button>
+      </div>
+    </mat-radio-group>
+    <p>Gewählte Schwierigkeit: {{selectedDifficulty}}</p>
+  </div>
+
+  <hr>
+
+</div>

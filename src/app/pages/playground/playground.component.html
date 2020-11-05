@@ -1,28 +1,31 @@
-<div class="content-wrapper">
-    <div>
-        <h3>My Feeds</h3>
-        <button mat-icon-button matTooltip="Neuer Feed" aria-label="Button that shows a red tooltip"
-            (click)="addNewFeed()">
-            <mat-icon>add</mat-icon>
-        </button>
-    </div>
+<div class="playground-wrapper">
+    <h3>aktuelle Spielwiesenprojektdingsens</h3>
 
-    <div class="short-lists">
-        <div class="users">
-            <label>Users ({{(users | async)?.length}})</label>
-            <ul>
-                <li *ngFor="let user of users | async">{{user.data.name}}</li>
-            </ul>
+    <mat-tab-group>
+        <div>
+            <mat-tab label="Lernen">
+                <dph-learning-by-doing></dph-learning-by-doing>
+            </mat-tab>
         </div>
-        <div class="feeds">
-            <label>Feeds ({{(feeds | async)?.length}})</label>
-            <ul>
-                <li *ngFor="let feed of feeds | async">{{feed.data.author}}: {{feed.data.title}}</li>
-            </ul>
+        <div>
+            <mat-tab label="Memory Game">
+                <dph-memory-game></dph-memory-game>
+            </mat-tab>
         </div>
-    </div>
-    
-    <div class="feed-detailed-list">
-        <dph-my-feeds [feeds]="feeds | async"></dph-my-feeds>
-    </div>
+        <div>
+            <mat-tab label="Youtube Playlists">
+                <!-- <ng-template mat-tab-label> -->
+                <!-- <mat-icon>edit</mat-icon> Playlists -->
+                <!-- </ng-template> -->
+                <dph-my-tube></dph-my-tube>
+            </mat-tab>
+        </div>
+
+        <div>
+            <mat-tab label="Feeds">
+                <dph-my-feeds></dph-my-feeds>
+            </mat-tab>
+        </div>
+    </mat-tab-group>
+
 </div>

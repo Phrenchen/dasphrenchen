@@ -158,6 +158,7 @@ export class GameService {
 
     this.pointerState.unitSpawnInterval = setInterval(() => {
       let unitCounter = this.pointerState.unitCounter;
+      // unitCounter = MathHelper.getRandomInt(1, 20);  // randomize units per spawn cycle
       const laneId: number = MathHelper.getRandomInt(0, 5);
 
 

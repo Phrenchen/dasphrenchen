@@ -27,8 +27,8 @@ const {
 
 // remove feed
 app.delete('/feed', async (req, res) => {
-    console.log('deleting feed:', req.query);
-    console.log('deleting feed:', req.query.id);
+    // console.log('deleting feed:', req.query);
+    // console.log('deleting feed:', req.query.id);
 
     client.query(
         Delete(
@@ -36,11 +36,11 @@ app.delete('/feed', async (req, res) => {
         )
     )
     .then((ret) => {
-        console.log('delete feed', req.query.id);
+        // console.log('delete feed', req.query.id);
         res.send('ok');
     })
     .catch(e => {
-        console.log('could not delete feed', e);
+        // console.log('could not delete feed', e);
         res.send('could not delete feed');
 });
 
@@ -49,12 +49,7 @@ app.delete('/feed', async (req, res) => {
 
 // add feed
 app.post('/feed', async (req, res) => {
-    console.log('adding new feed: ', req.body);
-
     try {
-        // find user
-        // let user = Select('ref', Get(Match(Index('users_by_name'), req.body.author)));
-
         const data = {
             // author: Select('ref', Get(Match(Index('users_by_name'), req.body.author))),
             author: req.body.author,
@@ -62,8 +57,6 @@ app.post('/feed', async (req, res) => {
             description: req.body.description,
             images: req.body.images
         };
-
-        console.log('saving feed:', data);
 
         const doc = await client.query(
             Create(
@@ -80,7 +73,32 @@ app.post('/feed', async (req, res) => {
     }
 });
 
-// alle user
+// ************** USER ***************************
+// user hinzufügen
+app.post('/user', async (req, res) => {
+    try {
+        const data = {
+            name: req.body.name,
+            ytChannelName: req.body.ytChannelName,
+            ytChannelId: req.body.ytChannelId,
+        };
+
+        const doc = await client.query(
+            Create(
+                Collection('users'),
+                { data }
+            )
+        )
+
+        res.send(doc);
+    }
+    catch (e) {
+        console.error(e);
+        res.send(null);
+    }
+});
+
+// alle user holen
 app.get('/users', async (req, res) => {
     try {
         const docs = await client.query(
@@ -90,7 +108,6 @@ app.get('/users', async (req, res) => {
         res.send(docs);
     }
     catch (e) {
-        console.log('no users found', e);
         return res.send([]);
     }
 });
@@ -104,7 +121,6 @@ app.get('/feeds', async (req, res) => {
         res.send(docs);
     }
     catch (e) {
-        console.log('no feeds found', e);
         return res.send([]);
     }
 });

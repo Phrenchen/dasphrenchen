@@ -1,0 +1,62 @@
+<h1>Kannst du die Aufgaben lösen?</h1>
+
+
+<div class="question-list">
+    <!-- (click)="selectedQuestion = item" -->
+    <button *ngFor="let item of questions$ | async"
+        (click)="selectQuestion(item)"
+        mat-raised-button
+        color="primary"
+    >
+        <b>{{item.title}}</b>
+    </button>
+</div>
+
+
+<div class="selected-question" *ngIf="selectedQuestion$ | async as selectedQuestion">
+    <h2 class="question-title">{{selectedQuestion.description}}</h2>
+    <!-- answers -->
+    <!-- <div class="answer" *ngFor="let item of selectedQuestion.answers">
+        <div class="answer-item" [ngClass]="{'short-text': selectedQuestion.type === 'short-text'}">{{item}}</div>
+    </div> -->
+</div>
+
+<!--                                    -->
+<div class="example-container"  *ngIf="selectedQuestion$ | async as selectedQuestion">
+    <h2>Wähle die richtigen Antworten</h2>
+  
+    <div
+      id="all"
+      cdkDropList
+      [cdkDropListData]="selectedQuestion.options"
+      cdkDropListConnectedTo="answers"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)"
+      [cdkDropListEnterPredicate]="noReturnPredicate">
+      <div
+        class="example-box"
+        *ngFor="let option of selectedQuestion.options"
+        [cdkDragData]="option"
+        cdkDrag>{{option}}</div>
+    </div>
+  </div>
+  
+  <div class="example-container">
+    <h2>Deine Antworten</h2>
+  
+    <div
+      id="answers"
+      cdkDropList
+      [cdkDropListData]="givenAnswers"
+      cdkDropListConnectedTo="all"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)"
+      [cdkDropListEnterPredicate]="correctAnswerPredicate">
+      <div
+        class="example-box"
+        *ngFor="let answer of givenAnswers"
+        cdkDrag
+        [cdkDragData]="answer">{{answer}}</div>
+    </div>
+  </div>
+  

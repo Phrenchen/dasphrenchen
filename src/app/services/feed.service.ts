@@ -4,6 +4,7 @@ import { Observable, of, Subscription } from 'rxjs';
 import { catchError, map, shareReplay, tap } from 'rxjs/operators';
 import { Feed } from './../interfaces/Feed';
 import { User } from './../interfaces/User';
+import { API } from './../constants/API';
 
 @Injectable({
   providedIn: 'root'
@@ -16,18 +17,20 @@ export class FeedService {
   constructor(private http: HttpClient) { }
 
 
-  public createFeed(): Feed {
+  public createFeed(): any {
     return   {
-      id: 'phren´s-test',
-      author: 'phren',
-      title: 'no title ' + Math.round(Math.random() * 1000),
-      description: 'no description ' + Math.round(Math.random() * 1000),
-      images: []
+      data: {
+        id: 'phren´s-test',
+        author: 'phren',
+        title: 'no title ' + Math.round(Math.random() * 1000),
+        description: 'no description ' + Math.round(Math.random() * 1000),
+        images: []
+      }
     };
   }
 
   public getUsers(): Observable<User[]> {
-    return this.http.get<any>(this.host + '/users')
+    return this.http.get<any>(API.host + '/users')
     .pipe(
       map(result => {
         console.log('got users: ', result);
@@ -41,7 +44,7 @@ export class FeedService {
   }
 
   public getFeeds(): Observable<Feed[]> {
-    return this.http.get<any>(this.host + '/feeds')
+    return this.http.get<any>(API.host + '/feeds')
     .pipe(
       map(result => {
         console.log('got raw feeds: ', result);
@@ -60,14 +63,14 @@ export class FeedService {
   }
 
   public addFeed(feed: Feed): Observable<any> {
-    console.log('adding feed', feed);
-    return this.http.post(this.host + '/feed/', feed);
+    // console.log('adding feed', feed);
+    return this.http.post(API.host + '/feed/', feed);
   }
 
   public deleteFeed(feed: any): Observable<any> {
     let httpParams = new HttpParams().set('id', feed.ref['@ref'].id);
     let options = { params: httpParams };
-    return this.http.delete(this.host + '/feed/',options)
+    return this.http.delete(API.host + '/feed/',options)
       .pipe(
         catchError(this.handleError),
         tap(result => {
@@ -88,17 +91,13 @@ export class FeedService {
 
   public updateFeed(feed: Feed): Subscription {
     console.log('adding feed', feed);
-    return this.http.post(this.host + '/feeds', feed).subscribe(result => {
+    return this.http.post(API.host + '/feeds', feed).subscribe(result => {
       console.log('add feed success', result);
     });
   }
 
 
   // PRIVATE
-  private get host(): string {
-    return '/api'
-    // return 'http://' + location.hostname + ':5000' + '/api'
-  }
 
   private createFeeds(): Feed[] {
     return [
