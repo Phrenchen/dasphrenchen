@@ -1,7 +1,6 @@
 <div class="app-wrapper">
-    <dph-game [isGameActive]="isGameActive"></dph-game>
     <div class="header-wrapper">
-        <dph-header (gameActiveState)="onGameStateChange($event)" [isGameActive]="isGameActive"></dph-header>
+        <dph-header></dph-header>
     </div>
     <div class="router-wrapper">
         <router-outlet></router-outlet>

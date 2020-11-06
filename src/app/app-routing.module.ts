@@ -31,12 +31,6 @@ const routes: Routes = [
   {
     path: 'playground',
     loadChildren: () => import('./pages/playground/playground.module').then(m => m.PlaygroundModule)
-    // component: PlaygroundComponent,
-  },
-  {
-    path: 'floating-cats',
-    loadChildren: () => import('./game/game.module').then(m => m.GameModule)
-    // component: PlaygroundComponent,
   },
 
   {
