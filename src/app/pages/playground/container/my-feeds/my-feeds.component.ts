@@ -3,12 +3,14 @@ import { Observable, of } from 'rxjs';
 import { Feed } from '../../interfaces/Feed';
 import { FeedService } from '../../services/feed.service';
 
+import { ManuallyActivated } from './../../interfaces/ManuallyActivated';
+
 @Component({
   selector: 'dph-my-feeds',
   templateUrl: './my-feeds.component.html',
   styleUrls: ['./my-feeds.component.less']
 })
-export class MyFeedsComponent implements OnInit {
+export class MyFeedsComponent implements OnInit, ManuallyActivated {
 
   public feeds: Observable<any[]> = of([]);
   public users: Observable<any[]> = of([]);
@@ -17,9 +19,19 @@ export class MyFeedsComponent implements OnInit {
   constructor(private readonly feedService: FeedService,) { }
 
   ngOnInit(): void {
+    
+  }
+  // life cycle end
+
+  // ManuallyActivated
+  public activate(): void {
     this.users = this.feedService.getUsers();
     this.feeds = this.feedService.getFeeds();
   }
+  public deactivate(): void {
+    
+  }
+  // ManuallyActivated end
 
   public getViewMode(index: number): string {
     return index === 0 ? 'expanded' : 'compact';

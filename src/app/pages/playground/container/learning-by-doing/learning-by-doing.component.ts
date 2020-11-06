@@ -6,12 +6,14 @@ import { QuestionService } from './services/question.service';
 
 import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag} from '@angular/cdk/drag-drop';
 
+import { ManuallyActivated } from './../../interfaces/ManuallyActivated';
+
 @Component({
   selector: 'dph-learning-by-doing',
   templateUrl: './learning-by-doing.component.html',
   styleUrls: ['./learning-by-doing.component.less']
 })
-export class LearningByDoingComponent implements OnInit {
+export class LearningByDoingComponent implements OnInit, ManuallyActivated {
 
 
   public questions$: Observable<Question[]> = this.questionService.getData().pipe(
@@ -31,6 +33,16 @@ export class LearningByDoingComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  // life cycle end
+
+  // ManuallyActivated
+  public activate(): void {
+    
+  }
+  public deactivate(): void {
+    
+  }
+  // ManuallyActivated end
 
   public selectQuestion(question: Question): void {
     this.validAnswers = question.answers;

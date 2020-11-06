@@ -1,29 +1,25 @@
 <div class="playground-wrapper">
     <h3>aktuelle Spielwiesenprojektdingsens</h3>
 
-    <mat-tab-group>
+    <mat-tab-group (selectedTabChange)="selectedTabChange($event)">
+        <div>
+            <mat-tab label="Youtube Playlists">
+                <dph-my-tube #myTube></dph-my-tube>
+            </mat-tab>
+        </div>
         <div>
             <mat-tab label="Lernen">
-                <dph-learning-by-doing></dph-learning-by-doing>
+                <dph-learning-by-doing #learningByDoing></dph-learning-by-doing>
             </mat-tab>
         </div>
         <div>
             <mat-tab label="Memory Game">
-                <dph-memory-game></dph-memory-game>
+                <dph-memory-game #memoryGame></dph-memory-game>
             </mat-tab>
         </div>
-        <div>
-            <mat-tab label="Youtube Playlists">
-                <!-- <ng-template mat-tab-label> -->
-                <!-- <mat-icon>edit</mat-icon> Playlists -->
-                <!-- </ng-template> -->
-                <dph-my-tube></dph-my-tube>
-            </mat-tab>
-        </div>
-
         <div>
             <mat-tab label="Feeds">
-                <dph-my-feeds></dph-my-feeds>
+                <dph-my-feeds #feeds></dph-my-feeds>
             </mat-tab>
         </div>
     </mat-tab-group>
