@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { API } from '../constants/API';
-import { Youtube } from '../constants/youtube';
+import { API } from 'src/app/constants/API';
 import { User } from '../interfaces/User';
 
 @Injectable({

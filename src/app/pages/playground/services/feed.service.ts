@@ -4,7 +4,7 @@ import { Observable, of, Subscription } from 'rxjs';
 import { catchError, map, shareReplay, tap } from 'rxjs/operators';
 import { Feed } from './../interfaces/Feed';
 import { User } from './../interfaces/User';
-import { API } from './../constants/API';
+import { API } from './../../../constants/API';
 
 @Injectable({
   providedIn: 'root'

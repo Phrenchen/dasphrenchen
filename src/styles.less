@@ -2,11 +2,9 @@
 
 * {
     box-sizing: border-box;
-    // overflow-x: hidden;
-    overflow: hidden;
 }
 
-html, body { height: 100%; }
+html, body { height: 100vh; }
 
 body { 
     margin: 0; 
@@ -20,9 +18,22 @@ body {
         // padding: 10px 20px;
 
         overflow-y: auto;
-        height: 500px;
+        // height: 500px;
 
 
     }
 }
 
+
+html {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+::-webkit-scrollbar {
+    width: 0px; // remove scrollbar space 
+    // background: transparent; // optional: just make scrollbar invisible /
+}
+// optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}

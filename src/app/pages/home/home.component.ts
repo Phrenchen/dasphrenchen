@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { FeedService } from 'src/app/services/feed.service';
-
-import { Feed } from './../../interfaces/Feed';
 
 
 @Component({
@@ -13,10 +9,7 @@ import { Feed } from './../../interfaces/Feed';
 export class HomeComponent implements OnInit {
 
 
-  constructor(private feedService: FeedService) {
-   }
+  constructor() {}
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 }

@@ -64,10 +64,11 @@ export class PixiService {
       return;
     }
 
-    // const width = this.elementRef.nativeElement.offsetWidth;
-    // const height = this.elementRef.nativeElement.offsetHeight;
-    const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-    const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+    const vw = document.body.clientWidth;
+    const vh = document.body.clientHeight;
+
+    this.app.view.width = vw;
+    this.app.view.height = vh;
 
     const viewportScale = 1 / this.devicePixelRatio;
     this.app.renderer.resize(vw * this.devicePixelRatio, vh * this.devicePixelRatio);

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Feed } from 'src/app/interfaces/Feed';
-import { FeedService } from 'src/app/services/feed.service';
+import { Feed } from '../../interfaces/Feed';
+import { FeedService } from '../../services/feed.service';
 
 @Component({
   selector: 'dph-my-feeds',

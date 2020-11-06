@@ -6,6 +6,8 @@ import { UnitService } from './services/unit.service';
 import { PixiService } from './services/pixi.service';
 import { UnitTweenService } from './services/unit-tween.service';
 
+declare var PIXI2:any;
+
 @NgModule({
   exports: [
     GameComponent

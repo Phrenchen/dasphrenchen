@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { tap } from 'rxjs/operators';
-import { User } from 'src/app/interfaces/User';
-import { UserService } from 'src/app/services/user.service';
+import { User } from '../../interfaces/User';
+import { UserService } from '../../services/user.service';
 import { YoutubeService } from '../../services/youtube.service';
 
 @Component({

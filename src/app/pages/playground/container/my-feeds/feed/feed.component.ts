@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { from, Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
-import { FeedService } from 'src/app/services/feed.service';
-import { FeedActions } from './../basics/view-mode-switch/enums/feed-actions.enum';
+import { FeedService } from '../../../services/feed.service';
+import { FeedActions } from './../view-mode-switch/enums/feed-actions.enum';
 
 /**
  * displays a feed in different view modes:

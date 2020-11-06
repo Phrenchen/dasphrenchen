@@ -1,7 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { PixiService } from '../services/pixi.service';
 
-let self: PixiComponent;
 
 @Component({
   selector: 'dph-pixi',
@@ -17,7 +16,6 @@ export class PixiComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    self = this;
     this.pixiService.init(this.elementRef);
   }
 }
