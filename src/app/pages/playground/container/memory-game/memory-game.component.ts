@@ -22,9 +22,10 @@ export class MemoryGameComponent implements OnInit, ManuallyActivated {
 
   // ManuallyActivated
   public activate(): void {
-
+    // console.log('activated memory game');
   }
   public deactivate(): void {
+    // console.log('deactivated memory game');
 
   }
   // ManuallyActivated end

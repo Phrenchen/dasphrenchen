@@ -10,9 +10,9 @@
 
 <div class="short-lists">
     <div class="users">
-        <label>Users ({{(users | async)?.length}})</label>
+        <label>Users ({{(users$ | async)?.length}})</label>
         <ul>
-            <li *ngFor="let user of users | async">
+            <li *ngFor="let user of users$ | async">
                 <b>{{user.data.name}}</b><br/>
                 {{user.data.ytChannelName}}<br/>
                 {{user.data.ytChannelId}}<br/>
@@ -20,15 +20,15 @@
         </ul>
     </div>
     <div class="feeds">
-        <label>Feeds ({{(feeds | async)?.length}})</label>
+        <label>Feeds ({{(feeds$ | async)?.length}})</label>
         <ul>
-            <li *ngFor="let feed of feeds | async">{{feed.data.author}}: {{feed.data.title}}</li>
+            <li *ngFor="let feed of feeds$ | async">{{feed.data.author}}: {{feed.data.title}}</li>
         </ul>
     </div>
 </div>
 
 <div class="feeds">
-    <div *ngFor="let feed of feeds | async; let i=index" class="feed">
+    <div *ngFor="let feed of feeds$ | async; let i=index" class="feed">
         <dph-feed [feed]="feed" [viewMode]="getViewMode(i)"></dph-feed>
     </div>
 

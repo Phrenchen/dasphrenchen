@@ -15,19 +15,15 @@
             <div class="user-form">
                 <div>
                     <div>
-                        <label for="yt-channelname">Youtube Profilname</label>
                         <input id="yt-channelname"  formControlName="ytChannelName" type="text" placeholder="youtube channel name">
-                        <button mat-icon-button (click)="getChannelId()">
+                        <button mat-icon-button (click)="getPlaylists()">
                             <mat-icon>youtube_searched_for</mat-icon>
                         </button>
                     </div>
-                    <div>
-                        <label for="yt-channel-id">Channel-ID</label>
-                        <input id="yt-channel-id" formControlName="ytChannelId" type="text" placeholder="Youtube Channel Id">
-                    </div>
+                    
                 </div>
             </div>
-
+<!-- 
             <div class="editing-buttons">
                 <button (click)="cancelUserEdit()" mat-icon-button matTooltip="Abbrechen">
                     <mat-icon>cancel</mat-icon>
@@ -36,29 +32,21 @@
                 <button (click)="updateUser()" mat-icon-button matTooltip="Speichern">
                     <mat-icon>save</mat-icon>
                 </button>
-            </div>
+            </div> -->
         </form>
     </ng-template>
 
 
-    <div class="user">
-        {{user.name}}<br/>
+    <div class="playlists">
+        <!-- {{user.name}}<br/> -->
         <b>Channel Name: </b>{{user.ytChannelName}}<br/>
         <b>Channel ID: </b>{{user.ytChannelId}}<br/>
+        <b>Playlists: </b>
+        <ul>
+            <li *ngFor="let item of playlists">
+                <b>Playlist:</b> {{item.id}}
+            </li>
+        </ul>
     </div>
-
-    <!-- <div>
-        <div>
-            <label for="yt-channelname">Youtube Profilname</label>
-            <input id="yt-channelname"  formControlName="channelName" type="text" placeholder="youtube channel name">
-            <button mat-icon-button (click)="getPlaylists()">
-                <mat-icon>youtube_searched_for</mat-icon>
-            </button>
-        </div>
-        <div>
-            <label for="yt-channel-id">Channel-ID</label>
-            <input id="yt-channel-id" formControlName="channelId" type="text" placeholder="Youtube Channel Id">
-        </div>
-    </div> -->
 
 </div>

@@ -1,12 +1,3 @@
-export interface User {
-    name: string;
-    ytChannelName: string;
-    ytChannelId: string;
-
-    playlists: Playlist[];
-
-}
-
 export interface Playlist {
     id: string;
     name: string;

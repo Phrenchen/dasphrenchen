@@ -1,7 +1,7 @@
 <div class="playground-wrapper">
     <h3>aktuelle Spielwiesenprojektdingsens</h3>
 
-    <mat-tab-group (selectedTabChange)="selectedTabChange($event)">
+    <mat-tab-group #tabGroup (selectedTabChange)="selectedTabChange($event)" [selectedIndex]="selectedTabIndex">
         <div>
             <mat-tab label="Youtube Playlists">
                 <dph-my-tube #myTube></dph-my-tube>
@@ -20,6 +20,11 @@
         <div>
             <mat-tab label="Feeds">
                 <dph-my-feeds #feeds></dph-my-feeds>
+            </mat-tab>
+        </div>
+        <div>
+            <mat-tab label="Animations">
+                <dph-animations #animations></dph-animations>
             </mat-tab>
         </div>
     </mat-tab-group>

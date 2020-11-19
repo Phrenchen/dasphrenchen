@@ -10,9 +10,9 @@ import { ViewModeSwitchComponent } from './container/my-feeds/view-mode-switch/v
 import { FeedComponent } from './container/my-feeds/feed/feed.component';
 
 import { MemoryGameService } from './container/memory-game/services/memory-game.service';
-import { FeedService } from './services/feed.service';
-import { UserService } from './services/user.service';
-import { YoutubeService } from './services/youtube.service';
+import { FeedService } from './container/my-feeds/services/feed.service';
+import { UserService } from './container/my-feeds/services/user.service';
+import { YoutubeService } from './container/my-tube/services/youtube.service';
 import { QuestionService } from './container/learning-by-doing/services/question.service';
 import { QuestionDataService } from './container/learning-by-doing/services/question-data.service';
 import { RouterModule, Routes } from '@angular/router';
@@ -25,6 +25,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatRadioModule } from '@angular/material/radio';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AnimationsComponent } from './container/animations/animations.component';
 
 
 const routes: Routes = [
@@ -43,6 +44,7 @@ const routes: Routes = [
     MyTubeComponent,
     MemoryGameComponent,
     LearningByDoingComponent,
+    AnimationsComponent,
   ],
   imports: [
     RouterModule.forChild(routes),

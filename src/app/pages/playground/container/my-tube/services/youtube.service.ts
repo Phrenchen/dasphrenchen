@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { Playlist, PlaylistItems } from '../interfaces/User';
+import { Playlist, PlaylistItems } from '../../../interfaces/Playlist';
 
 import { Youtube } from './../constants/youtube';
 
@@ -11,31 +11,32 @@ import { Youtube } from './../constants/youtube';
 })
 export class YoutubeService {
 
-  public static readonly channelIdThePhrenchen = 'UCcNgOb9rMnOXZlIrP2-VN3Q';   // Channel ID
-
   // Youtube API Key: AIzaSyBALgJMsSk4ur1joGhjrZDtaNIqSrsbUE8
   private apiKey = 'AIzaSyBALgJMsSk4ur1joGhjrZDtaNIqSrsbUE8';
 
   constructor(private http: HttpClient) { }
 
 
-  public getPlayLists(userName: string): Observable<Playlist[]> {
+  public getPlaylists(userName: string): Observable<Playlist[]> {
     return this.getChannelIdByUserName(userName)
       .pipe(
         switchMap(result => {
+          console.log('getChannelIdByUserName: ', result);
           return this.getLists(result, 5);
         }),
         tap(result => {
           console.log('got playlists: ', result);
         }),
-        switchMap(result => {
-          const playlists: Playlist[] = [];
-
-          return this.getPlaylistItems(result[0].id, 10);
-        }),
+        // switchMap(result => {
+        //   const playlists: Playlist[] = [];
+        //   if (!result[0]) {
+        //     return of([]);
+        //   }
+        //   return this.getPlaylistItems(result[0].id, 10); // für jede playlist ihre items holen
+        // }),
         map(result => {
           console.log('result', result);
-          return [];  // TODO Playlist[]
+          return result;  // TODO Playlist[]
         })
       );
   }
@@ -67,9 +68,9 @@ export class YoutubeService {
 
     return this.http.get(url)
       .pipe(
-        tap(res => console.log('getPlaylists:', res)),
+        tap(result => console.log('getPlaylists:', result)),
         map(result => {
-          return [];
+          return (result as any).items as [];
         })
       )
   }
@@ -81,9 +82,9 @@ export class YoutubeService {
 
     return this.http.get(url)
       .pipe(
-        tap(res =>  console.log('getPlaylistItems for playlist:', res)),
-        map(res => {
-          return [];
+        tap(result => console.log('getPlaylistItems for playlist:', result)),
+        map(result => {
+          return (result as any).items as [];
         })
 
       )

@@ -4,7 +4,7 @@ import { Observable, of, Subscription } from 'rxjs';
 import { catchError, map, shareReplay, tap } from 'rxjs/operators';
 import { Feed } from './../interfaces/Feed';
 import { User } from './../interfaces/User';
-import { API } from './../../../constants/API';
+import { API } from './../../../../../constants/API';
 
 @Injectable({
   providedIn: 'root'
@@ -33,11 +33,7 @@ export class FeedService {
     return this.http.get<any>(API.host + '/users')
     .pipe(
       map(result => {
-        console.log('got users: ', result);
         return result.data;
-      }),
-      tap(result => {
-        console.log('tapping result:', result);
       }),
       shareReplay()
     );
@@ -47,11 +43,7 @@ export class FeedService {
     return this.http.get<any>(API.host + '/feeds')
     .pipe(
       map(result => {
-        console.log('got raw feeds: ', result);
         return result.data;
-      }),
-      tap(result => {
-        console.log('processed result:', result);
       }),
       shareReplay()
     );
@@ -63,7 +55,6 @@ export class FeedService {
   }
 
   public addFeed(feed: Feed): Observable<any> {
-    // console.log('adding feed', feed);
     return this.http.post(API.host + '/feed/', feed);
   }
 
@@ -90,9 +81,8 @@ export class FeedService {
   // }
 
   public updateFeed(feed: Feed): Subscription {
-    console.log('adding feed', feed);
     return this.http.post(API.host + '/feeds', feed).subscribe(result => {
-      console.log('add feed success', result);
+      // console.log('add feed success', result);
     });
   }
 

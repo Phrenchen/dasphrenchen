@@ -12,7 +12,6 @@ export class QuestionDataService {
 
 
   public getAllQuestions(): Observable<Question[]> {
-    console.log('getAllQuestions');
     const data: Question[] = [
       {
         title: 'Zahlen sortieren',

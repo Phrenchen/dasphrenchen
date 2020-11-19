@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, ReplaySubject, Subject } from 'rxjs';
+import { filter, takeUntil, tap } from 'rxjs/operators';
 import { Question } from './interfaces/question';
 import { QuestionService } from './services/question.service';
 
-import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag } from '@angular/cdk/drag-drop';
 
 import { ManuallyActivated } from './../../interfaces/ManuallyActivated';
 
@@ -15,14 +15,11 @@ import { ManuallyActivated } from './../../interfaces/ManuallyActivated';
 })
 export class LearningByDoingComponent implements OnInit, ManuallyActivated {
 
+  private isDeactivated$$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  private isDeactivated$: Observable<boolean> = this.isDeactivated$$.asObservable();
 
-  public questions$: Observable<Question[]> = this.questionService.getData().pipe(
-    tap(result => {
-      this.validAnswers = result[0].answers;
-      this.selectedQuestion$$.next(result[0])   // select first question
-      console.log('valid answers', this.validAnswers);
-    })
-  );
+  public questions$: Observable<Question[]> = of([]);
+
   public selectedQuestion$$: ReplaySubject<Question> = new ReplaySubject<Question>();
   public selectedQuestion$: Observable<Question> = this.selectedQuestion$$.asObservable();
 
@@ -37,10 +34,20 @@ export class LearningByDoingComponent implements OnInit, ManuallyActivated {
 
   // ManuallyActivated
   public activate(): void {
-    
+    this.isDeactivated$$.next(false);
+
+    this.questions$ = this.questionService.getData();
+
+    this.questions$.pipe(
+      tap(result => {
+        this.validAnswers = result[0].answers;
+        this.selectedQuestion$$.next(result[0])   // select first question
+      }),
+    ).subscribe();
   }
+
   public deactivate(): void {
-    
+    this.isDeactivated$$.next(true);
   }
   // ManuallyActivated end
 
@@ -55,9 +62,9 @@ export class LearningByDoingComponent implements OnInit, ManuallyActivated {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
     }
   }
 

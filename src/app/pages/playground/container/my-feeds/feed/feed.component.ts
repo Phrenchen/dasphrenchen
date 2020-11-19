@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
-import { FeedService } from '../../../services/feed.service';
+import { FeedService } from '../services/feed.service';
 import { FeedActions } from './../view-mode-switch/enums/feed-actions.enum';
 
 /**

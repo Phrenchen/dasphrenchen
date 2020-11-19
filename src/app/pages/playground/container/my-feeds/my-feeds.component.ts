@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Feed } from '../../interfaces/Feed';
-import { FeedService } from '../../services/feed.service';
+import { Feed } from './interfaces/Feed';
 
 import { ManuallyActivated } from './../../interfaces/ManuallyActivated';
+import { FeedService } from './services/feed.service';
 
 @Component({
   selector: 'dph-my-feeds',
@@ -12,8 +12,8 @@ import { ManuallyActivated } from './../../interfaces/ManuallyActivated';
 })
 export class MyFeedsComponent implements OnInit, ManuallyActivated {
 
-  public feeds: Observable<any[]> = of([]);
-  public users: Observable<any[]> = of([]);
+  public feeds$: Observable<any[]> = of([]);
+  public users$: Observable<any[]> = of([]);
 
 
   constructor(private readonly feedService: FeedService,) { }
@@ -25,8 +25,8 @@ export class MyFeedsComponent implements OnInit, ManuallyActivated {
 
   // ManuallyActivated
   public activate(): void {
-    this.users = this.feedService.getUsers();
-    this.feeds = this.feedService.getFeeds();
+    this.users$ = this.feedService.getUsers();
+    this.feeds$ = this.feedService.getFeeds();
   }
   public deactivate(): void {
     
@@ -38,12 +38,9 @@ export class MyFeedsComponent implements OnInit, ManuallyActivated {
   }
 
   public addNewFeed(): void {
-    console.log('add new feed');
     const feed: Feed = this.feedService.createFeed();
-    feed.author = 'Das Phrenchen';
-    this.feedService.addFeed(feed).subscribe(result => {
-      console.log('added feed', result);
-    });
+    feed.author = 'Das Phrenchen';  // TODO
+    this.feedService.addFeed(feed).subscribe();
   }
   
 }
