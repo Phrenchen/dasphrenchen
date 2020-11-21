@@ -2,7 +2,7 @@
   "name": "dasphrenchen",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
+    "ng-update": "ng update @angular/core @angular/cli @angular/material",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
