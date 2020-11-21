@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { LearningByDoingComponent } from './learning-by-doing.component';
 
@@ -6,7 +6,7 @@ describe('LearningByDoingComponent', () => {
   let component: LearningByDoingComponent;
   let fixture: ComponentFixture<LearningByDoingComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ LearningByDoingComponent ]
     })
