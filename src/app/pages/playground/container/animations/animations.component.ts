@@ -1,7 +1,7 @@
 import { Point } from '@angular/cdk/drag-drop';
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { fromEvent, Observable, of, ReplaySubject, Subject, Subscription } from 'rxjs';
-import { map, shareReplay, takeUntil, tap, throttleTime } from 'rxjs/operators';
+import { fromEvent, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { ManuallyActivated } from '../../interfaces/ManuallyActivated';
 import { MathHelper } from './../../../../helpers/MathHelper';
 
@@ -130,6 +130,7 @@ export class AnimationsComponent implements OnInit, AfterViewInit, OnDestroy, Ma
       this.inputSub.unsubscribe();
   }
 
+
   public draw(): void {
     console.log('drawing', this.trackedPoints.length);
     if (this.trackedPoints.length < 3) {
@@ -148,12 +149,12 @@ export class AnimationsComponent implements OnInit, AfterViewInit, OnDestroy, Ma
     // need 3 points for a curve, duplicate points to fill up
     if ((points.length) % 3 === 1) {
       console.log('1 missing', points);
-      
+
       points.push(points[0]);
     }
     else if ((points.length) % 3 === 2) {
       console.log('2 missing', points);
-      
+
       points.push(points[1]);
       points.push(points[0]);
     }
@@ -196,9 +197,9 @@ export class AnimationsComponent implements OnInit, AfterViewInit, OnDestroy, Ma
   // PRIVATE
   /**
      * draws curve with N points
-     * @param v0 
-     * @param v1 
-     * @param t 
+     * @param v0
+     * @param v1
+     * @param t
      */
   // private calculatePoints(points: Point[]): Point[] {
   //   if (!this.ctx) return [];
@@ -237,7 +238,7 @@ export class AnimationsComponent implements OnInit, AfterViewInit, OnDestroy, Ma
 
   /**
  * Animates bezier-curve
- * 
+ *
  * @param ctx       The canvas context to draw to
  * @param x0        The x-coord of the start point
  * @param y0        The y-coord of the start point
@@ -274,7 +275,7 @@ export class AnimationsComponent implements OnInit, AfterViewInit, OnDestroy, Ma
 
   /**
   * Draws a splitted bezier-curve
-  * 
+  *
   * @param ctx       The canvas context to draw to
   * @param x0        The x-coord of the start point
   * @param y0        The y-coord of the start point

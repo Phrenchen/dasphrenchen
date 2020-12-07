@@ -1,24 +1,42 @@
 .header-container {
     width: 100%;
 
-    opacity: 1;
-
     transition: opacity .3s ease-in;
-
-    // z-index: 2;
 
     .button-container {
         display: flex;
         justify-content: space-around;
         align-items: center;
 
-        // width: 100%;
         max-width: 1000px;
 
         margin: 0 auto;
     }
-}
 
-.hide-ui {
-    opacity: 0.3;
+    .user-login-state {
+      // border: 1px solid black;
+      border-radius: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .user-state {
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+    }
+
+    .orange-circle {
+        background-color: orange;
+    }
+
+    .green-circle {
+        background-color: green;
+    }
+
+    .red-circle {
+        background-color: red;
+    }
 }

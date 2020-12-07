@@ -12,6 +12,12 @@
     <p>Gewählte Schwierigkeit: {{selectedDifficulty}}</p>
   </div>
 
+  <div class="configuration">
+    <mat-checkbox [checked]="true">CB 1</mat-checkbox>
+    <mat-checkbox [formControl]="secondCbCtrl">CB 2</mat-checkbox>
+    <mat-checkbox [formControl]="thirdCbCtrl">CB 3</mat-checkbox>
+  </div>
+
   <hr>
 
 </div>

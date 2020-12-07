@@ -8,9 +8,11 @@ import { User } from '../interfaces/User';
   providedIn: 'root'
 })
 export class UserService {
-  
+
+  public user: User = this.createNewUser();
+
   constructor(private http: HttpClient) { }
-  
+
   public createNewUser(): User {
     return {
       name: 'new user',
@@ -20,7 +22,7 @@ export class UserService {
       // ...
     };
   }
-  
+
   public updateUser(user: User): Observable<any> {
     return this.http.post(API.host + '/user/', user);
   }

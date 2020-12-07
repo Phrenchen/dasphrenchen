@@ -4,6 +4,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { StackComponent } from './pages/stack/stack.component';
 import { AboutComponent } from './pages/about/about.component';
 import { HelpComponent } from './pages/help/help.component';
+import { AuthGuardService } from './services/auth-guard.service';
 
 
 const routes: Routes = [
@@ -12,25 +13,12 @@ const routes: Routes = [
     pathMatch: 'full',
     redirectTo: '/',
   },
-  {
-    path: '',
-    component: HomeComponent,
-  },
-  {
-    path: 'stack',
-    component: StackComponent,
-  },
-  {
-    path: 'about',
-    component: AboutComponent,
-  },
-  {
-    path: 'help',
-    component: HelpComponent,
-  },
-  {
-    path: 'playground',
-    loadChildren: () => import('./pages/playground/playground.module').then(m => m.PlaygroundModule)
+  { path: '', component: HomeComponent, },
+  { path: 'stack', component: StackComponent, },
+  { path: 'about', component: AboutComponent, },
+  { path: 'help', component: HelpComponent, },
+  { path: 'playground', canActivate: [AuthGuardService],
+    loadChildren: () => import('./pages/playground/playground.module').then(m => m.PlaygroundModule) 
   },
 
   {

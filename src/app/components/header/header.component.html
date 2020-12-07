@@ -1,28 +1,68 @@
 <mat-toolbar class="header-container">
-    <div class="wtf">
-        <button id="btn-home" class="header-btn" mat-icon-button (click)="goto('home')" matTooltip="Home">
-            <mat-icon>home_outline</mat-icon>
-        </button>
-    </div>
-    
-    <div class="button-container">
+  <div class="wtf">
+    <button
+      id="btn-home"
+      class="header-btn"
+      mat-icon-button
+      (click)="goto('home')"
+      matTooltip="Home"
+    >
+      <mat-icon>home_outline</mat-icon>
+    </button>
+  </div>
 
-        <button id="btn-stack" class="header-btn" mat-icon-button (click)="goto('stack')" matTooltip="Abyte">
-            <mat-icon>work</mat-icon>
-        </button>
+  <div class="button-container">
+    <button
+      id="btn-stack"
+      class="header-btn"
+      mat-icon-button
+      (click)="goto('stack')"
+      matTooltip="Abyte"
+    >
+      <mat-icon>work</mat-icon>
+    </button>
 
-        <button id="btn-about" class="header-btn" mat-icon-button (click)="goto('about')" matTooltip="About">
-            <mat-icon>person_outline</mat-icon>
-        </button>
+    <button
+      id="btn-about"
+      class="header-btn"
+      mat-icon-button
+      (click)="goto('about')"
+      matTooltip="About"
+    >
+      <mat-icon>person_outline</mat-icon>
+    </button>
 
-        
-        <!-- <button id="btn-playground" class="header-btn" mat-icon-button (click)="goto('playground')" matTooltip="Meine Spielwiese">
-            <mat-icon>accessible_forward</mat-icon>
-        </button> -->
-    </div>
-    
-    <!-- <button id="btn-help" class="header-btn" mat-icon-button (click)="goto('help')" matTooltip="Halp">
+    <button
+      id="btn-playground"
+      class="header-btn"
+      mat-icon-button
+      (click)="goto('playground')"
+      matTooltip="Meine Spielwiese"
+    >
+      <mat-icon>accessible_forward</mat-icon>
+    </button>
+  </div>
+
+    <!-- User State -->
+
+    <button
+      id="btn-login"
+      class="header-btn user-login-state"
+      mat-icon-button
+      (click)="showLogin()"
+      matTooltip="Login"
+    >
+    <div class="user-login-state">
+      <mat-icon>login</mat-icon>
+        <div [ngSwitch]="userStatus">
+          <div *ngSwitchCase="'pending'" class="user-state orange-circle"></div>
+          <div *ngSwitchCase="'loggedIn'" class="user-state green-circle"></div>
+          <div *ngSwitchDefault class="user-state red-circle"></div>
+        </div>
+      </div>
+    </button>
+
+  <!-- <button id="btn-help" class="header-btn" mat-icon-button (click)="goto('help')" matTooltip="Halp">
         <mat-icon>help_outline</mat-icon>
     </button> -->
-
 </mat-toolbar>

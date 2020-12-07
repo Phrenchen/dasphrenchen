@@ -19,10 +19,18 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatRadioModule } from '@angular/material/radio';
+import { AuthGuardService } from './services/auth-guard.service';
+import { LoginService } from './services/login.service';
+import { LoginComponent } from './components/login/login.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
+  entryComponents: [LoginComponent],
+  exports: [LoginComponent],
   declarations: [
     AppComponent,
     HomeComponent,
@@ -30,15 +38,18 @@ import { MatRadioModule } from '@angular/material/radio';
     AboutComponent,
     HelpComponent,
     HeaderComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    
+
     // Materials
     FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
     ReactiveFormsModule,
     MatButtonModule,
     MatIconModule,
@@ -47,10 +58,13 @@ import { MatRadioModule } from '@angular/material/radio';
     MatCheckboxModule,
     MatTabsModule,
     MatRadioModule,
+    MatDialogModule,
 
   ],
   providers: [
-    HttpClient, 
+    HttpClient,
+    LoginService,
+    AuthGuardService,
   ],
   bootstrap: [AppComponent]
 })
