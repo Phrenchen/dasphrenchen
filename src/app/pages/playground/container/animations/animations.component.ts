@@ -23,9 +23,22 @@ export class AnimationsComponent implements OnInit, AfterViewInit, OnDestroy, Ma
 
   constructor() { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.activate();
+   }
 
   ngAfterViewInit(): void {
+
+  }
+
+  ngOnDestroy(): void {
+    if (this.inputSub)
+      this.inputSub.unsubscribe();
+  }
+  // life cycle end
+
+
+  activate(): void {
     this.canvas = document.querySelector('#bezier-canvas');
 
     if (!this.canvas) return;
@@ -50,20 +63,14 @@ export class AnimationsComponent implements OnInit, AfterViewInit, OnDestroy, Ma
       this.ctx.imageSmoothingEnabled = false;
       this.ctx.imageSmoothingQuality = "high" // low|medium|hight
     }
-  }
-
-  ngOnDestroy(): void {
-    if (this.inputSub)
-      this.inputSub.unsubscribe();
-  }
-  // life cycle end
 
 
-  activate(): void {
-    if (!this.canvas || !this.ctx) return;
-
+    if (!this.canvas || !this.ctx) {
+      return;
+    }
     this.clearCanvas();
 
+    console.log('activating animations');
     // this.mouseTrackerSub = fromEvent(this.canvas, 'mousemove')
     // this.inputSub = fromEvent(document.body, 'click')
     this.inputSub = fromEvent(this.canvas, 'click')

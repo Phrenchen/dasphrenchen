@@ -1,0 +1,36 @@
+<!-- <highcharts-chart
+  [Highcharts]="Highcharts"
+
+  [constructorType]="chartConstructor"
+  [options]="chartOptions"
+  [callbackFunction]="chartCallback"
+
+  [(update)]="updateFlag"
+  [oneToOne]="oneToOneFlag"
+  [runOutsideAngular]="runOutsideAngularFlag"
+
+  style="width: 100%; height: 400px; display: block;"
+></highcharts-chart> -->
+
+
+<!-- <highcharts-chart
+  [Highcharts]="Highcharts"
+  [options]="chartOptions"
+
+  style="width: 100%; height: 400px; display: block;"
+></highcharts-chart> -->
+
+
+<div>
+  <div>
+      <!-- <button mat-raised-button (click)="draw()" [disabled]="trackedPoints.length < 3">Draw</button>
+      <button mat-raised-button (click)="clearPoints()" [disabled]="trackedPoints.length === 0">Punkte löschen</button> -->
+  </div>
+
+  <!-- <p>{{trackedPoints.length}}</p> -->
+
+  <div class="canvas-container">
+      <canvas id="ants-canvas"></canvas>
+  </div>
+
+</div>

@@ -1,5 +1,8 @@
 import { AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { AnimationsComponent } from './container/animations/animations.component';
 import { LearningByDoingComponent } from './container/learning-by-doing/learning-by-doing.component';
 import { MemoryGameComponent } from './container/memory-game/memory-game.component';
@@ -15,63 +18,44 @@ import { ManuallyActivated } from './interfaces/ManuallyActivated';
 })
 export class PlaygroundComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild(MyTubeComponent) myTube: MyTubeComponent | null = null;
-  @ViewChild(LearningByDoingComponent) learningByDoing: LearningByDoingComponent | null = null;
-  @ViewChild(MemoryGameComponent) memoryGame: MemoryGameComponent | null = null;
-  @ViewChild(MyFeedsComponent) feeds: MyFeedsComponent | null = null;
-  @ViewChild(AnimationsComponent) animations: AnimationsComponent | null = null;
+  public form: FormGroup;
+  public playgroundControl:FormControl = new FormControl('Ants', []);
 
+  public playgrounds$: Observable<any[]> = of([
+    'Ants',
+    'Animations',
+    'Feeds',
+    'Memory',
+    'Learning By Doing'
+  ]);
 
-  public selectedTabIndex: number = 4;
-
-  private tabComponents: any[] = [];
-  private activeTab: ManuallyActivated | null = null;
+  public selectedPlayground: string = '';
 
   constructor() {
+    this.form = new FormGroup({
+      playground: this.playgroundControl,
+    });
+
+    this.playgroundControl.valueChanges.pipe(
+      tap(changes => {
+        console.log({changes});
+
+      })
+    ).subscribe();
   }
-  
-  
-  ngOnInit(): void { 
+
+
+  ngOnInit(): void {
   }
-  
+
   ngAfterViewInit(): void {
-    this.tabComponents = [
-      this.myTube,
-      this.learningByDoing as ManuallyActivated,
-      this.memoryGame as ManuallyActivated,
-      this.feeds as ManuallyActivated,
-      this.animations as ManuallyActivated,
-    ]
-    
-    setTimeout(() => {
-      this.activateTab(this.selectedTabIndex);
-      
-    }, 0);
-    // unschön: reihenfolge der tabs hier und im HTML definieren
+
   }
-  
+
   ngOnDestroy(): void {
-    if(this.activeTab) 
-      this.activeTab.deactivate();
   }
   // life cycle end
 
-  public selectedTabChange(event: MatTabChangeEvent): void {
-    if(event.index === this.selectedTabIndex) return;
-    this.selectedTabIndex = event.index;
-    this.activateTab(event.index);
-  }
 
-  private activateTab(index: number): void {
-    if(this.activeTab) {
-      this.activeTab.deactivate();
-      // console.log('deactivated', this.activeTab);
-    }
 
-    this.activeTab = this.tabComponents[index];
-    // console.log('activating', this.activeTab);
-    if(this.activeTab) {
-      this.activeTab.activate();
-    }
-  }
 }

@@ -29,6 +29,7 @@ export class LearningByDoingComponent implements OnInit, ManuallyActivated {
   constructor(private readonly questionService: QuestionService) { }
 
   ngOnInit(): void {
+    this.activate();
   }
   // life cycle end
 

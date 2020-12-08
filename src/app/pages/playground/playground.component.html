@@ -1,32 +1,34 @@
 <div class="playground-wrapper">
-    <h3>aktuelle Spielwiesenprojektdingsens</h3>
+    <h3>things 'in progress' :)</h3>
 
-    <mat-tab-group #tabGroup (selectedTabChange)="selectedTabChange($event)" [selectedIndex]="selectedTabIndex">
-        <div>
-            <mat-tab label="Youtube Playlists">
-                <dph-my-tube #myTube></dph-my-tube>
-            </mat-tab>
-        </div>
-        <div>
-            <mat-tab label="Lernen">
-                <dph-learning-by-doing #learningByDoing></dph-learning-by-doing>
-            </mat-tab>
-        </div>
-        <div>
-            <mat-tab label="Memory Game">
-                <dph-memory-game #memoryGame></dph-memory-game>
-            </mat-tab>
-        </div>
-        <div>
-            <mat-tab label="Feeds">
-                <dph-my-feeds #feeds></dph-my-feeds>
-            </mat-tab>
-        </div>
-        <div>
-            <mat-tab label="Animations">
-                <dph-animations #animations></dph-animations>
-            </mat-tab>
-        </div>
-    </mat-tab-group>
+    <form [formGroup]="form">
+    <mat-form-field appearance="fill">
+      <mat-select [formControl]="playgroundControl">
+        <mat-option *ngFor="let option of playgrounds$ | async" [value]="option">{{option}}</mat-option>
+
+      </mat-select>
+    </mat-form-field>
+    </form>
+
+    <span [ngSwitch]="playgroundControl.value">
+    <p *ngSwitchCase="'Ants'">
+      <dph-food-game #ants></dph-food-game>
+    </p>
+    <p *ngSwitchCase="'Animations'">
+      <dph-animations #animations></dph-animations>
+    </p>
+    <p *ngSwitchCase="'Feeds'">
+      <dph-my-feeds #feeds></dph-my-feeds>
+    </p>
+    <p *ngSwitchCase="'Learning By Doing'">
+      <dph-learning-by-doing #learningByDoing></dph-learning-by-doing>
+    </p>
+    <p *ngSwitchCase="'Memory'">
+      <dph-memory-game #memoryGame></dph-memory-game>
+    </p>
+    <p *ngSwitchDefault>
+
+    </p>
+    </span>
 
 </div>

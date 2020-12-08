@@ -27,8 +27,12 @@ export class MemoryGameComponent implements OnInit, ManuallyActivated {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.activate();
+  }
+
   // life cycle end
+
 
   // ManuallyActivated
   public activate(): void {

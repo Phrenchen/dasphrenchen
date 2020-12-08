@@ -27,6 +27,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnimationsComponent } from './container/animations/animations.component';
 
+import { HighchartsChartModule } from 'highcharts-angular';
+import { FoodGameComponent } from './container/food-game/food-game.component';
+import {MatSelectModule} from '@angular/material/select';
+
 
 const routes: Routes = [
   {
@@ -45,10 +49,13 @@ const routes: Routes = [
     MemoryGameComponent,
     LearningByDoingComponent,
     AnimationsComponent,
+    FoodGameComponent,
   ],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
+
+    HighchartsChartModule,
 
     // Materials
     FormsModule,
@@ -60,6 +67,7 @@ const routes: Routes = [
     MatCheckboxModule,
     MatTabsModule,
     MatRadioModule,
+    MatSelectModule,
 
     // CDK
     DragDropModule,
