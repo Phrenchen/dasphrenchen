@@ -29,14 +29,16 @@ import { AnimationsComponent } from './container/animations/animations.component
 
 import { HighchartsChartModule } from 'highcharts-angular';
 import { FoodGameComponent } from './container/food-game/food-game.component';
-import {MatSelectModule} from '@angular/material/select';
-
+import { MatSelectModule } from '@angular/material/select';
+import { AntFactoryService } from './container/food-game/services/ant-factory/ant-factory.service';
+import { AntsConfigService } from './container/food-game/services/ants-config/ants-config.service';
+import { AntGameService } from './container/food-game/services/ant-factory/ant-game.service';
 
 const routes: Routes = [
   {
     path: '',
-    component: PlaygroundComponent
-  }
+    component: PlaygroundComponent,
+  },
 ];
 
 @NgModule({
@@ -79,6 +81,9 @@ const routes: Routes = [
     MemoryGameService,
     QuestionService,
     QuestionDataService,
-  ]
+    AntsConfigService,
+    AntFactoryService,
+    AntGameService,
+  ],
 })
-export class PlaygroundModule { }
+export class PlaygroundModule {}

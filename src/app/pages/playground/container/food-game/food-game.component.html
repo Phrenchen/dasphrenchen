@@ -23,11 +23,8 @@
 
 <div>
   <div>
-      <!-- <button mat-raised-button (click)="draw()" [disabled]="trackedPoints.length < 3">Draw</button>
-      <button mat-raised-button (click)="clearPoints()" [disabled]="trackedPoints.length === 0">Punkte löschen</button> -->
+      <button mat-raised-button (click)="toggleGamePause()">Play / Pause</button>
   </div>
-
-  <!-- <p>{{trackedPoints.length}}</p> -->
 
   <div class="canvas-container">
       <canvas id="ants-canvas"></canvas>
