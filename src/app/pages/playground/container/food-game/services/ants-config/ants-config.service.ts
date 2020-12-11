@@ -24,6 +24,7 @@ export class AntsConfigService {
       fillStyle: '#ff0000',
       radius: 4,
       position: {x: 0, y: 0},
+      minSpeed: .2,
       maxSpeed: .5,
       currentSpeed: .01,
       maxInventory: 5,

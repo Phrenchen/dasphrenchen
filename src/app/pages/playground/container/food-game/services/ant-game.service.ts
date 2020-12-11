@@ -178,7 +178,7 @@ export class AntGameService {
   }
 
   /**
-   *
+   * MOVE THEM!
    * @param unit
    * @returns hasReachedTarget
    */
@@ -202,8 +202,24 @@ export class AntGameService {
     //   unit.maxSpeed
     // );
 
-    const vx = dx * easing * unit.currentSpeed;
-    const vy = dy * easing * unit.currentSpeed;
+    let vx: number = dx * easing * unit.currentSpeed;
+    let vy: number = dy * easing * unit.currentSpeed;
+
+    // clamp speed
+
+    vx = MathHelper.clamp(vx, unit.maxSpeed * -1, unit.maxSpeed);
+    vy = MathHelper.clamp(vy, unit.maxSpeed * -1, unit.maxSpeed);
+
+    const movingLeft: boolean = vx < 0;
+    const movingUp: boolean = vy < 0;
+
+    if(vx < unit.minSpeed * (movingLeft ?  -1 : 1) ) {
+      vx = unit.minSpeed * (movingLeft ?  -1 : 1);
+    }
+
+    if(vy < unit.minSpeed * (movingUp ? -1 : 1)) {
+      vy = unit.minSpeed * (movingUp ?  -1 : 1);
+    }
 
     unit.position.x += vx;
     unit.position.y += vy;

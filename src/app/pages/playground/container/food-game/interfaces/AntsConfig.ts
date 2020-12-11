@@ -11,6 +11,7 @@ export interface Renderable {
 export interface FoodConfig extends Renderable {}
 
 export interface UnitConfig extends Renderable {
+  minSpeed: number;
   maxSpeed: number;
   currentSpeed: number;
   maxInventory: number;
