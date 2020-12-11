@@ -6,10 +6,10 @@ import {
   FoodConfig,
   Renderable,
   UnitConfig,
-} from '../../interfaces/AntsConfig';
-import { AntsConfigService } from '../ants-config/ants-config.service';
-import { AntsRenderingService } from '../ants-rendering/ants-rendering.service';
-import { AntFactoryService } from './ant-factory.service';
+} from '..//interfaces/AntsConfig';
+import { AntsConfigService } from './ants-config/ants-config.service';
+import { AntsRenderingService } from './ants-rendering/ants-rendering.service';
+import { AntFactoryService } from './ant-factory/ant-factory.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +26,9 @@ export class AntGameService {
 
   public anthill!: AntHillConfig;
   private targetAssignmentInterval!: any; // NodeJS.Timeout
-  private requestAnimationFrameId: number = 0;
+  private requestAnimationFrameId: number | null = null;
+
+  public currentGeneration: number = 0;
 
   constructor(
     private readonly antsConfig: AntsConfigService,
@@ -44,46 +46,59 @@ export class AntGameService {
 
     this.antsRendering.canvas = this.canvas;
     this.antsRendering.ctx = this.ctx;
+    // -----------------------
 
     const config: AntsConfig = this.antsConfig.config;
 
     // create ant hill (map center)
     this.createAntHill(config);
     this.anthill = config.antHillConfig;
+    this.untargetedFood = this.createFood(config); // create food
+    this.units = this.createUnits(config); // create units
 
-    this.untargetedFood = this.createFood(config);
-    this.units = this.createUnits(config);
-
-    // create food
-    // create units
     config.isGameRunning = true;
     this.startGameLoop(config);
   }
 
   public togglePlayPause(): void {
-    this.antsConfig.config.isGameRunning = !this.antsConfig.config.isGameRunning;
+    this.antsConfig.config.isGameRunning = !this.antsConfig.config
+      .isGameRunning;
 
-    if(!this.antsConfig.config.isGameRunning) {
-      this.stopGame();
-    }
+    this.antsConfig.config.isGameRunning
+      ? this.startGameLoop(this.antsConfig.config)
+      : this.stopGame();
   }
 
   public stopGame(): void {
-    // clearInterval(this.targetAssignmentInterval);
     this.antsConfig.config.isGameRunning = false;
+
     clearTimeout(this.targetAssignmentInterval);
-    cancelAnimationFrame(this.requestAnimationFrameId);
-    this.requestAnimationFrameId = 0;
+
+    if (this.requestAnimationFrameId) {
+      cancelAnimationFrame(this.requestAnimationFrameId);
+      this.requestAnimationFrameId = null;
+    }
   }
 
   // PRIVATE
   private startGameLoop(config: AntsConfig): void {
     const gameLoop = () => {
       // console.log('tick', config.isGameRunning);
+      this.requestAnimationFrameId = null;
 
       this.clearCanvas();
 
-      this.assignTargets(config);
+      if (this.untargetedFood.length > 0) {
+        this.assignTargets(config);
+      } else {
+        // console.log('no food remaining');
+        // this.currentGeneration++;
+        // this.stopGame();
+        // setTimeout(() => {
+        //   this.startGame();
+        // }, 1000);
+        // return;
+      }
 
       // move units
       this.units.forEach((unit) => {
@@ -92,12 +107,22 @@ export class AntGameService {
 
           if (hasReachedTarget) {
             const collectedFood: FoodConfig = unit.currentTarget;
+            // collectedFood.radius *= .5;
+            collectedFood.strokeStyle = '#000000';
+
+
             const index = this.targetedFood.findIndex(
               (food) => food === collectedFood
             );
-            this.targetedFood.splice(index, 1);
+
+            // this.targetedFood.splice(index, 1);   // delete food
 
             unit.currentTarget = null;
+
+            if (this.untargetedFood.length === 0) {
+              console.log('no more food');
+              this.stopGame();
+            }
           }
         }
       });
@@ -107,16 +132,27 @@ export class AntGameService {
       this.untargetedFood.forEach((food) =>
         this.antsRendering.drawRenderable(food)
       );
+
+      this.targetedFood.forEach((food) =>
+        this.antsRendering.drawRenderable(food)
+      );
+
       this.units.forEach((unit) => this.antsRendering.drawRenderable(unit));
       // ...
 
       // console.log('1111:!"', config.isGameRunning);
       // if(config.isGameRunning) {
+      if (!this.requestAnimationFrameId) {
         this.requestAnimationFrameId = window.requestAnimationFrame(gameLoop);
+      }
       // }
     };
 
-    gameLoop(); // trigger loop
+    if (!this.requestAnimationFrameId) {
+      gameLoop(); // trigger loop
+    } else {
+      console.log('game already running');
+    }
     // trigger target-assignment-interval
 
     this.targetAssignmentInterval = setTimeout(() => {
@@ -149,14 +185,25 @@ export class AntGameService {
   private moveUnitToTarget(unit: UnitConfig): boolean {
     if (!unit.currentTarget) return false;
 
-    const easing: number = unit.currentSpeed;
-    const collectableAtDistance: number = 0.2;
+    const easing: number = 0.7;
+    const collectableAtDistance: number = 0.5;
 
     const dx: number = unit.currentTarget.position.x - unit.position.x;
     const dy: number = unit.currentTarget.position.y - unit.position.y;
 
-    const vx: number = dx * easing;
-    const vy: number = dy * easing;
+    // const vx: number = MathHelper.clamp(
+    //   dx * easing,
+    //   unit.maxSpeed * -1,
+    //   unit.maxSpeed
+    // );
+    // const vy: number = MathHelper.clamp(
+    //   dy * easing,
+    //   unit.maxSpeed * -1,
+    //   unit.maxSpeed
+    // );
+
+    const vx = dx * easing * unit.currentSpeed;
+    const vy = dy * easing * unit.currentSpeed;
 
     unit.position.x += vx;
     unit.position.y += vy;
@@ -208,6 +255,7 @@ export class AntGameService {
       entities.push(food);
     }
 
+    console.log('entities', entities.length);
     return entities;
   }
 

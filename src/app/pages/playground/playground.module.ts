@@ -32,7 +32,7 @@ import { FoodGameComponent } from './container/food-game/food-game.component';
 import { MatSelectModule } from '@angular/material/select';
 import { AntFactoryService } from './container/food-game/services/ant-factory/ant-factory.service';
 import { AntsConfigService } from './container/food-game/services/ants-config/ants-config.service';
-import { AntGameService } from './container/food-game/services/ant-factory/ant-game.service';
+import { AntGameService } from './container/food-game/services/ant-game.service';
 
 const routes: Routes = [
   {

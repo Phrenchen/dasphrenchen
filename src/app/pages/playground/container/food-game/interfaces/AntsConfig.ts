@@ -1,6 +1,7 @@
 import { Point } from '@angular/cdk/drag-drop';
 
 export interface Renderable {
+  name: string;
   strokeStyle: string;
   fillStyle: string;
   radius: number;

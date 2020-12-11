@@ -24,8 +24,11 @@
 <div>
   <div>
       <button mat-raised-button (click)="toggleGamePause()">Play / Pause</button>
+      <button mat-raised-button (click)="startGame()">New Game</button>
   </div>
-
+  <div>
+    <h3>{{generation}}</h3>
+  </div>
   <div class="canvas-container">
       <canvas id="ants-canvas"></canvas>
   </div>

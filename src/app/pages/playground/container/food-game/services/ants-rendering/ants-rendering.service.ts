@@ -16,6 +16,7 @@ export class AntsRenderingService {
   public drawRenderable(entity: Renderable): void {
     if(!this.ctx) return;
 
+    this.ctx.lineWidth = 2;
     this.ctx.strokeStyle = entity.strokeStyle;
     this.ctx.fillStyle = entity.fillStyle;
     this.drawPoint(entity.position, entity.radius);

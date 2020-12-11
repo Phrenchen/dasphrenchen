@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
-import { AntGameService } from './services/ant-factory/ant-game.service';
+import { AntGameService } from './services/ant-game.service';
 
 
 @Component({
@@ -29,7 +29,9 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy  {
   };
 
 
-
+  get generation(): number {
+    return this.antGameService.currentGeneration;
+  }
 
   constructor(private readonly antGameService: AntGameService) { }
 
@@ -51,5 +53,10 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy  {
 
   public toggleGamePause(): void {
     this.antGameService.togglePlayPause();
+  }
+
+  public startGame(): void {
+    this.antGameService.stopGame(); // reset
+    this.antGameService.startGame();
   }
 }
