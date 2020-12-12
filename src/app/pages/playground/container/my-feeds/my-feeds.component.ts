@@ -19,7 +19,7 @@ export class MyFeedsComponent implements OnInit, ManuallyActivated {
   constructor(private readonly feedService: FeedService,) { }
 
   ngOnInit(): void {
-    
+    this.activate();
   }
   // life cycle end
 
@@ -29,7 +29,7 @@ export class MyFeedsComponent implements OnInit, ManuallyActivated {
     this.feeds$ = this.feedService.getFeeds();
   }
   public deactivate(): void {
-    
+
   }
   // ManuallyActivated end
 
@@ -42,5 +42,5 @@ export class MyFeedsComponent implements OnInit, ManuallyActivated {
     feed.author = 'Das Phrenchen';  // TODO
     this.feedService.addFeed(feed).subscribe();
   }
-  
+
 }
