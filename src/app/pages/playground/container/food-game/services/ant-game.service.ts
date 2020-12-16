@@ -60,19 +60,14 @@ export class AntGameService {
     this.startGameLoop(config);
   }
 
-  public togglePlayPause(): void {
-    this.antsConfig.config.isGameRunning = !this.antsConfig.config
-      .isGameRunning;
-
-    this.antsConfig.config.isGameRunning
-      ? this.startGameLoop(this.antsConfig.config)
-      : this.stopGame();
-  }
-
   public stopGame(): void {
     this.antsConfig.config.isGameRunning = false;
-
     clearTimeout(this.targetAssignmentInterval);
+
+    this.untargetedFood = [];
+    this.targetedFood = [];
+    this.units = [];
+
 
     if (this.requestAnimationFrameId) {
       cancelAnimationFrame(this.requestAnimationFrameId);
@@ -84,6 +79,7 @@ export class AntGameService {
   private startGameLoop(config: AntsConfig): void {
     const gameLoop = () => {
       // console.log('tick', config.isGameRunning);
+      // if(!config.isGameRunning) return;
       this.requestAnimationFrameId = null;
 
       this.clearCanvas();
@@ -185,46 +181,22 @@ export class AntGameService {
   private moveUnitToTarget(unit: UnitConfig): boolean {
     if (!unit.currentTarget) return false;
 
-    const easing: number = 0.7;
-    const collectableAtDistance: number = 0.5;
+    const easing: number = .01;
+    const collectableAtDistance: number = 1;
 
-    const dx: number = unit.currentTarget.position.x - unit.position.x;
-    const dy: number = unit.currentTarget.position.y - unit.position.y;
+    let dx: number = unit.currentTarget.position.x - unit.position.x;
+    let dy: number = unit.currentTarget.position.y - unit.position.y;
 
-    // const vx: number = MathHelper.clamp(
-    //   dx * easing,
-    //   unit.maxSpeed * -1,
-    //   unit.maxSpeed
-    // );
-    // const vy: number = MathHelper.clamp(
-    //   dy * easing,
-    //   unit.maxSpeed * -1,
-    //   unit.maxSpeed
-    // );
-
-    let vx: number = dx * easing * unit.currentSpeed;
-    let vy: number = dy * easing * unit.currentSpeed;
-
-    // clamp speed
+    let vx: number = dx * easing;
+    let vy: number = dy * easing;
 
     vx = MathHelper.clamp(vx, unit.maxSpeed * -1, unit.maxSpeed);
     vy = MathHelper.clamp(vy, unit.maxSpeed * -1, unit.maxSpeed);
 
-    const movingLeft: boolean = vx < 0;
-    const movingUp: boolean = vy < 0;
-
-    if(vx < unit.minSpeed * (movingLeft ?  -1 : 1) ) {
-      vx = unit.minSpeed * (movingLeft ?  -1 : 1);
-    }
-
-    if(vy < unit.minSpeed * (movingUp ? -1 : 1)) {
-      vy = unit.minSpeed * (movingUp ?  -1 : 1);
-    }
-
     unit.position.x += vx;
     unit.position.y += vy;
 
-    return dx < collectableAtDistance && dy < collectableAtDistance; // TODO: set "collectable-distance"
+    return Math.abs(dx) < collectableAtDistance && Math.abs(dy) < collectableAtDistance; // TODO: set "collectable-distance"
   }
 
   private createAntHill(config: AntsConfig) {
@@ -271,7 +243,6 @@ export class AntGameService {
       entities.push(food);
     }
 
-    console.log('entities', entities.length);
     return entities;
   }
 

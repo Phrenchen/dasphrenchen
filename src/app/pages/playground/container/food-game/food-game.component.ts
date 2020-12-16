@@ -51,10 +51,6 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy  {
   }
   // LIFE CYCLE end
 
-  public toggleGamePause(): void {
-    this.antGameService.togglePlayPause();
-  }
-
   public startGame(): void {
     this.antGameService.stopGame(); // reset
     this.antGameService.startGame();
