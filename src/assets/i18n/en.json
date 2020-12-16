@@ -1,0 +1,26 @@
+{
+  "language": "Language",
+  "home": {
+    "title": "Welcome to my Homepage :)",
+    "paragraph-1": "something witty lol?"
+  },
+  "about": {
+    "title": "About myself",
+    "paragraph-1": "Single Page Applications / Progressive Web Apps: preferrably Angular 10+",
+    "paragraph-2": "current job: AngularJS, Angular 10",
+    "paragraph-3": "before that: Goodgames (Browser Flash MMO 'Goodgames Empire (link?)'",
+    "paragraph-4": "way back: Browser Flash (edutainment-) Games"
+  },
+  "stack": {
+    "title": "my current tech stack",
+    "paragraph-1": "Angular 10, RxJS",
+    "paragraph-2": "Tools: Attlassian Toolkit, GIT",
+    "paragraph-3": "Current motivation / expecations to the future of the web. where do i want to be?",
+    "paragraph-4": "My wishlist for the foreseable future (in no particular order) :)",
+    "paragraph-5": "Angular 10+, RxJS, ngStore / ngData, a smoothly running CI/CD, GIT"
+  },
+  "playground": {
+    "title": "Playgrounds (wip)",
+    "paragraph-1": "unfinished & somewhat ugly 'tryouts' of mine"
+  }
+}

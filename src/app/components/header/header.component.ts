@@ -6,6 +6,7 @@ import { UserLogin } from 'src/app/interfaces/UserLogin';
 import { LoginService } from 'src/app/services/login.service';
 import { UserStatusEnum } from 'src/app/interfaces/UserStatusEnum';
 import { take } from 'rxjs/operators';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'dph-header',
@@ -14,16 +15,23 @@ import { take } from 'rxjs/operators';
 })
 export class HeaderComponent implements OnInit {
 
+
+
   public userStatus: UserStatusEnum = UserStatusEnum.loggedOut;
 
   constructor(
     private router: Router,
+
     public dialog: MatDialog,
     private loginService: LoginService,
   ) { }
 
   ngOnInit(): void {
   }
+
+
+
+
 
   public goto(pageName: string): void {
     this.router.navigate([pageName]);

@@ -1,0 +1,26 @@
+{
+  "language": "Sprache",
+  "home": {
+    "title": "Willkommen auf meiner Homepage :)",
+    "paragraph-1": "2 Sätze zu dem Sinn des Ganzen..."
+  },
+  "about": {
+    "title": "Zu mir in Kürze",
+    "paragraph-1": "Single Page Applications / Progressive Web Apps: gern Angular 10+",
+    "paragraph-2": "aktueller Job: AngularJS, Angular 10",
+    "paragraph-3": "Davor: Goodgames (Browser Flash MMO 'Goodgames Empire (link?)', ActionScript 3",
+    "paragraph-4": "Damals: Browser Flash (edutainment-) Games, ActionScript 3"
+  },
+  "stack": {
+    "title": "Der aktuelle Werkzeugkasten",
+    "paragraph-1": "Angular 10, RxJS",
+    "paragraph-2": "Tools: Attlassian Toolkit, GIT",
+    "paragraph-3": "Current motivation / expecations to the future of the web. where do i want to be?",
+    "paragraph-4": "Meine Wunschliste an die nähere Zukunft, unsortiert :)",
+    "paragraph-5": "Angular 10+, RxJS, ngStore / ngData, verlässliche Infrastruktur (CI/CD, Versionierung, automatisierte Tests), GIT"
+  },
+  "playground": {
+    "title": "Spielwiesen (wip)",
+    "paragraph-1": "unfertige, dezent schmucklose Spielereien..."
+  }
+}

@@ -27,6 +27,9 @@ import { LoginService } from './services/login.service';
 import { LoginComponent } from './components/login/login.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { TranslocoRootModule } from './transloco/transloco-root.module';
+import { LanguageSwitchComponent } from './components/language-switch/language-switch.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   entryComponents: [LoginComponent],
@@ -39,6 +42,7 @@ import { MatInputModule } from '@angular/material/input';
     HelpComponent,
     HeaderComponent,
     LoginComponent,
+    LanguageSwitchComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,6 +63,10 @@ import { MatInputModule } from '@angular/material/input';
     MatTabsModule,
     MatRadioModule,
     MatDialogModule,
+    MatInputModule,
+    MatSelectModule,
+
+    TranslocoRootModule,
 
   ],
   providers: [

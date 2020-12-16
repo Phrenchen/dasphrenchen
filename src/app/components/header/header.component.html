@@ -1,17 +1,17 @@
 <mat-toolbar class="header-container">
-  <div class="wtf">
-    <button
-      id="btn-home"
-      class="header-btn"
-      mat-icon-button
-      (click)="goto('home')"
-      matTooltip="Home"
-    >
-      <mat-icon>home_outline</mat-icon>
-    </button>
-  </div>
-
   <div class="button-container">
+    <div>
+      <button
+        id="btn-home"
+        class="header-btn"
+        mat-icon-button
+        (click)="goto('home')"
+        matTooltip="Home"
+      >
+        <mat-icon>home_outline</mat-icon>
+      </button>
+    </div>
+
     <button
       id="btn-stack"
       class="header-btn"
@@ -41,26 +41,37 @@
     >
       <mat-icon>accessible_forward</mat-icon>
     </button>
-  </div>
+
 
     <!-- User State -->
-
-    <button
-      id="btn-login"
-      class="header-btn user-login-state"
-      mat-icon-button
-      (click)="showLogin()"
-      matTooltip="Login"
-    >
-    <div class="user-login-state">
-      <mat-icon>login</mat-icon>
-        <div [ngSwitch]="userStatus">
-          <div *ngSwitchCase="'pending'" class="user-state orange-circle"></div>
-          <div *ngSwitchCase="'loggedIn'" class="user-state green-circle"></div>
-          <div *ngSwitchDefault class="user-state red-circle"></div>
+    <!-- <div>
+      <button
+        id="btn-login"
+        class="header-btn user-login-state"
+        mat-icon-button
+        (click)="showLogin()"
+        matTooltip="Login"
+      >
+        <div class="user-login-state">
+          <mat-icon>login</mat-icon>
+          <div [ngSwitch]="userStatus">
+            <div
+              *ngSwitchCase="'pending'"
+              class="user-state orange-circle"
+            ></div>
+            <div
+              *ngSwitchCase="'loggedIn'"
+              class="user-state green-circle"
+            ></div>
+            <div *ngSwitchDefault class="user-state red-circle"></div>
+          </div>
         </div>
-      </div>
-    </button>
+      </button>
+    </div> -->
+    <!-- User State end -->
+  </div>
+
+  <dph-language-switch></dph-language-switch>
 
   <!-- <button id="btn-help" class="header-btn" mat-icon-button (click)="goto('help')" matTooltip="Halp">
         <mat-icon>help_outline</mat-icon>

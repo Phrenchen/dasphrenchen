@@ -1,6 +1,6 @@
-<div class="content-wrapper">
-    <h2>Welcome to my homepage :)</h2>
+<div class="content-wrapper" *transloco="let t; read: 'home'">
+  <h1 class="mat-display-1">{{ t('title') }}</h1>
     <p>
-
+      {{ t('paragraph-1') }}
     </p>
 </div>

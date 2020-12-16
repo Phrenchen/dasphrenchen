@@ -1,39 +1,46 @@
 @import 'variables.less';
 
+
 * {
     box-sizing: border-box;
+    font-family: 'VT323', monospace;
 }
 
-html, body { height: 100vh; }
 
-body { 
-    margin: 0; 
+
+
+html, body {
+  // font-family: 'Roboto', sans-serif;
+  height: 100vh;
 }
 
-// ........................
-.app-wrapper {
-    width: 100vw;
-    
-    .content-wrapper {
-        // padding: 10px 20px;
-
-        overflow-y: auto;
-        // height: 500px;
-
-
-    }
+body {
+    margin: 0;
 }
-
 
 html {
     overflow: scroll;
     overflow-x: hidden;
 }
 ::-webkit-scrollbar {
-    width: 0px; // remove scrollbar space 
+    width: 0px; // remove scrollbar space
     // background: transparent; // optional: just make scrollbar invisible /
 }
 // optional: show position indicator in red */
 ::-webkit-scrollbar-thumb {
     background: #FF0000;
+}
+
+h1 {
+  font-family: 'VT323', monospace !important;
+  font-size: 2.5rem !important;
+}
+
+p {
+  font-size: 1.5rem;
+}
+
+
+.mat-button-wrapper, .mat-select-value-text {
+  font-size: 1.5rem;
 }

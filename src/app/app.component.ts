@@ -1,4 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'dph-root',
@@ -6,7 +7,6 @@ import { Component, AfterViewInit } from '@angular/core';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent implements AfterViewInit {
-
 
   constructor() {
   }
@@ -16,4 +16,6 @@ export class AppComponent implements AfterViewInit {
 
   public onGameStateChange(gameIsActive: boolean): void {
   }
+
+
 }

@@ -33,6 +33,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { AntFactoryService } from './container/food-game/services/ant-factory/ant-factory.service';
 import { AntsConfigService } from './container/food-game/services/ants-config/ants-config.service';
 import { AntGameService } from './container/food-game/services/ant-game.service';
+import { TranslocoRootModule } from 'src/app/transloco/transloco-root.module';
 
 const routes: Routes = [
   {
@@ -70,6 +71,8 @@ const routes: Routes = [
     MatTabsModule,
     MatRadioModule,
     MatSelectModule,
+
+    TranslocoRootModule,
 
     // CDK
     DragDropModule,
