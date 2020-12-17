@@ -1,16 +1,19 @@
 <div class="playground-wrapper" *transloco="let t; read: 'playground'">
-  <h1 class="mat-display-1">{{ t('title') }}</h1>
+  <h1 class="mat-display-1">{{ t("title") }}</h1>
 
-    <form [formGroup]="form">
+  <form [formGroup]="form">
     <mat-form-field appearance="fill">
       <mat-select [formControl]="playgroundControl">
-        <mat-option *ngFor="let option of playgrounds$ | async" [value]="option">{{option}}</mat-option>
-
+        <mat-option
+          *ngFor="let option of playgrounds$ | async"
+          [value]="option"
+          >{{ option }}</mat-option
+        >
       </mat-select>
     </mat-form-field>
-    </form>
+  </form>
 
-    <span [ngSwitch]="playgroundControl.value">
+  <span [ngSwitch]="playgroundControl.value">
     <p *ngSwitchCase="'Ants'">
       <dph-food-game #ants></dph-food-game>
     </p>
@@ -26,9 +29,6 @@
     <p *ngSwitchCase="'Memory'">
       <dph-memory-game #memoryGame></dph-memory-game>
     </p>
-    <p *ngSwitchDefault>
-
-    </p>
-    </span>
-
+    <p *ngSwitchDefault></p>
+  </span>
 </div>

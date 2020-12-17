@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { MathHelper } from 'src/app/helpers/MathHelper';
 import {
   AntHillConfig,
@@ -10,6 +10,8 @@ import {
 import { AntsConfigService } from './ants-config/ants-config.service';
 import { AntsRenderingService } from './ants-rendering/ants-rendering.service';
 import { AntFactoryService } from './ant-factory/ant-factory.service';
+import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +31,7 @@ export class AntGameService {
   private requestAnimationFrameId: number | null = null;
 
   public currentGeneration: number = 0;
+
 
   constructor(
     private readonly antsConfig: AntsConfigService,
@@ -64,10 +67,13 @@ export class AntGameService {
     this.antsConfig.config.isGameRunning = false;
     clearTimeout(this.targetAssignmentInterval);
 
+    // reset state
     this.untargetedFood = [];
     this.targetedFood = [];
     this.units = [];
-
+    if(this.anthill) {
+      this.anthill.currentFoodCount = 0;
+    }
 
     if (this.requestAnimationFrameId) {
       cancelAnimationFrame(this.requestAnimationFrameId);
@@ -102,23 +108,37 @@ export class AntGameService {
           const hasReachedTarget: boolean = this.moveUnitToTarget(unit);
 
           if (hasReachedTarget) {
+            // COLLECT FOOD
             const collectedFood: FoodConfig = unit.currentTarget;
-            // collectedFood.radius *= .5;
-            collectedFood.strokeStyle = '#000000';
-
-
-            const index = this.targetedFood.findIndex(
-              (food) => food === collectedFood
-            );
-
-            // this.targetedFood.splice(index, 1);   // delete food
-
+            // collectedFood.radius *= .25;
+            // collectedFood.strokeStyle = '#000000';
             unit.currentTarget = null;
 
-            if (this.untargetedFood.length === 0) {
-              console.log('no more food');
-              this.stopGame();
+            switch (collectedFood.name) {
+              case 'food':
+                const index = this.targetedFood.findIndex(
+                  (food) => food === collectedFood
+                );
+
+                this.targetedFood.splice(index, 1); // delete food
+                unit.currentInventory++;
+
+                if (unit.currentInventory >= unit.maxInventory) {
+                  unit.currentTarget = this.anthill;
+                }
+                break;
+              case 'anthill':
+                this.anthill.currentFoodCount += unit.currentInventory;
+
+                unit.currentInventory = 0;
+                break;
             }
+
+
+            // if (this.untargetedFood.length === 0) {
+            //   console.log('no more food');
+            //   this.stopGame();
+            // }
           }
         }
       });
@@ -139,10 +159,12 @@ export class AntGameService {
       // console.log('1111:!"', config.isGameRunning);
       // if(config.isGameRunning) {
       if (!this.requestAnimationFrameId) {
+        // console.log('tick',  this.tickEmitter$$);
         this.requestAnimationFrameId = window.requestAnimationFrame(gameLoop);
       }
       // }
     };
+    // GAME LOOP END
 
     if (!this.requestAnimationFrameId) {
       gameLoop(); // trigger loop
@@ -181,7 +203,7 @@ export class AntGameService {
   private moveUnitToTarget(unit: UnitConfig): boolean {
     if (!unit.currentTarget) return false;
 
-    const easing: number = .01;
+    const easing: number = 0.01;
     const collectableAtDistance: number = 1;
 
     let dx: number = unit.currentTarget.position.x - unit.position.x;
@@ -196,7 +218,10 @@ export class AntGameService {
     unit.position.x += vx;
     unit.position.y += vy;
 
-    return Math.abs(dx) < collectableAtDistance && Math.abs(dy) < collectableAtDistance; // TODO: set "collectable-distance"
+    return (
+      Math.abs(dx) < collectableAtDistance &&
+      Math.abs(dy) < collectableAtDistance
+    ); // TODO: set "collectable-distance"
   }
 
   private createAntHill(config: AntsConfig) {

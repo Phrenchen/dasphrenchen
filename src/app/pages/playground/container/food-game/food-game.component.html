@@ -12,24 +12,44 @@
   style="width: 100%; height: 400px; display: block;"
 ></highcharts-chart> -->
 
+<div>
+  <button mat-raised-button (click)="startGame()">New Game</button>
+</div>
 
-<!-- <highcharts-chart
-  [Highcharts]="Highcharts"
-  [options]="chartOptions"
+<div class="charts-container">
+  <div #highchartUnits>
+    <highcharts-chart
+      [Highcharts]="Highcharts"
+      [options]="unitChartOptions"
+      style="width: 100%; height: 400px; display: block"
+    ></highcharts-chart>
+  </div>
 
-  style="width: 100%; height: 400px; display: block;"
-></highcharts-chart> -->
-
+  <highcharts-chart
+    [Highcharts]="Highcharts"
+    [options]="anthillChartOptions"
+    style="width: 100%; height: 400px; display: block"
+  ></highcharts-chart>
+</div>
 
 <div>
-  <div>
-      <button mat-raised-button (click)="startGame()">New Game</button>
-  </div>
-  <div>
-    <h3>{{generation}}</h3>
-  </div>
-  <div class="canvas-container">
-      <canvas id="ants-canvas"></canvas>
+  <div class="infos" [ngClass]="{ 'show-infos': showInfos }">
+    <p>Gesammeltes Futter: {{ anthill?.currentFoodCount }}</p>
+
+    <ol>
+      <li *ngFor="let unit of units">
+        <span
+          [ngClass]="{
+            'unit-info': unit.currentInventory >= unit.maxInventory
+          }"
+          >{{ unit.name }}: {{ unit.currentInventory }} /
+          {{ unit.maxInventory }}</span
+        >
+      </li>
+    </ol>
   </div>
 
+  <div class="canvas-container">
+    <canvas id="ants-canvas"></canvas>
+  </div>
 </div>

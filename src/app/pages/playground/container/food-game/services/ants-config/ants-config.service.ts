@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MathHelper } from 'src/app/helpers/MathHelper';
 import { AntsConfig } from '../../interfaces/AntsConfig';
 
 @Injectable({
@@ -8,8 +9,8 @@ export class AntsConfigService {
   public readonly config: AntsConfig = {
     isGameRunning: false,
     maxTargetAquisitions: 2,
-    initialFoodCount: 200,
-    initialUnitCount: 20,
+    initialFoodCount: 500,
+    initialUnitCount: 10,
     initialAntHillCount: 1,
     foodConfig: {
       name: 'food',
@@ -25,9 +26,9 @@ export class AntsConfigService {
       radius: 4,
       position: {x: 0, y: 0},
       minSpeed: .2,
-      maxSpeed: .5,
+      maxSpeed: MathHelper.getRandomInt(.3, 1.5),
       currentSpeed: 1,
-      maxInventory: 5,
+      maxInventory: MathHelper.getRandomInt(1, 18),
       currentInventory: 0,
       currentTarget: null,
     },
