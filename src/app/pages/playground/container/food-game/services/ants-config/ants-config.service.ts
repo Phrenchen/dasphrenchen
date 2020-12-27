@@ -9,7 +9,7 @@ export class AntsConfigService {
   public readonly config: AntsConfig = {
     isGameRunning: false,
     maxTargetAquisitions: 2,
-    initialFoodCount: 500,
+    initialFoodCount: 100,
     initialUnitCount: 10,
     initialAntHillCount: 1,
     foodConfig: {
@@ -26,9 +26,9 @@ export class AntsConfigService {
       radius: 4,
       position: {x: 0, y: 0},
       minSpeed: .2,
-      maxSpeed: MathHelper.getRandomInt(.3, 1.5),
+      maxSpeed: .1,
       currentSpeed: 1,
-      maxInventory: MathHelper.getRandomInt(1, 18),
+      maxInventory: 1,
       currentInventory: 0,
       currentTarget: null,
     },

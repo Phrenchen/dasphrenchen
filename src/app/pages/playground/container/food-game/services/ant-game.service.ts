@@ -43,7 +43,7 @@ export class AntGameService {
     this.initStage();
 
     if (!this.canvas || !this.ctx) {
-      console.log('couldnt init stage');
+      console.error('couldnt init stage');
       return;
     }
 
@@ -256,7 +256,10 @@ export class AntGameService {
 
     for (let i = 0; i < amount; i++) {
       const food: FoodConfig = JSON.parse(JSON.stringify(config));
-
+      if(food.name === 'unit') {
+        (food as UnitConfig).maxSpeed = MathHelper.getRandomInt(.3, 1.5);
+        (food as UnitConfig).maxInventory = MathHelper.getRandomInt(1, 18);
+      }
       food.position.x = MathHelper.getRandomInt(
         padding,
         this.canvas.width - padding
