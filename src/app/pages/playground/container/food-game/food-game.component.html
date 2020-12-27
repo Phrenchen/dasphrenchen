@@ -1,55 +1,94 @@
-<!-- <highcharts-chart
-  [Highcharts]="Highcharts"
+<mat-accordion multi>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Was ist das? </mat-panel-title>
+      <mat-panel-description> Ameisen-"Spiel" </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>
+      Ameisen (rote Punkte) sammeln Futter (grüne Punkte), und bringen es zum
+      Ameisenhügel (gelber Punkt)
+    </p>
+  </mat-expansion-panel>
 
-  [constructorType]="chartConstructor"
-  [options]="chartOptions"
-  [callbackFunction]="chartCallback"
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Einstellungen </mat-panel-title>
+      <mat-panel-description>
+        Startbedingungen Konfigurieren
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div>
+      <mat-label>Anzahl der Ameisen</mat-label>
+      <mat-slider
+        thumbLabel
+        min="1"
+        max="10"
+        step="1"
+        value="1"
+        tickInterval="1"
+      ></mat-slider>
+    </div>
+  </mat-expansion-panel>
 
-  [(update)]="updateFlag"
-  [oneToOne]="oneToOneFlag"
-  [runOutsideAngular]="runOutsideAngularFlag"
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> HighCharts </mat-panel-title>
+      <mat-panel-description>
+        in Echtzeit aktualisierte Graphen
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="charts-container">
+      <div #highchartUnits>
+        <highcharts-chart
+          [Highcharts]="Highcharts"
+          [options]="unitChartOptions"
+          style="width: 100%; height: 400px; display: block"
+        ></highcharts-chart>
+      </div>
 
-  style="width: 100%; height: 400px; display: block;"
-></highcharts-chart> -->
+      <highcharts-chart
+        [Highcharts]="Highcharts"
+        [options]="anthillChartOptions"
+        style="width: 100%; height: 400px; display: block"
+      ></highcharts-chart>
+    </div>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel expanded>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Das Spiel </mat-panel-title>
+      <mat-panel-description> ... </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="canvas-container">
+      <canvas id="ants-canvas"></canvas>
+    </div>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel expanded>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Debug-Infos </mat-panel-title>
+      <mat-panel-description> das ist alles WIP :) </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div>
+      <p>Gesammeltes Futter: {{ anthill?.currentFoodCount }} / {{anthill?.max</p>
+
+      <label>Infos zu jeder Ameise (aktuelles Futter im Inventar / maximale Inventar-Kapazität)</label>
+      <ol>
+        <li *ngFor="let unit of units">
+          <span
+            [ngClass]="{
+              'unit-info': unit.currentInventory >= unit.maxInventory
+            }"
+            >{{ unit.name }}: {{ unit.currentInventory }} /
+            {{ unit.maxInventory }}</span
+          >
+        </li>
+      </ol>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
 
 <div>
   <button mat-raised-button (click)="startGame()">New Game</button>
-</div>
-
-<div class="charts-container">
-  <div #highchartUnits>
-    <highcharts-chart
-      [Highcharts]="Highcharts"
-      [options]="unitChartOptions"
-      style="width: 100%; height: 400px; display: block"
-    ></highcharts-chart>
-  </div>
-
-  <highcharts-chart
-    [Highcharts]="Highcharts"
-    [options]="anthillChartOptions"
-    style="width: 100%; height: 400px; display: block"
-  ></highcharts-chart>
-</div>
-
-<div>
-  <div class="infos" [ngClass]="{ 'show-infos': showInfos }">
-    <p>Gesammeltes Futter: {{ anthill?.currentFoodCount }}</p>
-
-    <ol>
-      <li *ngFor="let unit of units">
-        <span
-          [ngClass]="{
-            'unit-info': unit.currentInventory >= unit.maxInventory
-          }"
-          >{{ unit.name }}: {{ unit.currentInventory }} /
-          {{ unit.maxInventory }}</span
-        >
-      </li>
-    </ol>
-  </div>
-
-  <div class="canvas-container">
-    <canvas id="ants-canvas"></canvas>
-  </div>
 </div>

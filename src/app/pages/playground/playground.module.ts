@@ -21,15 +21,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatRadioModule } from '@angular/material/radio';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSelectModule } from '@angular/material/select';
+
 import { AnimationsComponent } from './container/animations/animations.component';
 
 import { HighchartsChartModule } from 'highcharts-angular';
 import { FoodGameComponent } from './container/food-game/food-game.component';
-import { MatSelectModule } from '@angular/material/select';
+
 import { AntFactoryService } from './container/food-game/services/ant-factory/ant-factory.service';
 import { AntsConfigService } from './container/food-game/services/ants-config/ants-config.service';
 import { AntGameService } from './container/food-game/services/ant-game.service';
@@ -71,6 +75,8 @@ const routes: Routes = [
     MatTabsModule,
     MatRadioModule,
     MatSelectModule,
+    MatExpansionModule,
+    MatSliderModule,
 
     TranslocoRootModule,
 
