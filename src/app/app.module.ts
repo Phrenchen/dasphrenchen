@@ -31,6 +31,8 @@ import { TranslocoRootModule } from './transloco/transloco-root.module';
 import { LanguageSwitchComponent } from './components/language-switch/language-switch.component';
 import { MatSelectModule } from '@angular/material/select';
 
+import {MatRippleModule} from '@angular/material/core';
+
 @NgModule({
   entryComponents: [LoginComponent],
   exports: [LoginComponent],
@@ -65,6 +67,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatDialogModule,
     MatInputModule,
     MatSelectModule,
+    MatRippleModule,
 
     TranslocoRootModule,
 

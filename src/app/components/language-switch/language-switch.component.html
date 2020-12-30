@@ -11,7 +11,11 @@
 
   <form [formGroup]="languageForm" *transloco="let t; read: ''">
     <mat-radio-group aria-label="Select an option" formControlName="language" class="language-list">
-      <mat-radio-button *ngFor="let option of languageList" [value]="option" [checked]="option.code === siteLanguageCode">
+      <mat-radio-button *ngFor="let option of languageList" [value]="option" [checked]="option.code === siteLanguageCode"
+      matRipple
+      [matRippleColor]="'#476e0488'"
+      [matRippleCentered]="true"
+      >
         {{option.code}}
       </mat-radio-button>
     </mat-radio-group>

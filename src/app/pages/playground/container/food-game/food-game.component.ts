@@ -67,7 +67,7 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
     ) as HTMLCanvasElement;
 
     // setTimeout(this.antGameService.startGame, 500);
-      console.log('highchartUnits', this.highchartUnits);
+      // console.log('highchartUnits', this.highchartUnits);
 
       // if(this.highchartUnits) {
       //   this.chartHoverHandlerUnits = fromEvent(this.highchartUnits.nativeElement, 'hover');

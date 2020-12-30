@@ -1,40 +1,58 @@
-@import 'variables.less';
-
+@import "variables.less";
 
 * {
-    box-sizing: border-box;
-    font-family: 'VT323', monospace;
+  box-sizing: border-box;
+  font-family: "VT323", monospace;
 
-    @media screen and (min-width: 767px) {
-      font-size: 1.2rem;
-    }
+  @media screen and (min-width: 767px) {
+    font-size: 1.2rem;
+  }
 }
 
-
-
-
-html, body {
+html,
+body {
   // font-family: 'Roboto', sans-serif;
   height: 100vh;
 }
 
 body {
-    margin: 0;
+  margin: 0;
 }
 
 html {
-    overflow: scroll;
-    overflow-x: hidden;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 ::-webkit-scrollbar {
-    width: 0px; // remove scrollbar space
-    // background: transparent; // optional: just make scrollbar invisible /
+  width: 0px; // remove scrollbar space
+  // background: transparent; // optional: just make scrollbar invisible /
 }
 // optional: show position indicator in red */
 ::-webkit-scrollbar-thumb {
-    background: #FF0000;
+  background: #ff0000;
+}
+
+h1,
+h2 {
+  font-family: "VT323", monospace !important;
 }
 
 h1 {
-  font-family: 'VT323', monospace !important;
+  margin: 0px 0 30px 0 !important;
+  font-size: 2rem !important;
+}
+
+h2 {
+  margin: 10px 0 0px 0 !important;
+  font-size: 1.5rem !important;
+}
+
+p {
+  // margin: 1rem 0 !important;
+  // border-bottom: 3px solid rgba(#000000, .1);
+  line-height: 1.2rem;
+  background-color: var(--toolbarBgColor);
+  padding: 10px 10px;
+
+  border-radius: 5px;
 }

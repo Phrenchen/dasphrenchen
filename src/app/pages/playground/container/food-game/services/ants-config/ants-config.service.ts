@@ -14,19 +14,19 @@ export class AntsConfigService {
     initialAntHillCount: 1,
     foodConfig: {
       name: 'food',
-      strokeStyle: '#00ff00',
-      fillStyle: '#00ff00',
+      strokeStyle: '#8fa921', // primaryColorAlpha
+      fillStyle: '#8fa921', // primaryColorAlpha
       radius: 2,
-      position: {x: 0, y: 0},
+      position: { x: 0, y: 0 },
     },
     unitConfig: {
       name: 'unit',
-      strokeStyle: '#ff0000',
-      fillStyle: '#ff0000',
+      strokeStyle: '#476e0488', // secondaryColorAlpha
+      fillStyle: '#476e04', // secondaryColorAlpha
       radius: 4,
-      position: {x: 0, y: 0},
-      minSpeed: .2,
-      maxSpeed: .1,
+      position: { x: 0, y: 0 },
+      minSpeed: 0.2,
+      maxSpeed: 0.1,
       currentSpeed: 1,
       maxInventory: 1,
       currentInventory: 0,
@@ -34,10 +34,10 @@ export class AntsConfigService {
     },
     antHillConfig: {
       name: 'anthill',
-      strokeStyle: '#ffff00',
-      fillStyle: '#ffff00',
+      strokeStyle: '#1b4400',
+      fillStyle: '#1b4400',
       radius: 15,
-      position: {x: 0, y: 0},
+      position: { x: 0, y: 0 },
       currentFoodCount: 0,
     },
   };

@@ -14,21 +14,21 @@
   </form>
 
   <span [ngSwitch]="playgroundControl.value">
-    <p *ngSwitchCase="'Ants'">
+    <div *ngSwitchCase="'Ants'">
       <dph-food-game #ants></dph-food-game>
-    </p>
-    <p *ngSwitchCase="'Animations'">
+    </div>
+    <div *ngSwitchCase="'Animations'">
       <dph-animations #animations></dph-animations>
-    </p>
-    <p *ngSwitchCase="'Feeds'">
+    </div>
+    <div *ngSwitchCase="'Feeds'">
       <dph-my-feeds #feeds></dph-my-feeds>
-    </p>
-    <p *ngSwitchCase="'Learning By Doing'">
+    </div>
+    <div *ngSwitchCase="'Learning By Doing'">
       <dph-learning-by-doing #learningByDoing></dph-learning-by-doing>
-    </p>
-    <p *ngSwitchCase="'Memory'">
+    </div>
+    <div *ngSwitchCase="'Memory'">
       <dph-memory-game #memoryGame></dph-memory-game>
-    </p>
-    <p *ngSwitchDefault></p>
+    </div>
+    <div *ngSwitchDefault></div>
   </span>
 </div>

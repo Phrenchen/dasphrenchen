@@ -32,7 +32,6 @@ export class AntGameService {
 
   public currentGeneration: number = 0;
 
-
   constructor(
     private readonly antsConfig: AntsConfigService,
     private readonly antFactory: AntFactoryService,
@@ -71,7 +70,7 @@ export class AntGameService {
     this.untargetedFood = [];
     this.targetedFood = [];
     this.units = [];
-    if(this.anthill) {
+    if (this.anthill) {
       this.anthill.currentFoodCount = 0;
     }
 
@@ -134,7 +133,6 @@ export class AntGameService {
                 break;
             }
 
-
             // if (this.untargetedFood.length === 0) {
             //   console.log('no more food');
             //   this.stopGame();
@@ -153,7 +151,13 @@ export class AntGameService {
         this.antsRendering.drawRenderable(food)
       );
 
-      this.units.forEach((unit) => this.antsRendering.drawRenderable(unit));
+      this.units.forEach((unit) => {
+        this.antsRendering.drawRenderable(unit);
+        if(unit.currentTarget) {
+          this.antsRendering.drawConnection(unit, unit.currentTarget);
+        }
+      });
+
       // ...
 
       // console.log('1111:!"', config.isGameRunning);
@@ -256,8 +260,8 @@ export class AntGameService {
 
     for (let i = 0; i < amount; i++) {
       const food: FoodConfig = JSON.parse(JSON.stringify(config));
-      if(food.name === 'unit') {
-        (food as UnitConfig).maxSpeed = MathHelper.getRandomInt(.3, 1.5);
+      if (food.name === 'unit') {
+        (food as UnitConfig).maxSpeed = MathHelper.getRandomInt(0.3, 1.5);
         (food as UnitConfig).maxInventory = MathHelper.getRandomInt(1, 18);
       }
       food.position.x = MathHelper.getRandomInt(

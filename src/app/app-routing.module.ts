@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent, },
   { path: 'help', component: HelpComponent, },
   { path: 'playground', canActivate: [AuthGuardService],
-    loadChildren: () => import('./pages/playground/playground.module').then(m => m.PlaygroundModule) 
+    loadChildren: () => import('./pages/playground/playground.module').then(m => m.PlaygroundModule)
   },
 
   {

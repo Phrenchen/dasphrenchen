@@ -1,7 +1,24 @@
 <div *transloco="let t; read: 'about'">
   <mat-accordion multi>
-    <!-- Was ist das? -->
+    <!-- Spiel -->
     <mat-expansion-panel expanded>
+      <!-- expanded -->
+      <mat-expansion-panel-header>
+        <mat-panel-title> Das Spiel </mat-panel-title>
+        <mat-panel-description> ... </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div>
+        <button mat-raised-button (click)="startGame()">New Game</button>
+      </div>
+      <div class="canvas-container">
+        <canvas id="ants-canvas"></canvas>
+      </div>
+    </mat-expansion-panel>
+
+
+    <!-- Was ist das? -->
+    <mat-expansion-panel >
       <mat-expansion-panel-header>
         <mat-panel-title> Worum geht´s? </mat-panel-title>
         <mat-panel-description> 'Ameisen' konfigurieren & zuschauen </mat-panel-description>
@@ -12,17 +29,6 @@
       </p>
     </mat-expansion-panel>
 
-    <!-- Spiel -->
-    <mat-expansion-panel>
-      <!-- expanded -->
-      <mat-expansion-panel-header>
-        <mat-panel-title> Das Spiel </mat-panel-title>
-        <mat-panel-description> ... </mat-panel-description>
-      </mat-expansion-panel-header>
-      <div class="canvas-container">
-        <canvas id="ants-canvas"></canvas>
-      </div>
-    </mat-expansion-panel>
 
     <!-- Einstellungen -->
     <mat-expansion-panel>
@@ -99,7 +105,7 @@
     </mat-expansion-panel>
   </mat-accordion>
 
-  <div>
+  <!-- <div>
     <button mat-raised-button (click)="startGame()">New Game</button>
-  </div>
+  </div> -->
 </div>
