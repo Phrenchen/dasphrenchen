@@ -97,18 +97,9 @@
   width: 100vw;
   height: 100%;
 
-  .content-wrapper {
-    border: 3px dashed deeppink;
-    //         // padding: 10px 20px;
-    height: 100%;
-    //         overflow-y: auto;
-    //         // height: 500px;
-    //         max-width: 700px;
-  }
 }
 
 .header-wrapper {
-  // height: var(--header-height);
   position: sticky;
   top: 0;
   left: 0;
@@ -119,18 +110,17 @@
 .router-wrapper {
   position: fixed;
   top: var(--header-height);
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
 
   width: 100%;
   height: calc(100% - var(--header-height));
 
   padding: 1rem 2rem;
-  margin: 0 auto;
 
   max-width: 1000px;
 
   overflow-y: auto;
   scrollbar-width: none;
-
-  // height: calc(100vh - var(--header-height));
 }
