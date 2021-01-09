@@ -1,26 +1,22 @@
 {
   "language": "Sprache",
   "home": {
-    "title": "Willkommen auf meiner Homepage :)",
-    "paragraph-1": "2 Sätze zu dem Sinn des Ganzen..."
+    "title": "Willkommen auf meiner Homepage!",
+    "paragraph-1": "...meiner Spielwiese :)",
+    "paragraph-2": "Hier spiele ich mit Angular 10, RxJS, HighCharts und Canvas in TypeScript"
   },
   "about": {
-    "title": "Die Motivation",
-    "paragraph-1": "Single Page Applications / Progressive Web Apps: gern Angular 10+",
-    "paragraph-2": "aktueller Job: AngularJS, Angular 10, TypeScript / JavaScript, RxJS",
-    "paragraph-3": "Davor: Goodgames (Browser Flash MMO 'Goodgames Empire (link?)', ActionScript 3",
-    "paragraph-4": "Damals: Browser Flash (edutainment-) Games, ActionScript 3"
+    "title": "Motivation",
+    "paragraph-1": "..."
+
   },
   "stack": {
-    "title": "Die Werkzeuge:",
+    "title": "Der Stack",
     "paragraph-1": "Angular 10, RxJS",
     "paragraph-2": "GIT",
-    "paragraph-3": "",
-    "paragraph-4": "Meine Wunschliste an die nähere Zukunft, unsortiert :)",
-    "paragraph-5": "Angular 10+, RxJS, ngStore / ngData, verlässliche Infrastruktur (CI/CD, Versionierung, automatisierte Tests), GIT,Angular 10+, RxJS, ngStore / ngData, verlässliche Infrastruktur (CI/CD, Versionierung, automatisierte Tests), GIT,Angular 10+, RxJS, ngStore / ngData, verlässliche Infrastruktur (CI/CD, Versionierung, automatisierte Tests), GIT,Angular 10+, RxJS, ngStore / ngData, verlässliche Infrastruktur (CI/CD, Versionierung, automatisierte Tests), GIT,Angular 10+, RxJS, ngStore / ngData, verlässliche Infrastruktur (CI/CD, Versionierung, automatisierte Tests), GIT,Angular 10+, RxJS, ngStore / ngData, verlässliche Infrastruktur (CI/CD, Versionierung, automatisierte Tests), GIT,Angular 10+, RxJS, ngStore / ngData, verlässliche Infrastruktur (CI/CD, Versionierung, automatisierte Tests), GIT,"
+    "paragraph-3": "hmm..."
   },
   "playground": {
-    "title": "Spielwiesen (wip)",
-    "paragraph-1": "unfertige, dezent schmucklose Spielereien..."
+    "title": "Ameisen"
   }
 }

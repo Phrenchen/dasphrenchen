@@ -1,7 +1,7 @@
 <div class="playground-wrapper" *transloco="let t; read: 'playground'">
   <h1 class="mat-display-1">{{ t("title") }}</h1>
 
-  <form [formGroup]="form">
+  <!-- <form [formGroup]="form">
     <mat-form-field appearance="fill">
       <mat-select [formControl]="playgroundControl">
         <mat-option
@@ -11,7 +11,7 @@
         >
       </mat-select>
     </mat-form-field>
-  </form>
+  </form> -->
 
   <span [ngSwitch]="playgroundControl.value">
     <div *ngSwitchCase="'Ants'">
