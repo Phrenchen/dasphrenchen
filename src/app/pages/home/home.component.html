@@ -1,21 +1,26 @@
 <div class="content-wrapper" *transloco="let t; read: 'home'">
-  <h1 class="mat-display-1">{{ t('title') }}</h1>
+  <h1 class="mat-display-1">{{ t("title") }}</h1>
+  <div class="content-section">
     <p>
-      {{ t('paragraph-1') }}<br/><br/>
-      {{ t('paragraph-2') }}
+      {{ t("paragraph-1") }}<br /><br />
+      {{ t("paragraph-2") }}
     </p>
+  </div>
 </div>
 
 <div *transloco="let t; read: 'about'">
-  <h2 class="mat-display-1">{{ t('title') }}</h2>
-  <p>{{ t('paragraph-1') }}</p>
+  <div class="content-section">
+    <h2 class="mat-display-1">{{ t("title") }}</h2>
+    <p>{{ t("paragraph-1") }}</p>
+  </div>
 </div>
 
-
 <div *transloco="let t; read: 'stack'">
-  <h2 class="mat-display-1">{{ t('title') }}</h2>
-  <!-- <h1 class="mat-display-1"></h1> -->
-  <p>{{ t('paragraph-1') }}</p>
-  <p>{{ t('paragraph-2') }}</p>
-  <p>{{ t('paragraph-3') }}</p>
+  <div class="content-section">
+    <h2 class="mat-display-1">{{ t("title") }}</h2>
+    <!-- <h1 class="mat-display-1"></h1> -->
+    <p>{{ t("paragraph-1") }}</p>
+    <p>{{ t("paragraph-2") }}</p>
+    <p>{{ t("paragraph-3") }}</p>
+  </div>
 </div>
