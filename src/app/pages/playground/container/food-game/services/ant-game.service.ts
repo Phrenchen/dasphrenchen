@@ -12,6 +12,8 @@ import { AntsRenderingService } from './ants-rendering/ants-rendering.service';
 import { AntFactoryService } from './ant-factory/ant-factory.service';
 import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { GameConfig } from '../interfaces/GameConfig';
+import { ConfigurableFocusTrap } from '@angular/cdk/a11y';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +40,7 @@ export class AntGameService {
     private readonly antsRendering: AntsRenderingService
   ) {}
 
-  public startGame(): void {
+  public startGame(gameConfig: GameConfig | null): void {
     this.initStage();
 
     if (!this.canvas || !this.ctx) {
@@ -51,6 +53,16 @@ export class AntGameService {
     // -----------------------
 
     const config: AntsConfig = this.antsConfig.config;
+
+    if(gameConfig) {
+      // merge configs (GameConfig & AtnsConfig)
+      console.log('game config:', gameConfig);
+      config.initialFoodCount = gameConfig.foodCount;
+      config.initialUnitCount = gameConfig.unitCount;
+      config.unitConfig.maxSpeed = gameConfig.maxSpeed;
+      config.unitConfig.maxInventory = gameConfig.maxInventory;
+    }
+
 
     // create ant hill (map center)
     this.createAntHill(config);
@@ -261,8 +273,9 @@ export class AntGameService {
     for (let i = 0; i < amount; i++) {
       const food: FoodConfig = JSON.parse(JSON.stringify(config));
       if (food.name === 'unit') {
-        (food as UnitConfig).maxSpeed = MathHelper.getRandomInt(0.3, 1.5);
-        (food as UnitConfig).maxInventory = MathHelper.getRandomInt(1, 18);
+        const unit: UnitConfig = food as UnitConfig;
+        unit.maxSpeed = MathHelper.getRandomInt(.1, unit.maxInventory);
+        unit.maxInventory = MathHelper.getRandomInt(1, unit.maxInventory);
       }
       food.position.x = MathHelper.getRandomInt(
         padding,

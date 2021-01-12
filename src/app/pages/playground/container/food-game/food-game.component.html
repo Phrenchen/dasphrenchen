@@ -1,4 +1,4 @@
-<div *transloco="let t; read: 'about'">
+<div *transloco="let t; read: 'food-game'">
   <mat-accordion multi>
     <!-- Spiel -->
     <mat-expansion-panel expanded>
@@ -10,45 +10,38 @@
 
       <div>
         <button mat-raised-button (click)="startGame()">New Game</button>
+
+        <button mat-raised-button (click)="toggleSettings()">
+          <mat-icon *ngIf="!isSettingsVisible">settings</mat-icon>
+          <mat-icon *ngIf="isSettingsVisible">clear</mat-icon>
+        </button>
       </div>
-      <div class="canvas-container">
-        <canvas id="ants-canvas"></canvas>
+
+      <div class="game-content">
+        <div *ngIf="isSettingsVisible" class="settings">
+          <h3>Startbedingungen Konfigurieren</h3>
+
+          <dph-food-settings #foodSettings></dph-food-settings>
+
+        </div>
+        <div class="canvas-container">
+          <canvas id="ants-canvas"></canvas>
+        </div>
       </div>
     </mat-expansion-panel>
 
-
     <!-- Was ist das? -->
-    <mat-expansion-panel >
+    <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title> Worum geht´s? </mat-panel-title>
-        <mat-panel-description> 'Ameisen' konfigurieren & zuschauen </mat-panel-description>
+        <mat-panel-description>
+          'Ameisen' konfigurieren & zuschauen
+        </mat-panel-description>
       </mat-expansion-panel-header>
       <p>
         Ameisen (rote Punkte) sammeln Futter (grüne Punkte), und bringen es zum
         Ameisenhügel (gelber Punkt).
       </p>
-    </mat-expansion-panel>
-
-
-    <!-- Einstellungen -->
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title> Einstellungen </mat-panel-title>
-        <mat-panel-description>
-          Startbedingungen Konfigurieren
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <div>
-        <mat-label>Anzahl der Ameisen</mat-label>
-        <mat-slider
-          thumbLabel
-          min="1"
-          max="10"
-          step="1"
-          value="1"
-          tickInterval="1"
-        ></mat-slider>
-      </div>
     </mat-expansion-panel>
 
     <!-- Charts -->
@@ -97,8 +90,8 @@
                 'unit-info': unit.currentInventory >= unit.maxInventory
               }"
               >{{ unit.name }}: {{ unit.currentInventory }} /
-              {{ unit.maxInventory }}</span
-            >
+              {{ unit.maxInventory }}</span>
+              <span>, max. speed: {{unit.maxSpeed}}</span>
           </li>
         </ol>
       </div>

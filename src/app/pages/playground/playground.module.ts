@@ -29,6 +29,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSelectModule } from '@angular/material/select';
 
+
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+
 import { AnimationsComponent } from './container/animations/animations.component';
 
 import { HighchartsChartModule } from 'highcharts-angular';
@@ -38,6 +41,7 @@ import { AntFactoryService } from './container/food-game/services/ant-factory/an
 import { AntsConfigService } from './container/food-game/services/ants-config/ants-config.service';
 import { AntGameService } from './container/food-game/services/ant-game.service';
 import { TranslocoRootModule } from 'src/app/transloco/transloco-root.module';
+import { FoodSettingsComponent } from './container/food-game/components/food-settings/food-settings.component';
 
 const routes: Routes = [
   {
@@ -57,6 +61,7 @@ const routes: Routes = [
     LearningByDoingComponent,
     AnimationsComponent,
     FoodGameComponent,
+    FoodSettingsComponent,
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -77,6 +82,8 @@ const routes: Routes = [
     MatSelectModule,
     MatExpansionModule,
     MatSliderModule,
+
+    NgxSliderModule,
 
     TranslocoRootModule,
 

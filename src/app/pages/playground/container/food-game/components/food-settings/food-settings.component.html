@@ -1,0 +1,68 @@
+<div class="food-settings">
+  <div>
+    <!-- Ant Count -->
+    <div class="setting">
+      <div
+        class="setting-text"
+        matTooltip="Viele Ameisen können zu Performance-Einbrüchen führen :)"
+      >
+        <mat-label>Anzahl der Ameisen: {{ initialAntCount }}</mat-label>
+        <mat-icon>help_outline</mat-icon>
+      </div>
+
+      <ngx-slider
+        [(value)]="initialAntCount"
+        [options]="antCountOptions"
+        (valueChange)="antCountChanged($event)"
+      ></ngx-slider>
+    </div>
+
+    <!-- Speed -->
+    <div class="setting">
+      <div
+        class="setting-text"
+        matTooltip=" Jeder Ameise wird eine zufällige Geschwindigkeit zugewiesen.
+      Mindest- sowie maximale Geschwindigkeit wählen."
+      >
+        <mat-label>Geschwindigkeit</mat-label>
+        <mat-icon>help_outline</mat-icon>
+      </div>
+      <ngx-slider
+        [(value)]="minSpeed"
+        [(highValue)]="maxSpeed"
+        [options]="speedOptions"
+        (valueChange)="minSpeedChanged($event)"
+        (highValueChange)="maxSpeedChanged($event)"
+      ></ngx-slider>
+    </div>
+
+    <!-- Inventar -->
+    <div class="setting">
+      <div class="setting-text" matTooltip="Inventargröße wählen (min/max)">
+        <mat-label>Inventargröße</mat-label>
+        <mat-icon>help_outline</mat-icon>
+      </div>
+      <ngx-slider
+        [(value)]="minInventory"
+        [(highValue)]="maxInventory"
+        [options]="inventoryOptions"
+        (valueChange)="minInventoryChanged($event)"
+        (highValueChange)="maxInventoryChanged($event)"
+      ></ngx-slider>
+    </div>
+
+
+    <!-- Nahrung -->
+    <div class="setting">
+      <div class="setting-text" matTooltip="Nahrungsangebot">
+        <mat-label>Anzahl Nahrung</mat-label>
+        <mat-icon>help_outline</mat-icon>
+      </div>
+      <ngx-slider
+      [(value)]="initialFoodCount"
+      [options]="foodCountOptions"
+      (valueChange)="foodCountChanged($event)"
+    ></ngx-slider>
+    </div>
+  </div>
+</div>

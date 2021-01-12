@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 import * as Highcharts from 'highcharts';
 import { fromEvent, Observable, of, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { FoodSettingsComponent } from './components/food-settings/food-settings.component';
 import { AntHillConfig, UnitConfig } from './interfaces/AntsConfig';
 import { AntGameService } from './services/ant-game.service';
 
@@ -49,12 +50,21 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
   tickCounter: number = 0;
   antHillUpdateCooldownTicks: number = 10;
   chartHoverHandlerUnits: Observable<Event> = of();
+  public isSettingsVisible: boolean = true;
 
   get generation(): number {
     return this.antGameService.currentGeneration;
   }
 
   private highchartUpdateTick$$: Subject<any> = new Subject<any>();
+
+
+
+  @ViewChild('foodSettings') foodSettings: FoodSettingsComponent | null = null;
+
+
+
+
 
   // LIFE CYCLE
   constructor(private readonly antGameService: AntGameService) {}
@@ -96,7 +106,12 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
     this.tickCounter = 0;
     this.anthillData = [];
     this.antGameService.stopGame(); // reset
-    this.antGameService.startGame();
+    // old game resetted
+
+
+
+    // new game
+    this.antGameService.startGame(this.foodSettings?.gameConfig || null);
     this.updateUnitChart();
 
     // GAME UI Update Ticks 1/s
@@ -114,6 +129,13 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
       1000
     );
   }
+
+  public toggleSettings(): void {
+    this.isSettingsVisible = !this.isSettingsVisible;
+  }
+
+
+  // PRIVATE
 
   // charts
   updateAnthillChart() {

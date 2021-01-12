@@ -1,0 +1,54 @@
+.food-settings {
+}
+
+.setting {
+  // border: 1px dashed deeppink;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+
+  .setting-text {
+    // border: 1px dashed deeppink;
+    position: relative;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    cursor: pointer;
+
+    .mat-label {
+      white-space: nowrap;
+    }
+
+
+  }
+
+  ::ng-deep {
+    // .setting {
+      .ngx-slider {
+        max-width: 60%;
+
+        .ngx-slider-selection {
+          background: var(--primaryColor);
+        }
+
+        .ngx-slider-pointer {
+          background-color: var(--primaryColorAlpha);
+        }
+
+        .ngx-slider-pointer:after {
+          // display: none;
+          background-color: var(--secondaryColorAlpha);
+        }
+      }
+
+      .mat-icon {
+        font-size: 1rem;
+      }
+    // }
+  }
+}

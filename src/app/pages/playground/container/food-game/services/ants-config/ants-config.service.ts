@@ -25,7 +25,6 @@ export class AntsConfigService {
       fillStyle: '#476e04', // secondaryColorAlpha
       radius: 4,
       position: { x: 0, y: 0 },
-      minSpeed: 0.2,
       maxSpeed: 0.1,
       currentSpeed: 1,
       maxInventory: 1,
