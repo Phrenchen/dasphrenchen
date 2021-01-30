@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import * as Highcharts from 'highcharts';
-import { fromEvent, Observable, of, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
 import { FoodSettingsComponent } from './components/food-settings/food-settings.component';
 import { AntHillConfig, UnitConfig } from './interfaces/AntsConfig';
 import { AntGameService } from './services/ant-game.service';
+import { GameConfig } from './interfaces/GameConfig';
 
 @Component({
   selector: 'dph-food-game',
@@ -56,8 +57,18 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.antGameService.currentGeneration;
   }
 
-  private highchartUpdateTick$$: Subject<any> = new Subject<any>();
+  public highchartUpdateTick$$: Subject<any> = new Subject<any>();
 
+  // url params
+  // TODO: map into GameConfig
+  public urlConfig: GameConfig = {
+    foodCount: 2,
+    unitCount: 1,
+    minInventory: 1,
+    maxInventory: 2,
+    minSpeed: .1,
+    maxSpeed: 1,
+  }
 
 
   @ViewChild('foodSettings') foodSettings: FoodSettingsComponent | null = null;
@@ -67,9 +78,19 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   // LIFE CYCLE
-  constructor(private readonly antGameService: AntGameService) {}
+  constructor(private route: ActivatedRoute,
+    private readonly antGameService: AntGameService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.urlConfig.foodCount = params['fc'] ?? 10;
+      this.urlConfig.unitCount = params['uc'] ?? 2;
+      this.urlConfig.minInventory = params['mini'] ?? 1;
+      this.urlConfig.maxInventory = params['maxi'] ?? 3;
+      this.urlConfig.minSpeed = params['mins'] ?? .1;
+      this.urlConfig.maxSpeed = params['maxs'] ?? 3;
+    });
+  }
 
   ngAfterViewInit(): void {
     this.antGameService.canvas = document.querySelector(
@@ -111,7 +132,7 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     // new game
-    this.antGameService.startGame(this.foodSettings?.gameConfig || null);
+    this.antGameService.startGame(this.foodSettings?.config || null);
     this.updateUnitChart();
 
     // GAME UI Update Ticks 1/s

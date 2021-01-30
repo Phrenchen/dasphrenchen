@@ -20,8 +20,15 @@
       <div class="game-content">
         <div *ngIf="isSettingsVisible" class="settings">
           <h3>Startbedingungen Konfigurieren</h3>
-
-          <dph-food-settings #foodSettings></dph-food-settings>
+          <p>
+            foodCount: {{urlConfig.foodCount}},<br/>
+            unitCount: {{urlConfig.unitCount}},<br/>
+            minSpeed: {{urlConfig.minSpeed}},<br/>
+            maxSpeed: {{urlConfig.maxSpeed}},<br/>
+            minInventory: {{urlConfig.minInventory}},<br/>
+            maxInventory: {{urlConfig.maxInventory}},<br/>
+          </p>
+          <dph-food-settings #foodSettings [config]="urlConfig"></dph-food-settings>
 
         </div>
         <div class="canvas-container">

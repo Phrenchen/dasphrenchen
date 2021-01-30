@@ -6,12 +6,12 @@
         class="setting-text"
         matTooltip="Viele Ameisen können zu Performance-Einbrüchen führen :)"
       >
-        <mat-label>Anzahl der Ameisen: {{ initialAntCount }}</mat-label>
+        <mat-label>Anzahl der Ameisen: {{ config.unitCount }}</mat-label>
         <mat-icon>help_outline</mat-icon>
       </div>
 
       <ngx-slider
-        [(value)]="initialAntCount"
+        [(value)]="config.unitCount"
         [options]="antCountOptions"
         (valueChange)="antCountChanged($event)"
       ></ngx-slider>
@@ -28,8 +28,8 @@
         <mat-icon>help_outline</mat-icon>
       </div>
       <ngx-slider
-        [(value)]="minSpeed"
-        [(highValue)]="maxSpeed"
+        [(value)]="config.minSpeed"
+        [(highValue)]="config.maxSpeed"
         [options]="speedOptions"
         (valueChange)="minSpeedChanged($event)"
         (highValueChange)="maxSpeedChanged($event)"
@@ -43,8 +43,8 @@
         <mat-icon>help_outline</mat-icon>
       </div>
       <ngx-slider
-        [(value)]="minInventory"
-        [(highValue)]="maxInventory"
+        [(value)]="config.minInventory"
+        [(highValue)]="config.maxInventory"
         [options]="inventoryOptions"
         (valueChange)="minInventoryChanged($event)"
         (highValueChange)="maxInventoryChanged($event)"
@@ -59,7 +59,7 @@
         <mat-icon>help_outline</mat-icon>
       </div>
       <ngx-slider
-      [(value)]="initialFoodCount"
+      [(value)]="config.foodCount"
       [options]="foodCountOptions"
       (valueChange)="foodCountChanged($event)"
     ></ngx-slider>
