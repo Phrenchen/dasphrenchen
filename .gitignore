@@ -51,3 +51,4 @@ Thumbs.db
 .faunarc
 settings.json
 /server/node_modules
+/_asset_dump
