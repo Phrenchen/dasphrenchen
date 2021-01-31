@@ -69,6 +69,7 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
     id: "id",
     name: 'new_team',
     units: [],
+    origin: {x: 0, y: 0},
     color: '#rrggbb',
     wins: 0,
     foodCount: 1,
@@ -119,8 +120,10 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // this.highchartUnits?.addEventListener('hover')
       setTimeout(() => {
-        this.addTeam();
-        this.addTeam();
+        const team1: TeamConfig = this.addTeam();
+        team1.unitCount = 3;
+        const team2: TeamConfig = this.addTeam();
+        team2.unitCount = 3;
         this.startGame();
 
       }, 100);
@@ -134,7 +137,7 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   // LIFE CYCLE end
 
-  public addTeam(): void {
+  public addTeam(): TeamConfig {
     const newTeam: TeamConfig = JSON.parse(JSON.stringify(this.urlConfig));
     newTeam.id = 'team_' + this.teams.length;
     newTeam.name = 'team_' + this.teams.length;
@@ -145,8 +148,15 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
     newTeam.maxSpeed = MathHelper.getRandomNumber(1, 10);
     newTeam.unitCount = MathHelper.getRandomInt(1, 50);
     newTeam.color = MathHelper.getRandomColor();
+    newTeam.origin = {
+      x: MathHelper.getRandomInt(10, this.antGameService.canvas?.width ?? 50),
+      y: MathHelper.getRandomInt(10, this.antGameService.canvas?.height ?? 50)
+    };
+
+    this.teamEdit = newTeam;
 
     this.teams.push(newTeam);
+    return newTeam;
   }
 
   public editTeam(team: TeamConfig):void {

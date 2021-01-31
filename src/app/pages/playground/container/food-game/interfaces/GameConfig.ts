@@ -1,6 +1,7 @@
 import { UnitConfig } from "./AntsConfig";
 
 export interface TeamConfig {
+  origin: { x: number; y: number; };
   id: string;
   name: string;
   color: string; // #rrggbb

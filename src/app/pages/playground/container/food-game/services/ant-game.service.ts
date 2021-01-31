@@ -41,6 +41,18 @@ export class AntGameService {
     private readonly antsRenderingService: AntsRenderingService
   ) {}
 
+  // public get canvasWidth(): number {
+  //   // random distribution
+  //   food.position.x = MathHelper.getRandomInt(
+  //     padding,
+  //     this.canvas.width - padding
+  //   );
+  //   food.position.y = MathHelper.getRandomInt(
+  //     padding,
+  //     this.canvas.height - padding
+  //   );
+  // }
+
   public startGame(teamConfigs: TeamConfig[]): void {
     this.initStage();
 
@@ -266,11 +278,12 @@ export class AntGameService {
 
     return this.createEntities(
       config.unitConfig,
-      teamConfig.unitCount
+      teamConfig.unitCount,
+      teamConfig.origin
     ) as UnitConfig[];
   }
 
-  private createEntities(config: Renderable, amount: number): FoodConfig[] {
+  private createEntities(config: Renderable, amount: number, origin: {x: number, y: number} | null = null): FoodConfig[] {
     if (!this.canvas || !this.ctx) return [];
 
     const entities: FoodConfig[] = [];
@@ -283,14 +296,22 @@ export class AntGameService {
         unit.maxSpeed = MathHelper.getRandomInt(0.1, unit.maxInventory);
         unit.maxInventory = MathHelper.getRandomInt(1, unit.maxInventory);
       }
-      food.position.x = MathHelper.getRandomInt(
-        padding,
-        this.canvas.width - padding
-      );
-      food.position.y = MathHelper.getRandomInt(
-        padding,
-        this.canvas.height - padding
-      );
+      if(origin) {
+        food.position.x = origin.x;
+        food.position.y = origin.y;
+      }
+      else {
+        // random distribution
+        food.position.x = MathHelper.getRandomInt(
+          padding,
+          this.canvas.width - padding
+        );
+        food.position.y = MathHelper.getRandomInt(
+          padding,
+          this.canvas.height - padding
+        );
+
+      }
       entities.push(food);
     }
 

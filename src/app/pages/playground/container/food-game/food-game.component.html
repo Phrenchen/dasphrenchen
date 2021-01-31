@@ -29,7 +29,7 @@
           <div class="teams">
             <div class="team-list">
               <div *ngFor="let team of teams" class="team">
-                <button mat-raised-button (click)="editTeam(team)" [ngStyle]="{'background-color': team.color}">
+                <button mat-raised-button (click)="editTeam(team)" [ngStyle]="{'background-color': team.color, 'color': '#fff'}">
                   {{ team.name }}
                 </button>
               </div>
