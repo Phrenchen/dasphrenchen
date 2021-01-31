@@ -12,7 +12,7 @@ import { AntsRenderingService } from './ants-rendering/ants-rendering.service';
 import { AntFactoryService } from './ant-factory/ant-factory.service';
 import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { GameConfig } from '../interfaces/GameConfig';
+import { TeamConfig } from '../interfaces/GameConfig';
 import { ConfigurableFocusTrap } from '@angular/cdk/a11y';
 
 @Injectable({
@@ -23,7 +23,8 @@ export class AntGameService {
   private ctx: CanvasRenderingContext2D | null = null;
 
   // entities
-  public units: UnitConfig[] = [];
+  public teams: TeamConfig[] = [];
+  // public units: UnitConfig[] = [];
 
   public untargetedFood: FoodConfig[] = []; // untargetedFood. all new food is included here.
   public targetedFood: FoodConfig[] = []; // food moves from untargetedFood
@@ -35,12 +36,12 @@ export class AntGameService {
   public currentGeneration: number = 0;
 
   constructor(
-    private readonly antsConfig: AntsConfigService,
-    private readonly antFactory: AntFactoryService,
-    private readonly antsRendering: AntsRenderingService
+    private readonly antsConfigService: AntsConfigService,
+    private readonly antFactoryService: AntFactoryService,
+    private readonly antsRenderingService: AntsRenderingService
   ) {}
 
-  public startGame(gameConfig: GameConfig | null): void {
+  public startGame(teamConfigs: TeamConfig[]): void {
     this.initStage();
 
     if (!this.canvas || !this.ctx) {
@@ -48,40 +49,37 @@ export class AntGameService {
       return;
     }
 
-    this.antsRendering.canvas = this.canvas;
-    this.antsRendering.ctx = this.ctx;
+    this.antsRenderingService.canvas = this.canvas;
+    this.antsRenderingService.ctx = this.ctx;
+    this.teams = [];
     // -----------------------
 
-    const config: AntsConfig = this.antsConfig.config;
-
-    if(gameConfig) {
-      // merge configs (GameConfig & AtnsConfig)
-      console.log('game config:', gameConfig);
-      config.initialFoodCount = gameConfig.foodCount;
-      config.initialUnitCount = gameConfig.unitCount;
-      config.unitConfig.maxSpeed = gameConfig.maxSpeed;
-      config.unitConfig.maxInventory = gameConfig.maxInventory;
-    }
+    const antsConfig: AntsConfig = this.antsConfigService.config;
 
 
     // create ant hill (map center)
-    this.createAntHill(config);
-    this.anthill = config.antHillConfig;
-    this.untargetedFood = this.createFood(config); // create food
-    this.units = this.createUnits(config); // create units
+    this.createAntHill(antsConfig);
+    this.anthill = antsConfig.antHillConfig;
+    this.untargetedFood = this.createFood(antsConfig); // create food
 
-    config.isGameRunning = true;
-    this.startGameLoop(config);
+    teamConfigs.forEach((team) => {
+      team.units = this.createUnits(antsConfig, team);
+      this.teams.push(team);
+    });
+
+    antsConfig.isGameRunning = true;
+    this.startGameLoop();
   }
 
   public stopGame(): void {
-    this.antsConfig.config.isGameRunning = false;
+    this.antsConfigService.config.isGameRunning = false;
     clearTimeout(this.targetAssignmentInterval);
+    this.antsRenderingService.clearCanvas();
 
     // reset state
     this.untargetedFood = [];
     this.targetedFood = [];
-    this.units = [];
+
     if (this.anthill) {
       this.anthill.currentFoodCount = 0;
     }
@@ -93,7 +91,7 @@ export class AntGameService {
   }
 
   // PRIVATE
-  private startGameLoop(config: AntsConfig): void {
+  private startGameLoop(): void {
     const gameLoop = () => {
       // console.log('tick', config.isGameRunning);
       // if(!config.isGameRunning) return;
@@ -102,7 +100,7 @@ export class AntGameService {
       this.clearCanvas();
 
       if (this.untargetedFood.length > 0) {
-        this.assignTargets(config);
+        this.assignTargets();
       } else {
         // console.log('no food remaining');
         // this.currentGeneration++;
@@ -114,60 +112,64 @@ export class AntGameService {
       }
 
       // move units
-      this.units.forEach((unit) => {
-        if (unit.currentTarget) {
-          const hasReachedTarget: boolean = this.moveUnitToTarget(unit);
+      this.teams.forEach((team) => {
+        team.units.forEach((unit) => {
+          if (unit.currentTarget) {
+            const hasReachedTarget: boolean = this.moveUnitToTarget(unit);
 
-          if (hasReachedTarget) {
-            // COLLECT FOOD
-            const collectedFood: FoodConfig = unit.currentTarget;
-            // collectedFood.radius *= .25;
-            // collectedFood.strokeStyle = '#000000';
-            unit.currentTarget = null;
+            if (hasReachedTarget) {
+              // COLLECT FOOD
+              const collectedFood: FoodConfig = unit.currentTarget;
+              // collectedFood.radius *= .25;
+              // collectedFood.strokeStyle = '#000000';
+              unit.currentTarget = null;
 
-            switch (collectedFood.name) {
-              case 'food':
-                const index = this.targetedFood.findIndex(
-                  (food) => food === collectedFood
-                );
+              switch (collectedFood.name) {
+                case 'food':
+                  const index = this.targetedFood.findIndex(
+                    (food) => food === collectedFood
+                  );
 
-                this.targetedFood.splice(index, 1); // delete food
-                unit.currentInventory++;
+                  this.targetedFood.splice(index, 1); // delete food
+                  unit.currentInventory++;
 
-                if (unit.currentInventory >= unit.maxInventory) {
-                  unit.currentTarget = this.anthill;
-                }
-                break;
-              case 'anthill':
-                this.anthill.currentFoodCount += unit.currentInventory;
+                  if (unit.currentInventory >= unit.maxInventory) {
+                    unit.currentTarget = this.anthill;
+                  }
+                  break;
+                case 'anthill':
+                  this.anthill.currentFoodCount += unit.currentInventory;
 
-                unit.currentInventory = 0;
-                break;
+                  unit.currentInventory = 0;
+                  break;
+              }
+
+              // if (this.untargetedFood.length === 0) {
+              //   console.log('no more food');
+              //   this.stopGame();
+              // }
             }
-
-            // if (this.untargetedFood.length === 0) {
-            //   console.log('no more food');
-            //   this.stopGame();
-            // }
           }
-        }
+        });
       });
 
       // render units
-      this.antsRendering.drawRenderable(this.anthill);
+      this.antsRenderingService.drawRenderable(this.anthill);
       this.untargetedFood.forEach((food) =>
-        this.antsRendering.drawRenderable(food)
+        this.antsRenderingService.drawRenderable(food)
       );
 
       this.targetedFood.forEach((food) =>
-        this.antsRendering.drawRenderable(food)
+        this.antsRenderingService.drawRenderable(food)
       );
 
-      this.units.forEach((unit) => {
-        this.antsRendering.drawRenderable(unit);
-        if(unit.currentTarget) {
-          this.antsRendering.drawConnection(unit, unit.currentTarget);
-        }
+      this.teams.forEach((team) => {
+        team.units.forEach((unit) => {
+          this.antsRenderingService.drawRenderable(unit);
+          if (unit.currentTarget) {
+            this.antsRenderingService.drawConnection(unit, unit.currentTarget);
+          }
+        });
       });
 
       // ...
@@ -190,24 +192,25 @@ export class AntGameService {
     // trigger target-assignment-interval
 
     this.targetAssignmentInterval = setTimeout(() => {
-      this.assignTargets(config);
+        this.assignTargets();
     }, 100);
   }
 
-  private assignTargets(config: AntsConfig) {
-    // select random next target for targetless units
-    const targetLessUnits: UnitConfig[] = this.units.filter(
-      (unit) => !unit.currentTarget
-    );
+  private assignTargets() {
 
-    //
-    targetLessUnits.forEach((unit, index) => {
-      if (index < config.maxTargetAquisitions) {
+    this.teams.forEach(team => {
+      // select random next target for targetless units
+      const targetLessUnits: UnitConfig[] = team.units.filter(
+        (unit) => !unit.currentTarget
+      );
+
+      //
+      targetLessUnits.forEach(unit => {
         const nextFoodTarget: FoodConfig = this.untargetedFood.pop() as FoodConfig;
 
         unit.currentTarget = nextFoodTarget;
         this.targetedFood.push(nextFoodTarget);
-      }
+      });
     });
   }
 
@@ -247,7 +250,7 @@ export class AntGameService {
       x: this.canvas.width / 2,
       y: this.canvas.height / 2,
     };
-    this.antsRendering.drawRenderable(config.antHillConfig);
+    this.antsRenderingService.drawRenderable(config.antHillConfig);
   }
 
   private createFood(config: AntsConfig): FoodConfig[] {
@@ -257,10 +260,13 @@ export class AntGameService {
     ) as FoodConfig[];
   }
 
-  private createUnits(config: AntsConfig) {
+  private createUnits(config: AntsConfig, teamConfig: TeamConfig) {
+    config.unitConfig.fillStyle = teamConfig.color;
+    config.unitConfig.strokeStyle = teamConfig.color;
+
     return this.createEntities(
       config.unitConfig,
-      config.initialUnitCount
+      teamConfig.unitCount
     ) as UnitConfig[];
   }
 
@@ -274,7 +280,7 @@ export class AntGameService {
       const food: FoodConfig = JSON.parse(JSON.stringify(config));
       if (food.name === 'unit') {
         const unit: UnitConfig = food as UnitConfig;
-        unit.maxSpeed = MathHelper.getRandomInt(.1, unit.maxInventory);
+        unit.maxSpeed = MathHelper.getRandomInt(0.1, unit.maxInventory);
         unit.maxInventory = MathHelper.getRandomInt(1, unit.maxInventory);
       }
       food.position.x = MathHelper.getRandomInt(

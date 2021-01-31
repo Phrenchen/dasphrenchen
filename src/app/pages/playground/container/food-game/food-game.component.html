@@ -15,20 +15,32 @@
           <mat-icon *ngIf="!isSettingsVisible">settings</mat-icon>
           <mat-icon *ngIf="isSettingsVisible">clear</mat-icon>
         </button>
+
+        <button mat-raised-button (click)="resetTeams()">Teams löschen</button>
       </div>
 
       <div class="game-content">
         <div *ngIf="isSettingsVisible" class="settings">
-          <h3>Startbedingungen Konfigurieren</h3>
-          <p>
-            foodCount: {{urlConfig.foodCount}},<br/>
-            unitCount: {{urlConfig.unitCount}},<br/>
-            minSpeed: {{urlConfig.minSpeed}},<br/>
-            maxSpeed: {{urlConfig.maxSpeed}},<br/>
-            minInventory: {{urlConfig.minInventory}},<br/>
-            maxInventory: {{urlConfig.maxInventory}},<br/>
-          </p>
-          <dph-food-settings #foodSettings [config]="urlConfig"></dph-food-settings>
+          <h3>Teams konfigurieren</h3>
+          <button mat-raised-button (click)="addTeam()">
+            <mat-icon>add</mat-icon>
+          </button>
+
+          <div class="teams">
+            <div class="team-list">
+              <div *ngFor="let team of teams" class="team">
+                <button mat-raised-button (click)="editTeam(team)" [ngStyle]="{'background-color': team.color}">
+                  {{ team.name }}
+                </button>
+              </div>
+            </div>
+
+            <dph-food-settings
+              *ngIf="teamEdit"
+              #foodSettings
+              [config]="teamEdit"
+            ></dph-food-settings>
+          </div>
 
         </div>
         <div class="canvas-container">
@@ -98,7 +110,7 @@
               }"
               >{{ unit.name }}: {{ unit.currentInventory }} /
               {{ unit.maxInventory }}</span>
-              <span>, max. speed: {{unit.maxSpeed}}</span>
+            <span>, max. speed: {{ unit.maxSpeed }}</span>
           </li>
         </ol>
       </div>

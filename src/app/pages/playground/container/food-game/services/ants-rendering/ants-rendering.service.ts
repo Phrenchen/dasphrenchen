@@ -12,7 +12,7 @@ export class AntsRenderingService {
   constructor() {}
 
   public drawRenderable(entity: Renderable): void {
-    if (!this.ctx) return;
+    if (!this.ctx || !entity) return;
 
     this.ctx.lineWidth = 2;
     this.ctx.strokeStyle = entity.strokeStyle;
@@ -44,5 +44,10 @@ export class AntsRenderingService {
     this.ctx.lineTo(e2.position.x, e2.position.y);
     this.ctx.closePath();
     this.ctx.stroke();
+  }
+
+  public clearCanvas(): void {
+    if (!this.ctx) return;
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
   }
 }

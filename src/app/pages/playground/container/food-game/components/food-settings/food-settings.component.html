@@ -1,5 +1,11 @@
 <div class="food-settings">
   <div>
+    <div class="team-title" [ngStyle]="{'background-color': config.color}">
+      <mat-label for="team-name">Team {{config.name}}</mat-label>
+      <!-- <input id="team-name" matInput placeholder="Team-Name"> -->
+
+    </div>
+
     <!-- Ant Count -->
     <div class="setting">
       <div
@@ -53,7 +59,7 @@
 
 
     <!-- Nahrung -->
-    <div class="setting">
+    <!-- <div class="setting">
       <div class="setting-text" matTooltip="Nahrungsangebot">
         <mat-label>Anzahl Nahrung</mat-label>
         <mat-icon>help_outline</mat-icon>
@@ -63,6 +69,6 @@
       [options]="foodCountOptions"
       (valueChange)="foodCountChanged($event)"
     ></ngx-slider>
-    </div>
+    </div> -->
   </div>
 </div>

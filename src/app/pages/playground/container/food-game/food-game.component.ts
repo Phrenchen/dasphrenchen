@@ -5,7 +5,8 @@ import { Observable, of, Subject } from 'rxjs';
 import { FoodSettingsComponent } from './components/food-settings/food-settings.component';
 import { AntHillConfig, UnitConfig } from './interfaces/AntsConfig';
 import { AntGameService } from './services/ant-game.service';
-import { GameConfig } from './interfaces/GameConfig';
+import { TeamConfig } from './interfaces/GameConfig';
+import { MathHelper } from 'src/app/helpers/MathHelper';
 
 @Component({
   selector: 'dph-food-game',
@@ -52,6 +53,7 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
   antHillUpdateCooldownTicks: number = 10;
   chartHoverHandlerUnits: Observable<Event> = of();
   public isSettingsVisible: boolean = true;
+  public teamEdit: TeamConfig | null = null;
 
   get generation(): number {
     return this.antGameService.currentGeneration;
@@ -59,13 +61,20 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public highchartUpdateTick$$: Subject<any> = new Subject<any>();
 
+  public teams: TeamConfig[] = [];
+
   // url params
   // TODO: map into GameConfig
-  public urlConfig: GameConfig = {
-    foodCount: 2,
+  public urlConfig: TeamConfig = {
+    id: "id",
+    name: 'new_team',
+    units: [],
+    color: '#rrggbb',
+    wins: 0,
+    foodCount: 1,
     unitCount: 1,
     minInventory: 1,
-    maxInventory: 2,
+    maxInventory: 1,
     minSpeed: .1,
     maxSpeed: 1,
   }
@@ -110,6 +119,8 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // this.highchartUnits?.addEventListener('hover')
       setTimeout(() => {
+        this.addTeam();
+        this.addTeam();
         this.startGame();
 
       }, 100);
@@ -123,16 +134,47 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   // LIFE CYCLE end
 
-  public startGame(): void {
+  public addTeam(): void {
+    const newTeam: TeamConfig = JSON.parse(JSON.stringify(this.urlConfig));
+    newTeam.id = 'team_' + this.teams.length;
+    newTeam.name = 'team_' + this.teams.length;
+    // randomize initial settings
+    newTeam.minInventory = MathHelper.getRandomInt(1, 2);
+    newTeam.maxInventory = MathHelper.getRandomInt(3, 10);
+    newTeam.minSpeed = MathHelper.getRandomNumber(.1, 3);
+    newTeam.maxSpeed = MathHelper.getRandomNumber(1, 10);
+    newTeam.unitCount = MathHelper.getRandomInt(1, 50);
+    newTeam.color = MathHelper.getRandomColor();
+
+    this.teams.push(newTeam);
+  }
+
+  public editTeam(team: TeamConfig):void {
+    this.teamEdit = this.teamEdit !== team ? team : null;
+  }
+
+  public resetTeams(): void {
+    this.teams = [];
+    this.teamEdit = null;
+    this.stopGame();
+  }
+
+  public stopGame(): void {
     this.tickCounter = 0;
     this.anthillData = [];
     this.antGameService.stopGame(); // reset
+  }
+
+  public startGame(): void {
+    this.stopGame();
     // old game resetted
 
 
 
+
     // new game
-    this.antGameService.startGame(this.foodSettings?.config || null);
+    // this.antGameService.startGame(this.foodSettings?.config || null);
+    this.antGameService.startGame(this.teams);
     this.updateUnitChart();
 
     // GAME UI Update Ticks 1/s
@@ -214,6 +256,7 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public get units(): UnitConfig[] {
-    return this.antGameService.units;
+    // return this.antGameService.units;
+    return [];    // TODO: collect all units and send to highcharts. do we need this?
   }
 }

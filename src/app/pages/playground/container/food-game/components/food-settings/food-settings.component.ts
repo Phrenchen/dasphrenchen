@@ -1,6 +1,6 @@
 import { Options } from '@angular-slider/ngx-slider';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { GameConfig } from '../../interfaces/GameConfig';
+import { TeamConfig } from '../../interfaces/GameConfig';
 
 @Component({
   selector: 'dph-food-settings',
@@ -8,7 +8,12 @@ import { GameConfig } from '../../interfaces/GameConfig';
   styleUrls: ['./food-settings.component.less'],
 })
 export class FoodSettingsComponent implements OnInit {
-  @Input() config: GameConfig = {
+  @Input() config: TeamConfig = {
+    id: 'id',
+    name: 'default-team',
+    units: [],
+    color: 'deeppink',
+    wins: 0,
     foodCount: 1,
     unitCount: 1,
     minInventory: 1,
