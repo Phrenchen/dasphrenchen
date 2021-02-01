@@ -52,7 +52,7 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
   tickCounter: number = 0;
   antHillUpdateCooldownTicks: number = 10;
   chartHoverHandlerUnits: Observable<Event> = of();
-  public isSettingsVisible: boolean = true;
+  public isSettingsVisible: boolean = false;
   public teamEdit: TeamConfig | null = null;
 
   get generation(): number {
