@@ -1,20 +1,15 @@
 {
   "language": "Sprache",
   "home": {
-    "title": "Willkommen auf meiner Homepage!",
-    "paragraph-1": "...meiner Spielwiese :)",
-    "paragraph-2": "Hier spiele ich mit Angular 10, RxJS, HighCharts und Canvas in TypeScript"
-  },
-  "about": {
-    "title": "Motivation",
-    "paragraph-1": "..."
-
+    "title": "Willkommen bei meinen Ameisen :-)",
+    "paragraph-1": "Mehrere Gruppen von Ameisen konkurrieren um Futter.",
+    "paragraph-2": "Die Teams können konfiguriert werden.",
+    "paragraph-3": "Variiere Geschwindigkeit, Inventargröße und Anzahl der Ameisen"
   },
   "stack": {
     "title": "Der Stack",
-    "paragraph-1": "Angular 10, RxJS",
-    "paragraph-2": "GIT",
-    "paragraph-3": "hmm..."
+    "paragraph-1": "Angular 10, RxJS, TypeScript",
+    "paragraph-2": "Mit Highcharts werden die Rundenergebnisse dargestellt (wip)"
   },
   "playground": {
     "title": "Ameisen"
