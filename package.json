@@ -4,7 +4,8 @@
   "scripts": {
     "ng-update": "ng update @angular/core @angular/cli @angular/material",
     "start": "ng serve",
-    "build": "ng build",
+    "ci": "npm install",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
