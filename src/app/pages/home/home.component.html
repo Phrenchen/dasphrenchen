@@ -2,8 +2,23 @@
   <div class="content-section">
     <h1 class="mat-display-1">{{ t("title") }}</h1>
     <p>{{ t("paragraph-1") }}</p>
+
     <p>{{ t("paragraph-2") }}</p>
+
+    <div>
+
+      <ul>
+        <li>Bewegungsgeschwindigkeit</li>
+        <li>Inventar-Größe</li>
+        <li>Anzahl der Teammitglieder</li>
+      </ul>
+    </div>
+
     <p>{{ t("paragraph-3") }}</p>
+
+    <a [routerLink]="['playground']">
+      <button mat-raised-button>Spielen</button>
+    </a>
   </div>
 </div>
 

@@ -1,6 +1,7 @@
-import { UnitConfig } from "./AntsConfig";
+import { AntHillConfig, UnitConfig } from "./AntsConfig";
 
 export interface TeamConfig {
+  antHill: AntHillConfig | null;
   origin: { x: number; y: number; };
   id: string;
   name: string;

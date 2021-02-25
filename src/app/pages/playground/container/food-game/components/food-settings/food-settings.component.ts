@@ -12,6 +12,7 @@ export class FoodSettingsComponent implements OnInit {
     id: 'id',
     name: 'default-team',
     units: [],
+    antHill: null,
     origin: {x: 0, y: 0},
     color: 'deeppink',
     wins: 0,

@@ -3,10 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import * as Highcharts from 'highcharts';
 import { Observable, of, Subject } from 'rxjs';
 import { FoodSettingsComponent } from './components/food-settings/food-settings.component';
-import { AntHillConfig, UnitConfig } from './interfaces/AntsConfig';
+import { UnitConfig } from './interfaces/AntsConfig';
 import { AntGameService } from './services/ant-game.service';
 import { TeamConfig } from './interfaces/GameConfig';
 import { MathHelper } from 'src/app/helpers/MathHelper';
+import { ChartService } from './services/chart.service';
 
 @Component({
   selector: 'dph-food-game',
@@ -25,18 +26,25 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
   // runOutsideAngular: boolean = false; // optional boolean, defaults to false
 
 
-  @ViewChild('highchartUnits') highchartUnits: HTMLDivElement | null = null;
+  @ViewChild('teamFoodChart') teamFoodChart: any | null = null;
 
 
   Highcharts: typeof Highcharts = Highcharts;
-  unitChartOptions: Highcharts.Options = {
+  // chartConstructor = 'chart';
+  teamFoodChartCB: Highcharts.Options = {
     series: [
       {
-        data: [],
-        type: 'spline',
-      },
-    ],
+        type: 'pie',
+        data: []
+      }
+    ]
   };
+
+  updateFlag: boolean = false;
+  oneToOneFlag: boolean = false;
+  unitChartOptions: any = this.chartService.getTeamColumnsStaticDefault([]);
+
+
 
   anthillChartOptions: Highcharts.Options = {
     series: [
@@ -69,6 +77,7 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
     id: "id",
     name: 'new_team',
     units: [],
+    antHill: null,
     origin: {x: 0, y: 0},
     color: '#rrggbb',
     wins: 0,
@@ -89,11 +98,15 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // LIFE CYCLE
   constructor(private route: ActivatedRoute,
-    private readonly antGameService: AntGameService) {}
+    private readonly antGameService: AntGameService,
+     private readonly chartService: ChartService) {}
 
   ngOnInit(): void {
+
+
+
     this.route.queryParams.subscribe(params => {
-      this.urlConfig.foodCount = params['fc'] ?? 10;
+      this.urlConfig.foodCount = params['fc'] ?? 0;
       this.urlConfig.unitCount = params['uc'] ?? 2;
       this.urlConfig.minInventory = params['mini'] ?? 1;
       this.urlConfig.maxInventory = params['maxi'] ?? 3;
@@ -103,6 +116,9 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+
+
+
     this.antGameService.canvas = document.querySelector(
       '#ants-canvas'
     ) as HTMLCanvasElement;
@@ -179,18 +195,29 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
     this.stopGame();
     // old game resetted
 
+    // create new chart
+    // this.unitChartOptions = this.chartService.getTeamColumnsStaticDefault(this.teams);
+    this.teamFoodChartCB = this.chartService.getTeamColumnsStaticDefault(this.teams);
+
+    // console.log('this.unitChartOptions', this.unitChartOptions);
+    console.log('teamFoodChart', this.teamFoodChart);
+    console.log('food settings', this.teamFoodChartCB);
 
 
 
     // new game
     // this.antGameService.startGame(this.foodSettings?.config || null);
     this.antGameService.startGame(this.teams);
-    this.updateUnitChart();
+    // this.updateUnitChart();
 
     // GAME UI Update Ticks 1/s
     this.highchartUpdateTick$$.subscribe((tickCounter) => {
       // console.log('wohoo', tickCounter);
-      this.updateUnitChart();
+
+
+      this.updateUnitChart();    // toggle continious chart updating
+
+
 
       if (tickCounter % this.antHillUpdateCooldownTicks === 0) {
         this.updateAnthillChart();
@@ -212,46 +239,72 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // charts
   updateAnthillChart() {
-    this.anthillData.push(this.anthill.currentFoodCount);
 
-    this.anthillChartOptions = {
-      title: {
-        text:
-          'Gesammeltes Futter im Ameisenhügel: ' +
-          this.anthillData[this.anthillData.length - 1],
-      },
-      series: [
-        {
-          // data: [1, 2, 3],
-          data: this.anthillData,
-          type: 'spline',
-          // xAxis: {
-          //   minRange: 5,
-          // },
-        },
-      ],
-    };
+    // this.anthillData.push(this.anthill.currentFoodCount);
+
+    // this.anthillChartOptions = {
+    //   title: {
+    //     text:
+    //       'Gesammeltes Futter im Ameisenhügel: ' +
+    //       this.anthillData[this.anthillData.length - 1],
+    //   },
+    //   series: [
+    //     {
+    //       // data: [1, 2, 3],
+    //       data: this.anthillData,
+    //       type: 'spline',
+    //       // xAxis: {
+    //       //   minRange: 5,
+    //       // },
+    //     },
+    //   ],
+    // };
   }
 
   private updateUnitChart(): void {
-    const foodCounts: number[] = this.units.map(
-      (unit) => unit.currentInventory
-    );
+    if(this.teamFoodChart) {
+      if(!this.teamFoodChart.series) {
+        this.teamFoodChart.series = [];
+      }
+      if(this.teamFoodChart.series && this.teamFoodChart.series.length > 0) {
+        this.teamFoodChartCB.series = this.chartService.updateTeamColumns(this.teams);
 
-    // if (this.chartOptions) {
-    this.unitChartOptions = {
-      title: { text: 'Futter pro Einheit transportiert' },
-      series: [
-        {
-          // data: [1, 2, 3],
-          data: foodCounts,
-          type: 'spline',
-          // xAxis: {
-          //   minRange: 5,
-          // },
-        },
-      ],
-    };
+      }
+    }
+
+      console.log('updating team chart', this.teamFoodChart.series);
+      console.log('this.chartService.updateTeamColumns(this.teams)', this.chartService.updateTeamColumns(this.teams));
+
+      this.teamFoodChart.series[0] = this.chartService.updateTeamColumns(this.teams);
+
+
+    // const foodCounts: number[] = this.units.map(
+    //   (unit) => unit.currentInventory
+    // );
+
+    // if (this.unitChartOptions?.series) {
+    //   this.unitChartOptions.series = this.chartService.updateTeamColumns(this.teams);
+      // Highcharts.
+
+      // console.log('1, this.unitChartOptions.series', this.unitChartOptions);
+      // console.log('2, this.unitChartOptions.series', this.unitChartOptions.series);
+
+      // console.log('unitChartOptions', this.unitChartOptions);
+    // }
+
+    // this.unitChartOptions = {
+    //   title: { text: 'Futter pro Einheit transportiert' },
+    //   series: [
+    //     {
+    //       // data: [1, 2, 3],
+    //       data: foodCounts,
+    //       type: 'spline',
+    //       // xAxis: {
+    //       //   minRange: 5,
+    //       // },
+    //     },
+    //   ],
+    // };
     // }
   }
   // charts end
@@ -261,9 +314,9 @@ export class FoodGameComponent implements OnInit, AfterViewInit, OnDestroy {
     return false;
   }
 
-  public get anthill(): AntHillConfig {
-    return this.antGameService.anthill;
-  }
+  // public get anthill(): AntHillConfig {
+  //   return this.antGameService.anthill;
+  // }
 
   public get units(): UnitConfig[] {
     // return this.antGameService.units;

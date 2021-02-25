@@ -29,7 +29,7 @@ export class AntGameService {
   public untargetedFood: FoodConfig[] = []; // untargetedFood. all new food is included here.
   public targetedFood: FoodConfig[] = []; // food moves from untargetedFood
 
-  public anthill!: AntHillConfig;
+  // public anthill!: AntHillConfig;
   private targetAssignmentInterval!: any; // NodeJS.Timeout
   private requestAnimationFrameId: number | null = null;
 
@@ -66,12 +66,11 @@ export class AntGameService {
     this.teams = [];
     // -----------------------
 
-    const antsConfig: AntsConfig = this.antsConfigService.config;
-
-
     // create ant hill (map center)
-    this.createAntHill(antsConfig);
-    this.anthill = antsConfig.antHillConfig;
+    const antsConfig: AntsConfig = this.antsConfigService.config;
+    // this.createAntHill(antsConfig);
+    // this.anthill = antsConfig.antHillConfig;
+
     this.untargetedFood = this.createFood(antsConfig); // create food
 
     teamConfigs.forEach((team) => {
@@ -92,9 +91,13 @@ export class AntGameService {
     this.untargetedFood = [];
     this.targetedFood = [];
 
-    if (this.anthill) {
-      this.anthill.currentFoodCount = 0;
-    }
+    // reset teams
+    this.teams.forEach((team) => {
+      team.foodCount = 0;
+      if (team.antHill) {
+        team.antHill.currentFoodCount = 0;
+      }
+    });
 
     if (this.requestAnimationFrameId) {
       cancelAnimationFrame(this.requestAnimationFrameId);
@@ -145,14 +148,20 @@ export class AntGameService {
                   this.targetedFood.splice(index, 1); // delete food
                   unit.currentInventory++;
 
+                  // console.log('unit.currentInventory', unit.currentInventory);
+
                   if (unit.currentInventory >= unit.maxInventory) {
-                    unit.currentTarget = this.anthill;
+                    unit.currentTarget = team.antHill;
                   }
                   break;
                 case 'anthill':
-                  this.anthill.currentFoodCount += unit.currentInventory;
+                  if (team.antHill) {
+                    team.antHill.currentFoodCount += unit.currentInventory;
+                  }
+                  team.foodCount += unit.currentInventory;
 
                   unit.currentInventory = 0;
+                  // console.log('reached anthill. reset currentInventory.');
                   break;
               }
 
@@ -166,7 +175,7 @@ export class AntGameService {
       });
 
       // render units
-      this.antsRenderingService.drawRenderable(this.anthill);
+      // this.antsRenderingService.drawRenderable(this.anthill);
       this.untargetedFood.forEach((food) =>
         this.antsRenderingService.drawRenderable(food)
       );
@@ -176,12 +185,18 @@ export class AntGameService {
       );
 
       this.teams.forEach((team) => {
+
         team.units.forEach((unit) => {
           this.antsRenderingService.drawRenderable(unit);
           if (unit.currentTarget) {
             this.antsRenderingService.drawConnection(unit, unit.currentTarget);
           }
         });
+
+        if (team.antHill) {
+          // console.log('team.antHill', team.antHill);
+          this.antsRenderingService.drawRenderable(team.antHill);
+        }
       });
 
       // ...
@@ -204,20 +219,19 @@ export class AntGameService {
     // trigger target-assignment-interval
 
     this.targetAssignmentInterval = setTimeout(() => {
-        this.assignTargets();
+      this.assignTargets();
     }, 100);
   }
 
   private assignTargets() {
-
-    this.teams.forEach(team => {
+    this.teams.forEach((team) => {
       // select random next target for targetless units
       const targetLessUnits: UnitConfig[] = team.units.filter(
         (unit) => !unit.currentTarget
       );
 
       //
-      targetLessUnits.forEach(unit => {
+      targetLessUnits.forEach((unit) => {
         const nextFoodTarget: FoodConfig = this.untargetedFood.pop() as FoodConfig;
 
         unit.currentTarget = nextFoodTarget;
@@ -255,14 +269,21 @@ export class AntGameService {
     ); // TODO: set "collectable-distance"
   }
 
-  private createAntHill(config: AntsConfig) {
+  private createAntHill(config: AntsConfig, teamConfig: TeamConfig) {
     if (!this.canvas || !this.ctx) return;
 
-    config.antHillConfig.position = {
-      x: this.canvas.width / 2,
-      y: this.canvas.height / 2,
-    };
-    this.antsRenderingService.drawRenderable(config.antHillConfig);
+    teamConfig.antHill = JSON.parse(JSON.stringify(config.antHillConfig));
+
+    if (teamConfig.antHill) {
+      teamConfig.antHill.position = {
+        x: teamConfig.origin.x,
+        y: teamConfig.origin.y,
+      };
+      teamConfig.antHill.fillStyle = teamConfig.color;
+      teamConfig.antHill.strokeStyle = teamConfig.color;
+
+      this.antsRenderingService.drawRenderable(teamConfig.antHill);
+    }
   }
 
   private createFood(config: AntsConfig): FoodConfig[] {
@@ -276,6 +297,11 @@ export class AntGameService {
     config.unitConfig.fillStyle = teamConfig.color;
     config.unitConfig.strokeStyle = teamConfig.color;
 
+    const antsConfig: AntsConfig = this.antsConfigService.config;
+    this.createAntHill(antsConfig, teamConfig);
+
+    // teamConfig.antHill = antsConfig.antHillConfig;
+
     return this.createEntities(
       config.unitConfig,
       teamConfig.unitCount,
@@ -283,7 +309,11 @@ export class AntGameService {
     ) as UnitConfig[];
   }
 
-  private createEntities(config: Renderable, amount: number, origin: {x: number, y: number} | null = null): FoodConfig[] {
+  private createEntities(
+    config: Renderable,
+    amount: number,
+    origin: { x: number; y: number } | null = null
+  ): FoodConfig[] {
     if (!this.canvas || !this.ctx) return [];
 
     const entities: FoodConfig[] = [];
@@ -296,11 +326,10 @@ export class AntGameService {
         unit.maxSpeed = MathHelper.getRandomInt(0.1, unit.maxInventory);
         unit.maxInventory = MathHelper.getRandomInt(1, unit.maxInventory);
       }
-      if(origin) {
+      if (origin) {
         food.position.x = origin.x;
         food.position.y = origin.y;
-      }
-      else {
+      } else {
         // random distribution
         food.position.x = MathHelper.getRandomInt(
           padding,
@@ -310,7 +339,6 @@ export class AntGameService {
           padding,
           this.canvas.height - padding
         );
-
       }
       entities.push(food);
     }

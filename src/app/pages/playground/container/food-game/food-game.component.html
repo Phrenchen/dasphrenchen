@@ -1,82 +1,67 @@
 <div *transloco="let t; read: 'food-game'">
-  <mat-accordion multi>
-    <!-- Spiel -->
-    <mat-expansion-panel expanded>
-      <!-- expanded -->
-      <mat-expansion-panel-header>
-        <mat-panel-title> Das Spiel </mat-panel-title>
-        <mat-panel-description> ... </mat-panel-description>
-      </mat-expansion-panel-header>
+<div class="content-section">
+  <div>
+    <button mat-raised-button (click)="startGame()">New Game</button>
 
-      <div>
-        <button mat-raised-button (click)="startGame()">New Game</button>
-
-        <button mat-raised-button (click)="toggleSettings()">
-          <mat-icon *ngIf="!isSettingsVisible">settings</mat-icon>
-          <mat-icon *ngIf="isSettingsVisible">clear</mat-icon>
-        </button>
+    <button mat-raised-button (click)="toggleSettings()">
+      <mat-icon *ngIf="!isSettingsVisible">settings</mat-icon>
+      <mat-icon *ngIf="isSettingsVisible">clear</mat-icon>
+    </button>
 
 
-      </div>
+  </div>
 
-      <div class="game-content">
-        <div *ngIf="isSettingsVisible" class="settings">
-          <h3>Teams konfigurieren</h3>
-          <button mat-raised-button (click)="addTeam()">
-            <mat-icon>add</mat-icon>
-          </button>
-          <button mat-raised-button (click)="resetTeams()">Teams löschen</button>
+  <div class="game-content">
+    <div *ngIf="isSettingsVisible" class="settings">
+      <h3>Teams konfigurieren</h3>
+      <button mat-raised-button (click)="addTeam()">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-raised-button (click)="resetTeams()">Teams löschen</button>
 
-          <div class="teams">
-            <div class="team-list">
-              <div *ngFor="let team of teams" class="team">
-                <button mat-raised-button (click)="editTeam(team)" [ngStyle]="{'background-color': team.color, 'color': '#fff'}">
-                  {{ team.name }}
-                </button>
-              </div>
-            </div>
-
-            <dph-food-settings
-              *ngIf="teamEdit"
-              #foodSettings
-              [config]="teamEdit"
-            ></dph-food-settings>
+      <div class="teams">
+        <div class="team-list">
+          <div *ngFor="let team of teams" class="team">
+            <button mat-raised-button (click)="editTeam(team)" [ngStyle]="{'background-color': team.color, 'color': '#fff'}">
+              {{ team.name }}
+            </button>
           </div>
+        </div>
 
-        </div>
-        <div class="canvas-container">
-          <canvas id="ants-canvas"></canvas>
-        </div>
+        <dph-food-settings
+          *ngIf="teamEdit"
+          #foodSettings
+          [config]="teamEdit"
+        ></dph-food-settings>
       </div>
-    </mat-expansion-panel>
 
-    <!-- Was ist das? -->
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title> Worum geht´s? </mat-panel-title>
-        <mat-panel-description>
-          'Ameisen' konfigurieren & zuschauen
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p>
-        Ameisen (rote Punkte) sammeln Futter (grüne Punkte), und bringen es zum
-        Ameisenhügel (gelber Punkt).
-      </p>
-    </mat-expansion-panel>
+    </div>
+    <div class="canvas-container">
+      <canvas id="ants-canvas"></canvas>
+    </div>
+  </div>
+</div>
 
+
+  <mat-accordion multi>
     <!-- Charts -->
-    <mat-expansion-panel>
+    <mat-expansion-panel expanded>
       <mat-expansion-panel-header>
-        <mat-panel-title> HighCharts </mat-panel-title>
+        <mat-panel-title> Charts </mat-panel-title>
         <mat-panel-description>
-          in Echtzeit aktualisierte Graphen
+
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <div class="charts-container">
-        <div #highchartUnits>
-          <highcharts-chart
+      <div class="charts-container" *ngIf="teamFoodChartCB">
+        <div>
+          <!-- [constructorType]="chartConstructor"
+          [callbackFunction]="teamFoodChartCB" -->
+          <highcharts-chart #teamFoodChart id="team-chart"
             [Highcharts]="Highcharts"
-            [options]="unitChartOptions"
+            [update]="updateFlag"
+            [oneToOne]="oneToOneFlag"
+
+            [options]="teamFoodChartCB"
             style="width: 100%; height: 400px; display: block"
           ></highcharts-chart>
         </div>
@@ -93,11 +78,11 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title> Debug-Infos </mat-panel-title>
-        <mat-panel-description> das ist alles WIP :) </mat-panel-description>
+        <mat-panel-description></mat-panel-description>
       </mat-expansion-panel-header>
 
       <div>
-        <p>Gesammeltes Futter: {{ anthill?.currentFoodCount }}</p>
+        <!-- <p>Gesammeltes Futter: {{ anthill?.currentFoodCount }}</p> -->
 
         <label
           >Infos zu jeder Ameise (aktuelles Futter im Inventar / maximale

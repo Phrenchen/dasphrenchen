@@ -9,7 +9,7 @@ export class AntsConfigService {
   public readonly config: AntsConfig = {
     isGameRunning: false,
     maxTargetAquisitions: 2,
-    initialFoodCount: 100,
+    initialFoodCount: 500,
     initialUnitCount: 10,
     initialAntHillCount: 1,
     foodConfig: {
